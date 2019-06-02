@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>新建归集</title>
+<!-- Meta tag Keywords -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="application/x-javascript">
+	
+        addEventListener("load", function() {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    
+</script>
+<style type="text/css">
+#pbd {
+	width: 960px;
+	margin: 0 auto;
+	min-height: 270px;
+}
+
+.border_box {
+	border: 1px solid #d8d8d8;
+	position: relative;
+}
+
+.pbd_h2_txt {
+	width: 940px;
+	height: 44px;
+	line-height: 44px;
+	padding: 0px 0px 0px 20px;
+	border-bottom: solid 1px #D8D8D8;
+}
+
+.pbd_table_step_title h3 {
+	padding: 0px 3px;
+	background-color: white;
+	display: inline-block;
+}
+
+.pbd_table_step_title {
+	height: 20px;
+	line-height: 20px;
+	font-size: 14px;
+	font-weight: 200;
+	margin: 8px 12px;
+	background-repeat: repeat-x;
+	background-position: left center;
+}
+
+.cardbox {
+	width: 930px;
+	height: 165px;
+	margin: 0px auto;
+	position: relative;
+	overflow: hidden;
+	border-bottom: 2px solid #3DA2F0;
+}
+
+.cardbox2 {
+	width: 930px;
+	height: 165px;
+	margin: 0px auto;
+	position: relative;
+	overflow: hidden;
+	border-bottom: 2px solid #3DA2F0;
+}
+
+.cli_carbox_tp {
+	border: 0px solid #3DA2F0;
+}
+
+.carbox_tp {
+	width: 221px;
+	height: 150px;
+	border-radius: 3px;
+	position: relative;
+	background: #fff;
+}
+
+.cli_carbox_tp>i.arrow {
+	background-position: 0 -8px;
+}
+
+.cli_card_box {
+	border: 2px solid #3DA2F0;
+	height: 140px;
+}
+
+.card_title {
+	margin: 0;
+	padding: 0;
+	font-weight: normal;
+	font-size: 11px;
+	position: relative;
+}
+
+.card_btitle {
+	display: block;
+	font-size: 12px;
+	color: #bbb;
+	line-height: 25px;
+	padding-left: 20px;
+	font-weight: normal;
+	position: relative;
+	height: 25px;
+}
+
+.card_btitle .span_1 {
+	position: absolute;
+	left: 22px;
+}
+
+.card_btitle .span_2 {
+	position: absolute;
+	right: 0px;
+}
+
+.card_menoy {
+	width: 222px;
+	height: 30px;
+	margin: 0 auto;
+	line-height: 30px;
+	position: relative;
+	left: -5px;
+	padding-left: 7px;
+}
+
+.card_menoy a {
+	text-decoration: none;
+	color: #999999;
+	font-size: 14px;
+	margin-left: 15px;
+}
+
+.cad_money .span_txt_moy {
+	width: 86px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	float: left;
+}
+
+.card_box:hover .card_menoy {
+	background-color: #6CB9F0;
+	color: #FFF;
+}
+
+.cli_card_box .card_menoy {
+	background-color: #6CB9F0;
+	color: #FFF;
+}
+
+.cli_card_box .card_menoy a {
+	color: #FFF;
+}
+
+.card_menoy:hover {
+	text-decoration: none;
+}
+
+.cad_money .backnone a {
+	font-size: 14px;
+	color: #D62F2F;
+	font-weight: 600;
+	height: 40px;
+	line-height: 42px;
+	width: 100%;
+	margin-left: 5px;
+}
+
+.pbd_cxdiv {
+	height: 25px;
+	line-height: 25px;
+}
+
+.pbd_cxdiv span {
+	float: right;
+	margin-left: 12px;
+	cursor: pointer;
+	color: #0066b3;
+}
+
+.pbd_tle_cardbox_1 {
+	width: 930px;
+	margin: 0px auto;
+	position: relative;
+}
+
+ul, ol {
+	list-style: none;
+}
+
+html, body, h1, h2, h3, h4, h5, h6, hr, p, iframe, dl, dt, dd, ul, ol,
+	li, pre, form, button, input, textarea, th, td, a {
+	margin: 0;
+	padding: 0;
+}
+
+ul, menu, dir {
+	display: block;
+	-webkit-margin-before: 1em;
+	-webkit-margin-after: 1em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	-webkit-padding-start: 40px;
+}
+
+.mb_20 {
+	margin-bottom: 20px !important;
+}
+
+.pbd_table_step_title_no_line {
+	height: 20px;
+	line-height: 20px;
+	font-size: 14px;
+	font-weight: normal;
+	margin: 8px 10px;
+}
+
+.pl_0 {
+	padding-left: 0px !important;
+}
+
+input.btn, input.btn_add, input.btn_disabled {
+	min-width: 80px;
+	box-sizing: border-box;
+}
+
+.btn {
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #fff;
+	border: none;
+	background: #0066B3;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	font-size: 14px;
+	outline: none;
+	padding-left: 12px;
+	padding-right: 12px;
+	-webkit-appearance: none;
+}
+
+.btn_disabled {
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #fff;
+	border: none;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	font-size: 14px;
+	outline: none;
+	background: #ccc;
+	padding-left: 12px;
+	padding-right: 12px;
+	-webkit-appearance: none;
+}
+
+.pbd_tips_box {
+	border: 1px #AAD0F2 solid;
+	background: #EDF5FC;
+	margin: 0px 11px 40px 11px;
+	width: 936px;
+	padding-top: 12px;
+}
+
+.pbd_tips_title {
+	font-size: 16px;
+	padding: 0px 12px;
+}
+
+.pbd_tips_inner {
+	margin-top: 10px;
+	margin-bottom: 20px;
+	line-height: 22px;
+	padding: 0px 12px;
+}
+
+.pbd_tips_inner li {
+	list-style-type: none;
+}
+
+.pbd_tips_inner li {
+	padding: 0px 12px;
+	color: #666;
+}
+
+.li_liebiao0 {
+	list-style-type: none;
+}
+/* 子账户样式 */
+</style>
+<!--// Meta tag Keywords -->
+<!-- css files -->
+<link rel="stylesheet" href="css/bootstrap.css">
+<!-- Bootstrap-Core-CSS -->
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+<!-- Style-CSS -->
+<link rel="stylesheet" href="css/font-awesome.css">
+<!-- Font-Awesome-Icons-CSS -->
+<!-- //css files -->
+<!-- web-fonts -->
+<link
+	href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900"
+	rel="stylesheet">
+<link
+	href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
+	rel="stylesheet">
+<!-- //web-fonts -->
+</head>
+
+<body>
+	<!--复用头部-->
+	<div id="header"></div>
+	<!-- banner 2 -->
+	<div>
+		<!-- class="banner-2-agile" -->
+		<img style="height: 420px; width: 100%;" src="images/banner3.jpg" />
+	</div>
+	<div class="services-breadcrumb">
+		<div class="agile_inner_breadcrumb">
+			<ul class="w3_short">
+				<li><a href="index.html">资金归集</a> <i>>></i></li>
+				<li>新建归集</li>
+			</ul>
+		</div>
+	</div>
+	<!-- //banner 2 -->
+	<!-- icons -->
+	<div class="w3_wthree_agileits_icons main-grid-border">
+		<div class="container">
+			<h3 class="tittle">
+				<span>新</span>建归<span>集</span>
+			</h3>
+			<div class="grid_3 grid_4 w3_agileits_icons_page">
+				<div class="icons">
+					<h3 class="agileits-icons-title">归集列表</h3>
+
+					<div id="pbd">
+						<div class="border_box mb_0">
+							<!-- 主标题 start -->
+							<div class="pbd_h2_txt">
+								<h2>资金归集</h2>
+							</div>
+							<!-- 主标题 end -->
+							<!-- 主内容 start -->
+							<div class="main_content">
+								<div class="pbd_table_step_title">
+									<h3>主账户</h3>
+								</div>
+
+								<!-- 图形模式1 start -->
+								<div class="list_view_list_box  re" id="cardList_1">
+
+									<!--图形开始-->
+									<div class="cardbox">
+										
+										<div class="card_list"
+											style="height: 165px; width: 940px; position: relative; overflow: hidden; margin: auto;"
+											id="payAccList">
+
+											<ul
+												style="left: 0px; width: 235px; height: 165px; position: absolute; top: 0px;">
+												<li amount="3.00">
+													<div class="carbox_tp cli_carbox_tp">
+														<i class="arrow"></i>
+														<div class="card_box cardbox_1 cli_card_box">
+															<h2 class="card_title">
+
+																<span title="储蓄账户"></span> <b class="card_logo"><img
+																	src="images/logo.png" width="15px" height="15px;"></b>
+															</h2>
+															<b class="card_btitle"> <!--分行名--> <span
+																class="span_1">深圳市分行</span> <!--是否签约--> <span
+																class="span_2 ">已签约</span>
+															</b>
+															<!--账号-->
+															<div class="card_menoy">
+																<a>6217 0072 00** ***4 049</a>
+															</div>
+															<div class="cad_money">
+																<div class="span_txt_moy" style="font-size: 12px">可用余额（元）</div>
+																<div class="backnone" id="">
+																	<a>3.00</a>
+																</div>
+															</div>
+															<div class="pbd_cxdiv">
+																<span class="hide_mey">隐藏余额</span> <span class="card_op"
+																	style="width: 80px">
+																	<h4>
+																		<b>&nbsp;</b>
+																	</h4>
+																</span>
+															</div>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								
+								<!-- style="display:none" -->
+								<!-- 付款子账户 -->
+								<div class="cardbox2">
+									<h3>子账户</h3>	
+									<div class="card_list"
+										style="height: 165px; width: 940px; position: relative; overflow: hidden; margin: auto;"
+										id="payAccList">
+
+										<ul
+											style="left: 0px; width: 235px; height: 165px; position: absolute; top: 0px;">
+											<li amount="3.00">
+												<div class="carbox_tp cli_carbox_tp">
+													<i class="arrow"></i>
+													<div class="card_box cardbox_1 cli_card_box">
+														<h2 class="card_title">
+
+															<span title="储蓄账户"></span> <b class="card_logo"><img
+																src="images/logo.png" width="15px" height="15px;"></b>
+														</h2>
+														<b class="card_btitle"> <!--分行名--> <span
+															class="span_1">深圳市分行</span> <!--是否签约--> <span
+															class="span_2 ">已签约</span>
+														</b>
+														<!--账号-->
+														<div class="card_menoy">
+															<a>6217 0072 00** ***4 049</a>
+														</div>
+														<div class="cad_money">
+															<div class="span_txt_moy" style="font-size: 12px">可用余额（元）</div>
+															<div class="backnone" id="">
+																<a>3.00</a>
+															</div>
+														</div>
+														<div class="pbd_cxdiv">
+															<span class="hide_mey">隐藏余额</span> <span class="card_op"
+																style="width: 80px">
+																<h4>
+																	<b>&nbsp;</b>
+																</h4>
+															</span>
+														</div>
+													</div>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+
+								<ul class="ul_liebiao">
+									<li class="li_liebiao0">
+										<div class="liebiao_div mb_20">
+											<h3 class="pbd_table_step_title_no_line mt_30 mb_20">
+												<span class="pl_0">当前资金归集规则列表共<strong class="fc_red">
+														0 </strong>个资金归集规则
+												</span> <span id="nolist_span" class="pl_0">
+													，您可以通过点击"新增归集"按钮设置跨行资金归集规则。</span>
+											</h3>
+
+											<div id="nolist" class="" style="">
+
+												<div
+													style="text-align: center; margin-bottom: 40px; margin-top: 30px;">
+													<input class="btn mr_15" style="disabled: false;"
+														type="button" value="新增归集"> <input
+														id="closeGuiji_" type="button"
+														class="btn  mr_15 btn_disabled" value="取消全部归集">
+												</div>
+											</div>
+											<div class="pr_10 pl_10 list_mode" id="zjlist"
+												style="display: none;">
+												<table class="one_lines_table khzjgj_td" width="100%">
+													<tbody style="white-space: nowrap;">
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</li>
+								</ul>
+
+								<div class="text_align">
+
+									<div id="havavaluebutton"
+										style="text-align: center; margin-bottom: 40px; margin-top: 30px; display: none;">
+										<input class="btn mr_15" style="disabled: false;"
+											type="button" value="新增归集">&nbsp;&nbsp; <input
+											id="closeGuiji" type="button" class="btn mr_15"
+											value="取消全部归集">
+									</div>
+								</div>
+
+								<!-- 主内容 end -->
+								<!--温馨提示 START-->
+								<div class="pbd_tips_box">
+									<p class="pbd_tips_title">温馨提示：</p>
+									<ul class="pbd_tips_inner">
+										<li>您可选择任一我行网银签约龙卡通、理财卡、陆港通龙卡、活期一本通账户作为主账户。</li>
+										<li>资金归集暂不收取手续费。</li>
+										<li>系统将根据您设定的资金归集规则于每个归集日的0：30左右进行归集。</li>
+										<li>设置归集后，若归集账户解除互联账户查询协议或支付协议，则对应的归集规则无效。如需重新设置归集，请先取消原归集并重新签约协议。</li>
+										<li>单笔归集金额不超过人行单笔限额（5万元）或互联账户支付协议约定的单笔限额，若应归集金额超过以上任一限额，系统将根据限额自动分拆，最多可分拆30笔，超过30笔部分的金额不发起归集。若当日归集金额及分拆笔数超过互联账户支付协议约定的日累计限额及笔数、月累计限额及笔数，超过部分归集失败。</li>
+										<li>资金归集受他行系统影响，他行系统不响应或未及时响应等因素可能导致跨行资金归集不成功。</li>
+									</ul>
+								</div>
+								<!--温馨提示 END-->
+							</div>
+						</div>
+						<!--主内容区 END-->
+						<!--页脚 START-->
+						<div id="pft"></div>
+						<!--页脚 END-->
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+	<!-- //icons -->
+
+	<!--复用尾部-->
+	<div id="footer"></div>
+
+	<!-- js-scripts -->
+	<!-- js -->
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<!-- Necessary-JavaScript-File-For-Bootstrap -->
+	<!-- //js -->
+	<!-- Baneer-js -->
+	<script src="js/responsiveslides.min.js"></script>
+	<script>
+		$(function() {
+			$("#slider").responsiveSlides({
+				auto : true,
+				pager : false,
+				nav : true,
+				speed : 1000,
+				namespace : "callbacks",
+				before : function() {
+					$('.events').append("<li>before event fired.</li>");
+				},
+				after : function() {
+					$('.events').append("<li>after event fired.</li>");
+				}
+			});
+			//复用头部JS
+			$("#header").load("common/header.html");
+			//复用尾部JS
+			$("#footer").load("common/footer.html");
+		});
+	</script>
+	<!-- //Baneer-js -->
+	<!-- start-smoth-scrolling -->
+	<script type="text/javascript" src="js/move-top.js"></script>
+	<script type="text/javascript" src="js/easing.js"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			$(".scroll").click(function(event) {
+				event.preventDefault();
+				$('html,body').animate({
+					scrollTop : $(this.hash).offset().top
+				}, 1000);
+			});
+		});
+	</script>
+	<!-- start-smoth-scrolling -->
+	<!-- Progressive-Effects-Animation-JavaScript -->
+	<script type="text/javascript" src="js/numscroller-1.0.js"></script>
+	<!-- //Progressive-Effects-Animation-JavaScript -->
+
+	<!-- //js-scripts -->
+</body>
+
+</html>

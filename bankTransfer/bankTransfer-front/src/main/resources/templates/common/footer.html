@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>复用尾部</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="" />
+    <script type="application/x-javascript">
+        addEventListener("load", function() {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        };
+    </script>
+
+    <!--// Meta tag Keywords -->
+    <!-- css files -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- Bootstrap-Core-CSS -->
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+    <!-- Style-CSS -->
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <!-- Font-Awesome-Icons-CSS -->
+    <!-- //css files -->
+    <!-- web-fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
+    <!-- //web-fonts -->
+</head>
+
+<body>
+<!-- th:fragment="footer" -->
+    <!-- footer -->
+    <div class="footer" >
+        <div class="container">
+            <div class="w3_newsletter_footer_grids">
+                <div class="col-sm-4 logo-2">
+                    <h2>
+                        <a class="navbar-brand" href="index.html">
+                            <span>乔治</span>银行</a>
+                    </h2>
+                </div>
+                <div class="col-sm-8 w3_newsletter_footer_grid_left">
+                    <h5>快速联系我们</h5>
+                    <form action="#" method="post">
+                        <input type="email" name="Email" placeholder="邮箱" required="">
+                        <input type="submit" value="提交">
+                    </form>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <div class="w3_agile_footer_grids">
+                <div class="col-md-3 col-xs-6 w3_agile_footer_grid">
+                    <h3>最新消息</h3>
+                    <ul class="agile_footer_grid_list">
+                        <li>
+                            <span class="fa fa-twitter" aria-hidden="true"></span>乔治银行成立啦
+                            <label>1天前</label>
+                        </li>
+                        <li>
+                            <span class="fa fa-twitter" aria-hidden="true"></span>乔治银行正实试营
+                            <a href="mailto:info@mail.com"> o@mail.com</a> 开始营业.
+                            <label>2天前</label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-xs-6 w3_agile_footer_grid">
+                    <h3>导航栏</h3>
+                    <ul class="agileits_w3layouts_footer_grid_list">
+                        <li>
+                            <span class="fa fa-angle-double-right" aria-hidden="true"></span>
+                            <a href="javaScript:void(0)" >主页</a>
+                        </li>
+                        <li>
+                            <span class="fa fa-angle-double-right" aria-hidden="true"></span>
+                            <a href="javaScript:void(0)">我的账户</a>
+                        </li>
+                        <li>
+                            <span class="fa fa-angle-double-right" aria-hidden="true"></span>
+                            <a href="javaScript:void(0)">转账汇款</a>
+                        </li>
+                        <li>
+                            <span class="fa fa-angle-double-right" aria-hidden="true"></span>
+                            <a href="javaScript:void(0)">资金归集</a>
+                        </li>
+                        <li>
+                            <span class="fa fa-angle-double-right" aria-hidden="true"></span>
+                            <a href="javaScript:void(0)">账户申请</a>
+                        </li>
+                        <li>
+                            <span class="fa fa-angle-double-right" aria-hidden="true"></span>
+                            <a href="javaScript:void(0)">设置</a>
+                        </li>
+                        <li>
+                            <span class="fa fa-angle-double-right" aria-hidden="true"></span>
+                            <a href="javaScript:void(0)">登录注册</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-xs-6 w3ls_address_mail_footer_grids w3_agile_footer_grid">
+                    <h3>联系我们</h3>
+                    <div class="w3ls_footer_grid_left">
+                        <div class="w3l-icon">
+                            <span class="fa fa-map-marker" aria-hidden="true"></span>
+                        </div>
+                        <p>深圳市南山区民企科技园,
+                            <span>7栋5楼知领互联.</span>
+                        </p>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="w3ls_footer_grid_left">
+                        <div class="w3l-icon">
+                            <span class="fa fa-phone" aria-hidden="true"></span>
+                        </div>
+                        <p>+(000) 123 456 789
+                            <span>+(000) 987 654 321</span>
+                        </p>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="w3ls_footer_grid_left">
+                        <div class="w3l-icon">
+                            <span class="fa fa-envelope-o" aria-hidden="true"></span>
+                        </div>
+                        <p>
+                            <a href="mailto:info@example.com">info@example1.com</a>
+                            <span>
+                                    <a href="mailto:info@example.com">info@example2.com</a>
+                                </span>
+                        </p>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6 w3_agile_footer_grid">
+                    <h3>公司内部展示</h3>
+                    <div class="w3_agileits_footer_grid_left">
+                        <a href="javaScript:void(0)">
+                            <img src="images/s1.jpg" alt=" " class="img-responsive" />
+                        </a>
+                    </div>
+                    <div class="w3_agileits_footer_grid_left">
+                        <a href="javaScript:void(0)">
+                            <img src="images/s2.jpg" alt=" " class="img-responsive" />
+                        </a>
+                    </div>
+                    <div class="w3_agileits_footer_grid_left">
+                        <a href="javaScript:void(0)">
+                            <img src="images/s3.jpg" alt=" " class="img-responsive" />
+                        </a>
+                    </div>
+                    <div class="w3_agileits_footer_grid_left">
+                        <a href="javaScript:void(0)">
+                            <img src="images/s4.jpg" alt=" " class="img-responsive" />
+                        </a>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <div class="agileinfo_copyright">
+                <p>Copyright &copy; 2018.Company name All rights reserved.More Templates <a href="#" title="知领互联">知领互联</a> - Collect from <a href="#" title="知领互联">知领互联</a></p>
+            </div>
+        </div>
+    </div>
+    <!-- //footer -->
+
+</body>
+
+</html>

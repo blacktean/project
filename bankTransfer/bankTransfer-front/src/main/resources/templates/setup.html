@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>设置</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="" />
+    <script type="application/x-javascript">
+        addEventListener("load", function() {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+
+    <!--// Meta tag Keywords -->
+    <!-- css files -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- Bootstrap-Core-CSS -->
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+    <!-- Style-CSS -->
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <!-- Font-Awesome-Icons-CSS -->
+    <!-- //css files -->
+    <!-- web-fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
+    <!-- //web-fonts -->
+</head>
+
+<body>
+    <!--复用头部-->
+    <div id="header"></div>
+    <!-- banner 2 -->
+      <div>
+	<!-- class="banner-2-agile" -->
+	<img style="height: 420px; width:100%;" src="images/banner4.jpg" />
+	</div>
+    <div class="services-breadcrumb">
+        <div class="agile_inner_breadcrumb">
+            <ul class="w3_short">
+                <li>
+                    <a href="index.html">主页</a>
+                    <i>>></i>
+                </li>
+                <li>设置</li>
+            </ul>
+        </div>
+    </div>
+    <!-- //banner 2 -->
+    <!-- about -->
+    <div class="contact wthree-2">
+        <div class="container">
+            <h3 class="tittle">
+                <span>S</span>et U<span>p</span>
+            </h3>
+            <div class="contact-grids agile-1">
+                <div class="col-md-4 col-xs-4 contact-grid agileinfo-6">
+                    <div class="contact-grid1">
+                        <div class="con-ic">
+                            <span class="fa fa-map-marker" aria-hidden="true"></span>
+                        </div>
+                        <h4>Address</h4>
+                        <p>1PO Box 8568954 Melbourne
+                            <label>Australia.</label>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-4 contact-grid agileinfo-6">
+                    <div class="contact-grid1">
+                        <div class="con-ic">
+                            <span class="fa fa-phone" aria-hidden="true"></span>
+                        </div>
+                        <h4>Call Us</h4>
+                        <p>+(0121) 121 121
+                            <label>+(0121) 121 122</label>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-4 contact-grid agileinfo-6">
+                    <div class="contact-grid1">
+                        <div class="con-ic">
+                            <span class="fa fa-envelope" aria-hidden="true"></span>
+                        </div>
+                        <h4>Email</h4>
+                        <p>
+                            <a href="mailto:info@example.com">info@example1.com</a>
+                            <label>
+								<a href="mailto:info@example.com">info@example2.com</a>
+							</label>
+                        </p>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <form action="#" method="post">
+                <div class="contact-grids1 w3agile-6">
+                    <div class="col-md-6 col-sm-6 contact-form1">
+                        <h4>Name</h4>
+                        <input type="text" name="Name" placeholder="" required="">
+                    </div>
+                    <div class="col-md-6 col-sm-6 contact-form1 ag">
+                        <h4>Email</h4>
+                        <input type="email" name="Email" placeholder="" required="">
+                    </div>
+                    <div class="clearfix"> </div>
+                    <div class="contact-me animated wow slideInUp">
+                        <h4>Message</h4>
+                        <textarea name="Message" placeholder="" required=""> </textarea>
+                    </div>
+                    <div class="contact-form">
+                        <input type="submit" value="Submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d805196.5077734194!2d144.49270863101745!3d-37.97015423820711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad646b5d2ba4df7%3A0x4045675218ccd90!2sMelbourne+VIC%2C+Australia!5e0!3m2!1sen!2sin!4v1474020956974"
+            allowfullscreen></iframe>
+    </div>
+   <!--复用尾部-->
+    <div id="footer"></div>
+
+    <!-- js-scripts -->
+    <!-- js -->
+    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <!-- Necessary-JavaScript-File-For-Bootstrap -->
+    <!-- //js -->
+    <!-- Baneer-js -->
+    <script src="js/responsiveslides.min.js"></script>
+    <script>
+        $(function() {
+            $("#slider").responsiveSlides({
+                auto: true,
+                pager: false,
+                nav: true,
+                speed: 1000,
+                namespace: "callbacks",
+                before: function() {
+                    $('.events').append("<li>before event fired.</li>");
+                },
+                after: function() {
+                    $('.events').append("<li>after event fired.</li>");
+                }
+            });
+            //复用头部JS
+            $("#header").load("common/header.html");
+            //复用尾部JS
+            $("#footer").load("common/footer.html");
+        });
+    </script>
+    <!-- //Baneer-js -->
+    <!-- start-smoth-scrolling -->
+    <script type="text/javascript" src="js/move-top.js"></script>
+    <script type="text/javascript" src="js/easing.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(".scroll").click(function(event) {
+                event.preventDefault();
+                $('html,body').animate({
+                    scrollTop: $(this.hash).offset().top
+                }, 1000);
+            });
+        });
+    </script>
+    <!-- start-smoth-scrolling -->
+    <!-- Progressive-Effects-Animation-JavaScript -->
+    <script type="text/javascript" src="js/numscroller-1.0.js"></script>
+    <!-- //Progressive-Effects-Animation-JavaScript -->
+
+    <!-- //js-scripts -->
+</body>
+
+</html>
