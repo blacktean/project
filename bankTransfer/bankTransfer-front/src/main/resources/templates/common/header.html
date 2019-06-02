@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>复用</title>
@@ -94,7 +94,7 @@
                                                 </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a id="newcollection" class="hvr-bounce-to-bottom" href="newcollection.html">新建归集</a>
+                                            <a id="newcollection" class="hvr-bounce-to-bottom" href="" th:href="@{/newcollection}">新建归集</a>
                                         </li>
                                         <li>
                                             <a id="mycollection" class="hvr-bounce-to-bottom" href="mycollection.html">我的归集</a>
