@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bankTransfer.mapper.BaseMapper">
+
+	<select id="queryCardType" resultType="CardType">
+	select <include refid="cardTypeColumn"/> from t_card_type 
+	</select>
+	
+	<select id="queryDocument" resultType="Document">
+	select <include refid="documentColumn"/> from t_document
+	</select>
+	
+	<select id="queryCurrency" resultType="Currency">
+	select <include refid="currencyColumn"/> from t_currency
+	</select>
+	
+	<select id="queryCardByUserId" resultType="Card">
+	select <include refid="cardColumn"/> from card where user_id = #{id} and card_state = '1'
+	</select>
+	
+	
+	<sql id="cardTypeColumn">
+	id,type_name,type_code
+	</sql>
+	<sql id="documentColumn">
+	id,document_name,document_number
+	</sql>
+	<sql id="currencyColumn">
+	id.money_name,money_number
+	</sql>
+	
+	<sql id="cardColumn">
+id,id_card,start_place,curreny,balance,available_balance,start_place_id,
+password,card_type,user_id,card_state,card_type_1,major_card,create_time,
+effective_time,register_type,max_price
+	</sql>
+</mapper>
