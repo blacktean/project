@@ -21,6 +21,35 @@
     	
 </script>
 
+	<!-- js-scripts -->
+	<!-- js -->
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<!-- Necessary-JavaScript-File-For-Bootstrap -->
+	<!-- //js -->
+	<!-- Baneer-js -->
+	<script src="js/responsiveslides.min.js"></script>
+	<script>
+		$(function() {
+			
+			//复用头部JS
+			$("#header").load("common/header.html");
+			//复用尾部JS
+			$("#footer").load("common/footer.html");
+			
+			var tr = $("#tbody").html();
+		    	    		    			    
+				$("#add-info").click(function(){
+		    		$("#tbody").append(tr);
+		    	});
+				
+				$(document).on("click",".del-info",function(){
+					$(this).parent("td").parent("tr").remove();
+					});
+				
+		});
+	</script>
+	
 <!--// Meta tag Keywords -->
 <!-- css files -->
 <link rel="stylesheet" href="css/bootstrap.css">
@@ -160,7 +189,7 @@
 
 								<div class="form-group ">
 									<div class="col-sm-offset-8 col-sm-10 ">
-										<button type="submit " class="btn btn-default ">确认转账</button>
+										<button type="submit" class="btn btn-default ">确认转账</button>
 									</div>
 								</div>
 							</form>
@@ -174,91 +203,7 @@
 	<!--复用尾部-->
 	<div id="footer"></div>
 
-	<!-- js-scripts -->
-	<!-- js -->
-	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.js"></script>
-	<!-- Necessary-JavaScript-File-For-Bootstrap -->
-	<!-- //js -->
-	<!-- Baneer-js -->
-	<script src="js/responsiveslides.min.js"></script>
-	<script>
-		$(function() {
-			$("#slider").responsiveSlides({
-				auto : true,
-				pager : false,
-				nav : true,
-				speed : 1000,
-				namespace : "callbacks",
-				before : function() {
-					$('.events').append("<li>before event fired.</li>");
-				},
-				after : function() {
-					$('.events').append("<li>after event fired.</li>");
-				}
-			});
-			//复用头部JS
-			$("#header").load("common/header.html");
-			//复用尾部JS
-			$("#footer").load("common/footer.html");
-		});
-	</script>
-	<!-- //Baneer-js -->
-	<!-- start-smoth-scrolling -->
-	<script type="text/javascript" src="js/move-top.js"></script>
-	<script type="text/javascript" src="js/easing.js"></script>
-	<script type="text/javascript">
-		jQuery(document).ready(function($) {
-			$(".scroll").click(function(event) {
-				event.preventDefault();
-				$('html,body').animate({
-					scrollTop : $(this.hash).offset().top
-				}, 1000);
-			});
-		});
-	</script>
-	<!-- start-smoth-scrolling -->
-	<!-- Progressive-Effects-Animation-JavaScript -->
-	<script type="text/javascript" src="js/numscroller-1.0.js"></script>
-	<!-- //Progressive-Effects-Animation-JavaScript -->
-	<!--responsive-tabs-script-->
-	<script src="js/easy-responsive-tabs.js"></script>
-	<script>
-    var tr = $("#tbody").html();
-    
-    	
-    	
-    
-		$(document).ready(function() {
-			$("#add-info").click(function(){
-	    		$("#tbody").append(tr);
-	    	});
-			$(".del-info").click(function(){
-				//删除操作 未完成
-			});
-			
-			$('#horizontalTab').easyResponsiveTabs({
-				type : 'default', //Types: default, vertical, accordion           
-				width : 'auto', //auto or any width like 600px
-				fit : true, // 100% fit in a container
-				closed : 'accordion', // Start closed if in accordion view
-				activate : function(event) { // Callback function if tab is switched
-					var $tab = $(this);
-					var $info = $('#tabInfo');
-					var $name = $('span', $info);
-					$name.text($tab.text());
-					$info.show();
-				}
-			});
-			$('#verticalTab').easyResponsiveTabs({
-				type : 'vertical',
-				width : 'auto',
-				fit : true
-			});
-		});
-	</script>
-	<!--//responsive-tabs-script-->
-	<!-- //js-scripts -->
+
 </body>
 
 </html>
