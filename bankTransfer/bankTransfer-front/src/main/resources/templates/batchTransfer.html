@@ -17,6 +17,8 @@
             window.scrollTo(0, 1);
         }
     
+    	
+    	
 </script>
 
 <!--// Meta tag Keywords -->
@@ -29,6 +31,7 @@
 	type='text/css' />
 <!-- For-tabs-CSS -->
 <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+
 <!-- Style-CSS -->
 <style>
 #left-menu {
@@ -114,27 +117,24 @@
 								<table class="table" >
 									<thead>
 										<tr>
-											<th></th>
-											<th>收款人人姓名</th>
+											<th>收款人姓名</th>
 											<th>收款人卡号</th>
 											<th>汇款金额</th>
 											<th>汇款地址</th>
 											<th>短信通知手机号</th>
 											<th>短信留言</th>
-											<th></th>
+											<th><input type="button" value="添加" class="btn btn-default" id="add-info"/></th>
 										</tr>
 									</thead>
-									<tbody>
-										<tr>
-											<td>
-											</td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td><input type="button" value="删除" class="btn btn-info"/></td>
+									<tbody id="tbody">
+										<tr class="one-info">
+											<td><input type="text" size="7"/></td>
+											<td><input type="text" size="17"/></td>
+											<td><input type="text" size="6"/></td>
+											<td><input type="text" size="10"/></td>
+											<td><input type="text" size="12"/></td>
+											<td><input type="text" size="15"/>  </td>
+											<td><input type="button" value="删除" class="btn btn-info del-info"/></td>
 										</tr>
 									</tbody>
 								</table>
@@ -224,7 +224,19 @@
 	<!--responsive-tabs-script-->
 	<script src="js/easy-responsive-tabs.js"></script>
 	<script>
+    var tr = $("#tbody").html();
+    
+    	
+    	
+    
 		$(document).ready(function() {
+			$("#add-info").click(function(){
+	    		$("#tbody").append(tr);
+	    	});
+			$(".del-info").click(function(){
+				//删除操作 未完成
+			});
+			
 			$('#horizontalTab').easyResponsiveTabs({
 				type : 'default', //Types: default, vertical, accordion           
 				width : 'auto', //auto or any width like 600px
