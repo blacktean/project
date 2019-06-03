@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>转账汇款</title>
+<!-- Meta tag Keywords -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="application/x-javascript">
+	
+        addEventListener("load", function() {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    
+</script>
+
+<!--// Meta tag Keywords -->
+<!-- css files -->
+<link rel="stylesheet" href="css/bootstrap.css">
+<!-- Bootstrap-Core-CSS -->
+<link rel="stylesheet" href="css/font-awesome.css">
+<!-- Font-Awesome-Icons-CSS -->
+<link href="css/easy-responsive-tabs.css" rel='stylesheet'
+	type='text/css' />
+<!-- For-tabs-CSS -->
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+<!-- Style-CSS -->
+<style>
+#left-menu {
+	height: 800px;
+	width: 30%;
+	float: left;
+}
+
+#menu {
+	margin-top: 100px;
+	width: 200px;
+	height: 200px;
+	margin-left: 120px;
+}
+
+#center {
+	height: 800px;
+	width: 70%;
+	float: right;
+}
+
+#account {
+	height: 700px;
+}
+
+#form {
+	margin-left: 50px;
+	width: 700px;
+	height: 700px;
+}
+</style>
+<!-- //css files -->
+<!-- web-fonts -->
+<link
+	href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900"
+	rel="stylesheet">
+<link
+	href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
+	rel="stylesheet">
+<!-- //web-fonts -->
+</head>
+
+<body>
+	<!--复用头部-->
+	<div id="header"></div>
+
+	<!-- banner 2 -->
+	<div>
+		<!-- class="banner-2-agile" -->
+		<img style="height: 420px; width: 100%;" src="images/banner7.jpg" />
+	</div>
+	<div class="services-breadcrumb">
+		<div class="agile_inner_breadcrumb">
+			<ul class="w3_short">
+				<li><a href="index.html">主页</a> <i>>></i></li>
+				<li>批量汇款</li>
+			</ul>
+		</div>
+	</div>
+	<!-- //banner 2 -->
+	<!-- about bottom -->
+	<div class="about-bottom-agile">
+		<div class="container">
+			<div class="container">
+				<div id="left-menu">
+					<div id="menu">
+						<div class="list-group">
+							<a href="singleTransfer.html" class="list-group-item">单笔汇款</a> <a
+								href="registerAccountTransfer.html" class="list-group-item">注册账户汇款</a>
+							<a href="javascript::" class="list-group-item active">批量汇款</a> <a
+								href="crossBorderTransfer.html" class="list-group-item">跨境汇款</a>
+						</div>
+					</div>
+				</div>
+				<div id="center">
+					<h3 class="tittle">
+						<span>批</span>量汇<span>款</span>
+					</h3>
+					<div id="account">
+						<div id="form">
+							<form class="form-horizontal" action="#" method="POST"
+								id="transferForm">
+								<table class="table table-bordered" >
+									<thead>
+										<tr>
+											<th>全选 <input type="checkbox" value="全选" /></th>
+											<th>收款人人姓名</th>
+											<th>收款人卡号</th>
+											<th>汇款金额</th>
+											<th>汇款地址</th>
+											<th>短信通知手机号</th>
+											<th>短信留言</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+											</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td><input type="button" value="删除" class="btn btn-info"/></td>
+										</tr>
+									</tbody>
+								</table>
+								
+							<div class="form-group">
+                                <label for="balance" class="col-sm-2 control-label">总计金额</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="balance" name="balance">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="balance" class="col-sm-6 control-label">汇款通知费：0.20元/条</label>
+                            </div>
+							 <div class="form-group">
+                                <label for="payCardNum" class="col-sm-2 control-label">付款卡号</label>
+                                <div class="col-sm-8">
+                                    <select name=" payCardNum " id="payCardNum " class="form-control ">
+                                        <option value="3721900520000479143">3721900520000479143</option>
+                                        <option value="6723200025873451739">6723200025873451739</option>
+                                    </select>
+                                </div>
+                            </div>
+
+								<div class="form-group ">
+									<div class="col-sm-offset-8 col-sm-10 ">
+										<button type="submit " class="btn btn-default ">确认转账</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--复用尾部-->
+	<div id="footer"></div>
+
+	<!-- js-scripts -->
+	<!-- js -->
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<!-- Necessary-JavaScript-File-For-Bootstrap -->
+	<!-- //js -->
+	<!-- Baneer-js -->
+	<script src="js/responsiveslides.min.js"></script>
+	<script>
+		$(function() {
+			$("#slider").responsiveSlides({
+				auto : true,
+				pager : false,
+				nav : true,
+				speed : 1000,
+				namespace : "callbacks",
+				before : function() {
+					$('.events').append("<li>before event fired.</li>");
+				},
+				after : function() {
+					$('.events').append("<li>after event fired.</li>");
+				}
+			});
+			//复用头部JS
+			$("#header").load("common/header.html");
+			//复用尾部JS
+			$("#footer").load("common/footer.html");
+		});
+	</script>
+	<!-- //Baneer-js -->
+	<!-- start-smoth-scrolling -->
+	<script type="text/javascript" src="js/move-top.js"></script>
+	<script type="text/javascript" src="js/easing.js"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			$(".scroll").click(function(event) {
+				event.preventDefault();
+				$('html,body').animate({
+					scrollTop : $(this.hash).offset().top
+				}, 1000);
+			});
+		});
+	</script>
+	<!-- start-smoth-scrolling -->
+	<!-- Progressive-Effects-Animation-JavaScript -->
+	<script type="text/javascript" src="js/numscroller-1.0.js"></script>
+	<!-- //Progressive-Effects-Animation-JavaScript -->
+	<!--responsive-tabs-script-->
+	<script src="js/easy-responsive-tabs.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#horizontalTab').easyResponsiveTabs({
+				type : 'default', //Types: default, vertical, accordion           
+				width : 'auto', //auto or any width like 600px
+				fit : true, // 100% fit in a container
+				closed : 'accordion', // Start closed if in accordion view
+				activate : function(event) { // Callback function if tab is switched
+					var $tab = $(this);
+					var $info = $('#tabInfo');
+					var $name = $('span', $info);
+					$name.text($tab.text());
+					$info.show();
+				}
+			});
+			$('#verticalTab').easyResponsiveTabs({
+				type : 'vertical',
+				width : 'auto',
+				fit : true
+			});
+		});
+	</script>
+	<!--//responsive-tabs-script-->
+	<!-- //js-scripts -->
+</body>
+
+</html>
