@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>新建归集</title>
+<!-- Meta tag Keywords -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript" src="js/jquery.bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.css"></link>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="js/messages_zh.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
+<!--// Meta tag Keywords -->
+<!-- css files -->
+<link rel="stylesheet" href="css/bootstrap.css">
+<!-- Bootstrap-Core-CSS -->
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+<!-- Style-CSS -->
+<link rel="stylesheet" href="css/font-awesome.css">
+<!-- Font-Awesome-Icons-CSS -->
+<!-- //css files -->
+<!-- web-fonts -->
+<link
+	href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900"
+	rel="stylesheet">
+<link
+	href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
+	rel="stylesheet">
+	
+<!-- //web-fonts -->
+
+<script type="application/x-javascript">
+	
+        addEventListener("load", function() {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    
+</script>
+<script type="text/javascript">
+	$(function(){		
+		//复用头部JS
+		$("#header").load("common/header.html");
+		//复用尾部JS
+		$("#footer").load("common/footer.html");
+	 
+		//表单验证
+		$("#newCollectionForm").validate({ 
+			rules:{
+				collection_accout:{
+					required:true					
+				},
+				debit_account:{
+					required:true					
+				},
+				receiver_name:{
+					required:true,
+				},
+				transferred_money:{
+					required:true,
+				},
+				debit_tel:{
+					required:true,
+					rangelength:[11,11]
+				},
+				start_time:{
+					required:true,
+				}
+			},
+			messages:{
+				collection_accout:{
+					required:"请填写收款账号",
+				},
+				debit_account:{
+					required:"请填写归集卡号!",
+					//rangelength:"归集卡号长度必须是19位!",
+					//remote:"该卡号不存在!"
+				},
+				receiver_name:{
+					required:"请填写用户名!",					
+				},
+				transferred_money:{
+					required:"请填写保留金额!",
+					
+				},
+				debit_tel:{
+					required:"请填写通知的手机号!",
+					rangelength:"手机号码长度必须是11位!"
+				},
+				start_time:{
+					required:"请填写协议生效时间!"					
+				}
+			},
+			submitHandler:function(form){
+				$("#newCollectionForm").ajaxSubmit({
+					dataType:"json",
+					success:function(data){
+						if(data.success){
+							$.messager.model = {
+										ok:{ text: "关闭", classed: 'btn­default' },
+										cancel: { text: "取消", classed: 'btn­error' }
+							};
+							$.messager.confirm("提示","设置资金归集成功",function(){
+								//跳转到我的归集页面
+								location.href="/mycollection";
+							});
+							
+						}else{
+							 $.messager.popup(data.msg);
+						}
+					},
+					resetForm:true
+				});
+			},
+			errorClass:"text-danger",
+			highlight:function(element){
+				$(element).closest("div.form-group").addClass("has-error");
+			},
+			unhighlight:function(element){
+				$(element).closest("div.form-group").removeClass("has-error");
+			}
+		})	
+	})
+</script>
+<style type="text/css">
+.failToCheckCode{
+	color: FFFFFF;
+}
+#pbd {
+	width: 960px;
+	margin: 0 auto;
+	min-height: 270px;
+}
+
+.border_box {
+	border: 1px solid #d8d8d8;
+	position: relative;
+}
+
+.pbd_h2_txt {
+	width: 940px;
+	height: 44px;
+	line-height: 44px;
+	padding: 0px 0px 0px 20px;
+	border-bottom: solid 1px #D8D8D8;
+}
+
+.pbd_table_step_title h3 {
+	padding: 0px 3px;
+	background-color: white;
+	display: inline-block;
+}
+
+.pbd_table_step_title {
+	height: 20px;
+	line-height: 20px;
+	font-size: 14px;
+	font-weight: 200;
+	margin: 8px 12px;
+	background-repeat: repeat-x;
+	background-position: left center;
+}
+
+.cardbox {
+	width: 930px;
+	height: 165px;
+	margin: 0px auto;
+	position: relative;
+	overflow: hidden;
+	border-bottom: 2px solid #3DA2F0;
+}
+
+.cardbox2 {
+	width: 930px;
+	height: 165px;
+	margin: 0px auto;
+	position: relative;
+	overflow: hidden;
+	border-bottom: 2px solid #3DA2F0;
+}
+
+.cli_carbox_tp {
+	border: 0px solid #3DA2F0;
+}
+
+.carbox_tp {
+	width: 220px;
+	height: 150px;
+	border-radius: 3px;
+	position: relative;
+	background: #fff;
+}
+
+.cli_carbox_tp>i.arrow {
+	background-position: 0 -8px;
+}
+
+.cli_card_box {
+	border: 2px solid #3DA2F0;
+	height: 140px;
+}
+
+.card_title {
+	margin: 0;
+	padding: 0;
+	font-weight: normal;
+	font-size: 11px;
+	position: relative;
+}
+
+.card_btitle {
+	display: block;
+	font-size: 12px;
+	color: #bbb;
+	line-height: 25px;
+	padding-left: 20px;
+	font-weight: normal;
+	position: relative;
+	height: 25px;
+}
+
+.card_btitle .span_1 {
+	position: absolute;
+	left: 22px;
+}
+
+.card_btitle .span_2 {
+	position: absolute;
+	right: 0px;
+}
+
+.card_menoy {
+	width: 216px;
+	height: 30px;
+	margin: 0 auto;
+	line-height: 30px;
+	position: relative;
+	left: 0px;
+	padding-left: 7px;
+}
+
+.card_menoy a {
+	text-decoration: none;
+	color: #999999;
+	font-size: 14px;
+	margin-left: 15px;
+}
+
+.cad_money .span_txt_moy {
+	width: 86px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	float: left;
+}
+
+.card_box:hover .card_menoy {
+	background-color: #6CB9F0;
+	color: #FFF;
+}
+
+.cli_card_box .card_menoy {
+	background-color: #6CB9F0;
+	color: #FFF;
+}
+
+.cli_card_box .card_menoy a {
+	color: #FFF;
+}
+
+.card_menoy:hover {
+	text-decoration: none;
+}
+
+.cad_money .backnone a {
+	font-size: 14px;
+	color: #D62F2F;
+	font-weight: 600;
+	height: 40px;
+	line-height: 42px;
+	width: 100%;
+	margin-left: 5px;
+}
+
+.pbd_cxdiv {
+	height: 25px;
+	line-height: 25px;
+}
+
+.pbd_cxdiv span {
+	float: right;
+	margin-left: 12px;
+	cursor: pointer;
+	color: #0066b3;
+}
+
+.pbd_tle_cardbox_1 {
+	width: 930px;
+	margin: 0px auto;
+	position: relative;
+}
+
+ul, ol {
+	list-style: none;
+}
+
+html, body, h1, h2, h3, h4, h5, h6, hr, p, iframe, dl, dt, dd, ul, ol,
+	li, pre, form, button, input, textarea, th, td, a {
+	margin: 0;
+	padding: 0;
+}
+
+ul, menu, dir {
+	display: block;
+	-webkit-margin-before: 1em;
+	-webkit-margin-after: 1em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	-webkit-padding-start: 40px;
+}
+
+.mb_20 {
+	margin-bottom: 20px !important;
+}
+
+.pbd_table_step_title_no_line {
+	height: 20px;
+	line-height: 20px;
+	font-size: 14px;
+	font-weight: normal;
+	margin: 8px 10px;
+}
+
+.pl_0 {
+	padding-left: 0px !important;
+}
+
+input.btn, input.btn_add, input.btn_disabled {
+	min-width: 80px;
+	box-sizing: border-box;
+}
+
+.btn {
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #fff;
+	border: none;
+	background: #0066B3;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	font-size: 14px;
+	outline: none;
+	padding-left: 12px;
+	padding-right: 12px;
+	-webkit-appearance: none;
+}
+
+.btn_disabled {
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #fff;
+	border: none;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	font-size: 14px;
+	outline: none;
+	background: #ccc;
+	padding-left: 12px;
+	padding-right: 12px;
+	-webkit-appearance: none;
+}
+
+.pbd_tips_box {
+	border: 1px #AAD0F2 solid;
+	background: #EDF5FC;
+	margin: 0px 11px 40px 11px;
+	width: 936px;
+	padding-top: 12px;
+}
+
+.pbd_tips_title {
+	font-size: 16px;
+	padding: 0px 12px;
+}
+
+.pbd_tips_inner {
+	margin-top: 10px;
+	margin-bottom: 20px;
+	line-height: 22px;
+	padding: 0px 12px;
+}
+
+.pbd_tips_inner li {
+	list-style-type: none;
+}
+
+.pbd_tips_inner li {
+	padding: 0px 12px;
+	color: #666;
+}
+
+.li_liebiao0 {
+	list-style-type: none;
+}
+        
+        #center {
+            height: 900px;
+            width: 70%;
+        }
+        
+        #account {
+            height: 900px;
+            padding-top:100px;
+            padding-left:100px;
+        }
+        
+        #form {
+            margin-left: 50px;
+            width: 700px;
+            height: 900px;
+        }
+        .form-control{
+		width: 220px;
+		display: inline;
+		}
+/* 子账户样式 */
+</style>
+
+</head>
+
+<body>
+	<!--复用头部-->
+	<div id="header"></div>
+	<!-- banner 2 -->
+	<div>
+		<!-- class="banner-2-agile" -->
+		<img style="height: 420px; width: 100%;" src="images/banner3.jpg" />
+	</div>
+	<div class="services-breadcrumb">
+		<div class="agile_inner_breadcrumb">
+			<ul class="w3_short">
+				<li><a href="index.html">资金归集</a> <i>>></i></li>
+				<li>新建归集</li>
+			</ul>
+		</div>
+	</div>
+	<!-- //banner 2 -->
+	<!-- icons -->
+	<div class="w3_wthree_agileits_icons main-grid-border">
+		<div class="container">
+			<h3 class="tittle">
+				<span>新</span>建归<span>集</span>
+			</h3>
+			<div class="grid_3 grid_4 w3_agileits_icons_page">
+				<div class="icons">
+					<h3 class="agileits-icons-title">请填写以下信息</h3>
+
+					<div id="pbd">
+						<div class="border_box mb_0">
+							<!-- 主标题 start -->
+							<div class="pbd_h2_txt">
+								<h2>资金归集</h2>
+							</div>
+							<!-- 主标题 end -->
+							<!-- 主内容 start -->
+							<div class="main_content">
+								<div id="center">
+									
+									<div id="account">
+										<div id="form">
+											<form class="form-horizontal" action="#" method="POST"
+												id="newCollectionForm">						
+												<div class="form-group">
+													<label for="collection_accout" class="col-sm-3 control-label">收款账户</label>
+													<div class="col-sm-6">											
+														<select name="collection_accout" id="collection_accout"
+															class="form-control ">
+															<option value="1231231231231">1212131131313131</option>
+															<option value="1231231231231">1212131131313131</option>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="collecting_type" class="col-sm-3 control-label">收款方式</label>
+													<div class="col-sm-6">
+														<select name="collecting_type" id="collecting_type"
+															class="form-control ">
+															<option value="1">保留余额</option>
+														</select>
+													</div>
+												</div>
+												
+												<div class="form-group">
+													<label for="debit_account" class="col-sm-3 control-label">归集卡号</label>										
+														<div class="col-sm-6">										
+														 <select name="debit_account" id="debit_account"
+															class="form-control ">
+															<option value="1231231231231">1212131131313131</option>
+															<option value="1231231231231">1212131131313131</option>
+														 </select>
+														</div>
+													
+												</div>
+												<!-- 用户名自动识别 -->
+												<div class="form-group">
+													<label for="receiver_name" class="col-sm-3 control-label">用户名</label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="receiver_name"
+															name="receiver_name">
+													</div>
+												</div>
+												<!-- 所属银行 -->
+												<div class="form-group">
+													<label for="bank_id" class="col-sm-3 control-label">所属银行</label>
+													<div class="col-sm-6">
+														<select name="bank_id" id="bank_id"
+															class="form-control ">
+															<option value="1">中国建设银行</option>
+															<option value="2">中国银行</option>
+															<option value="3">中国邮政储蓄</option>
+															<option value="4">中国农业银行</option>
+															<option value="5">中国招商银行</option>
+														</select>
+													</div>
+												</div>									
+												<!-- 选择保留余额时 -->
+												<div class="form-group">
+													<label for="transferred_money" class="col-sm-3 control-label">保留金额</label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="transferred_money"
+															name="transferred_money">
+													</div>
+												</div>
+												
+												<!-- 归集账户2 -->
+												<div class="form-group">
+													<label for="debit_account2" class="col-sm-3 control-label">归集账户2</label>
+													<div class="col-sm-6">								
+															
+														 <select name="debit_account2" id="debit_account2"
+															class="form-control ">
+															<option value="1231231231231">1212131131313131</option>
+															<option value="1231231231231">1212131131313131</option>
+														 </select>
+													</div>
+												</div>
+												<!-- 协议生效时间 -->
+												<div class="form-group">
+													<label for="debit_account2" class="col-sm-3 control-label">协议生效时间</label>
+													<div class="col-sm-6">								
+															<input type="text" class="form-control" id="start_time" readonly="readonly" 
+															name="start_time">
+													</div>
+												</div>
+												<!-- 协议期限 -->
+												<div class="form-group">
+													<label for="financial_number" class="col-sm-3 control-label">协议期限</label>
+													<div class="col-sm-6">								
+															<select name="financial_number" id="financial_number"
+															class="form-control ">
+															<option value="1">一个月</option>
+															<option value="2">三个月</option>
+															<option value="3">六个月</option>
+															<option value="4">十二个月</option>
+														</select>
+													</div>
+												</div>
+												
+											
+												<div class="form-group">
+					                                <label for="" class="col-sm-3 control-label">附言</label>
+					                                <div class="col-sm-8">
+					                                    <textarea  class="form-control" rows="3"> 客户使用个人账户资金网上自动归集服务的，应按照1个月2元、3个月6元、6个月10元、12个月18元的标准向我行支付个人账户资金网上自动归集服务费                         
+					                                    </textarea>					
+					                                </div>
+				                            	</div>
+
+												<div class="form-group ">
+													<div class="col-sm-offset-4 col-sm-10 ">
+														<button type="submit" class="btn btn-default btn-success" id="saveCollection">保存</button>
+														<!-- <button type="button" class="btn btn-default btn-success">取消全部归集</button> -->
+													</div>						
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+																							
+
+								<!-- 主内容 end -->
+								<!--温馨提示 START-->
+								<div class="pbd_tips_box">
+									<p class="pbd_tips_title">温馨提示：</p>
+									<ul class="pbd_tips_inner">
+										<li>您可选择任一我行网银签约龙卡通、理财卡、陆港通龙卡、活期一本通账户作为主账户。</li>
+										<li>资金归集暂不收取手续费。</li>
+										<li>系统将根据您设定的资金归集规则于每个归集日的0：30左右进行归集。</li>
+										<li>设置归集后，若归集账户解除互联账户查询协议或支付协议，则对应的归集规则无效。如需重新设置归集，请先取消原归集并重新签约协议。</li>
+										<li>单笔归集金额不超过人行单笔限额（5万元）或互联账户支付协议约定的单笔限额，若应归集金额超过以上任一限额，系统将根据限额自动分拆，最多可分拆30笔，超过30笔部分的金额不发起归集。若当日归集金额及分拆笔数超过互联账户支付协议约定的日累计限额及笔数、月累计限额及笔数，超过部分归集失败。</li>
+										<li>资金归集受他行系统影响，他行系统不响应或未及时响应等因素可能导致跨行资金归集不成功。</li>
+									</ul>
+								</div>
+								<!--温馨提示 END-->
+							</div>
+						</div>
+						<!--主内容区 END-->
+						<!--页脚 START-->
+						<div id="pft"></div>
+						<!--页脚 END-->
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+	<!-- //icons -->
+
+	<!--复用尾部-->
+	<div id="footer"></div>
+
+	
+</body>
+
+</html>
