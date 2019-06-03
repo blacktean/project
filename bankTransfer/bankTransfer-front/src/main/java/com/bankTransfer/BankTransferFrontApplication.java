@@ -5,8 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
-@MapperScan("com.bankTransfer.mapper")
-@ComponentScan(basePackages ={"com.bankTransfer"})
+@MapperScan("classpath*:mapper/*Mapper.xml")
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class BankTransferFrontApplication {
 

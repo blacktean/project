@@ -60,7 +60,7 @@ mybatis:
   type-aliases-package: com.bankTransfer.pojo
   #配置mapper映射路径
   mapper-locations:
-#  - classpath:com/example/mapper/*.xml
+      classpath*:mapper/*Mapper.xml
   
   
 #开启debug
