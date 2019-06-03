@@ -5,8 +5,26 @@ server:
 #  servlet:
 #    context-path: /boot
 
-#配置数据源
+
 spring:
+#redis配置
+#本配置采用Redis一主三从的的配置方式来提高缓存的吞吐量
+  application:
+    name: spring-boot-redis
+  redis:
+        host: 192.168.0.1
+        port: 6379
+        timeout: 20000
+        cluster:
+            nodes: 192.168.0.1:6380,192.168.0.1:6381,192.168.0.1:6382,192.168.0.1:6383,192.168.0.1:6384
+            maxRedirects: 6
+        jedis:        
+          pool:
+            max-active: 8
+            min-idle: 0
+            max-idle: 8
+            max-wait: -1   
+            #配置数据源
 #  datasource:
 #    driver-class-name: oracle.jdbc.driver.OracleDriver
 #    url: jdbc:oracle:thin:@localhost:1521:orcl
@@ -29,6 +47,7 @@ spring:
   thymeleaf:
       #禁用Thymeleaf实时缓存
     cache: false
+    encoding: utf-8
     prefix: classpath:/templates/
     suffix: .html  #热部署文件,false页面不产生缓存,及时更新,true开启缓存
     #资源文件配置

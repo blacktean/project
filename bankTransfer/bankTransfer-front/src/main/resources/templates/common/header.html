@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>复用</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="" />
+      <!-- js -->
+    <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+    <script type="application/x-javascript">
+        addEventListener("load", function() {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <script>
+        $(function() {
+           /*  $("#bs-example-navbar-collapse-1 li a").click(function() {
+            	//alert(1);
+                //$("#bs-example-navbar-collapse-1 li a").removeClass("active");
+                $(this).toggleClass("active");
+            }); */
+        });
+    </script>
+    <!--// Meta tag Keywords -->
+    <!-- css files -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- Bootstrap-Core-CSS -->
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+    <!-- Style-CSS -->
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <!-- Font-Awesome-Icons-CSS -->
+    <!-- //css files -->
+    <!-- web-fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
+    <!-- //web-fonts -->
+</head>
+
+<body>
+ 	<!--  th:fragment="header" -->
+    <div class="main-agile" id="home">
+        <!-- header -->
+        <div class="header">
+            <div class="container">
+                <div class="col-xs-4 w3l_header_left">
+                    <label style="position:absolute;left:100px; bottom:-40px;"><img src="images/logo.png"></label>
+                </div>
+                <div class="col-xs-4 w3l_header_right">
+                    <div class="logo">
+                        <h1>
+                            <a style="font-size:25px;" class="navbar-brand" href="index.html">
+                                <span>乔治</span>银行</a>
+                        </h1>
+                    </div>
+                </div>
+                <div class="col-xs-4 agileinfo_search">
+                    <p style="color:black; font-size:14px;"><b>您好:张三<span>&nbsp;欢迎使用乔治银行</span></b></p>
+                    <p style="color:black; font-size:14px;"><b><span>天气:30℃</span>&nbsp;&nbsp;&nbsp;<span>位置:深圳</span></b></p>
+                    <p style="color:black; font-size:14px; "><b>上次登录时间:<span>2019-5-31 14:49:30</span></b></p>
+                </div>
+                <div class="clearfix"> </div>
+                <div class="top-nav">
+                    <nav class="navbar navbar-default">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                                        <span class="sr-only">Toggle navigation</span>
+                                                        <span class="icon-bar"></span>
+                                                        <span class="icon-bar"></span>
+                                                        <span class="icon-bar"></span>
+                                                    </button>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li>
+                                    <a id="index" href="index.html" >主页</a>
+                                </li>
+                                <li>
+                                <!-- 高亮 
+                                 th:class="${activeUri=='myaccount.html'?'active':''}" -->
+                                    <a id="myaccount" href="myaccount.html">我的账户</a>
+                                </li>
+                                <li>
+                                    <a id="transfer" href="transfer.html">转账汇款</a>
+                                </li>
+                                <li class="">
+                                    <a href="#" class="dropdown-toggle hvr-bounce-to-bottom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">资金归集
+                                                    <span class="caret"></span>
+                                                </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a id="newcollection" class="hvr-bounce-to-bottom" href="newcollection.html">新建归集</a>
+                                        </li>
+                                        <li>
+                                            <a id="mycollection" class="hvr-bounce-to-bottom" href="mycollection.html">我的归集</a>
+                                        </li>
+                                        <li>
+                                            <a id="details" class="hvr-bounce-to-bottom" href="details.html">查询明细</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a id="accountapplication" href="accountapplication.html">账户申请</a>
+                                </li>
+                                <li>
+                                    <a id="setup" href="setup.html">设置</a>
+                                </li>
+                                <li>
+                                    <a id="login" href="login.html">登录/注册</a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </nav>
+                </div>
+
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+        <!-- /navigation section -->
+    </div>
+   
+    <!-- //header -->
+ 
+</body>
+
+</html>
