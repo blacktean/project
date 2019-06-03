@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="" />
+    <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script type="text/javascript" src="js/bootstrap.js"></script>
     <script type="application/x-javascript">
         addEventListener("load", function() {
             setTimeout(hideURLbar, 0);
@@ -16,7 +19,313 @@
             window.scrollTo(0, 1);
         }
     </script>
+    <script type="text/javascript">
+    $(function(){		
+		//复用头部JS
+		$("#header").load("common/header.html");
+		//复用尾部JS
+		$("#footer").load("common/footer.html");
+		
+		//点击设置按钮时
+		$("#setCollection").click(function(){
+			location.href="setupcollection.html";
+		});
+		//点击明细按钮时
+		$("#queryCollection").click(function(){
+			location.href="collectiondetails.html";
+		});
+		//点击终止按钮时
+		$("#delCollection").click(function(){
+			if(confirm("确定要终止服务吗?")){
+    			location.href="";
+			}
+		   });
+	   });
+    
+    </script>
+<style type="text/css">
+#pbd {
+	width: 960px;
+	margin: 0 auto;
+	min-height: 270px;
+}
 
+.border_box {
+	border: 1px solid #d8d8d8;
+	position: relative;
+}
+
+.pbd_h2_txt {
+	width: 940px;
+	height: 44px;
+	line-height: 44px;
+	padding: 0px 0px 0px 20px;
+	border-bottom: solid 1px #D8D8D8;
+}
+
+.pbd_table_step_title h3 {
+	padding: 0px 3px;
+	background-color: white;
+	display: inline-block;
+}
+
+.pbd_table_step_title {
+	height: 20px;
+	line-height: 20px;
+	font-size: 14px;
+	font-weight: 200;
+	margin: 8px 12px;
+	background-repeat: repeat-x;
+	background-position: left center;
+}
+
+.cardbox {
+	width: 930px;
+	height: 165px;
+	margin: 0px auto;
+	position: relative;
+	overflow: hidden;
+	border-bottom: 2px solid #3DA2F0;
+}
+
+.cardbox2 {
+	width: 930px;
+	height: 165px;
+	margin: 0px auto;
+	position: relative;
+	overflow: hidden;
+	border-bottom: 2px solid #3DA2F0;
+}
+
+.cli_carbox_tp {
+	border: 0px solid #3DA2F0;
+}
+
+.carbox_tp {
+	width: 220px;
+	height: 150px;
+	border-radius: 3px;
+	position: relative;
+	background: #fff;
+}
+
+.cli_carbox_tp>i.arrow {
+	background-position: 0 -8px;
+}
+
+.cli_card_box {
+	border: 2px solid #3DA2F0;
+	height: 140px;
+}
+
+.card_title {
+	margin: 0;
+	padding: 0;
+	font-weight: normal;
+	font-size: 11px;
+	position: relative;
+}
+
+.card_btitle {
+	display: block;
+	font-size: 12px;
+	color: #bbb;
+	line-height: 25px;
+	padding-left: 20px;
+	font-weight: normal;
+	position: relative;
+	height: 25px;
+}
+
+.card_btitle .span_1 {
+	position: absolute;
+	left: 22px;
+}
+
+.card_btitle .span_2 {
+	position: absolute;
+	right: 0px;
+}
+
+.card_menoy {
+	width: 216px;
+	height: 30px;
+	margin: 0 auto;
+	line-height: 30px;
+	position: relative;
+	left: 0px;
+	padding-left: 7px;
+}
+
+.card_menoy a {
+	text-decoration: none;
+	color: #999999;
+	font-size: 14px;
+	margin-left: 15px;
+}
+
+.cad_money .span_txt_moy {
+	width: 86px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	float: left;
+}
+
+.card_box:hover .card_menoy {
+	background-color: #6CB9F0;
+	color: #FFF;
+}
+
+.cli_card_box .card_menoy {
+	background-color: #6CB9F0;
+	color: #FFF;
+}
+
+.cli_card_box .card_menoy a {
+	color: #FFF;
+}
+
+.card_menoy:hover {
+	text-decoration: none;
+}
+
+.cad_money .backnone a {
+	font-size: 14px;
+	color: #D62F2F;
+	font-weight: 600;
+	height: 40px;
+	line-height: 42px;
+	width: 100%;
+	margin-left: 5px;
+}
+
+.pbd_cxdiv {
+	height: 25px;
+	line-height: 25px;
+}
+
+.pbd_cxdiv span {
+	float: right;
+	margin-left: 12px;
+	cursor: pointer;
+	color: #0066b3;
+}
+
+.pbd_tle_cardbox_1 {
+	width: 930px;
+	margin: 0px auto;
+	position: relative;
+}
+
+ul, ol {
+	list-style: none;
+}
+
+html, body, h1, h2, h3, h4, h5, h6, hr, p, iframe, dl, dt, dd, ul, ol,
+	li, pre, form, button, input, textarea, th, td, a {
+	margin: 0;
+	padding: 0;
+}
+
+ul, menu, dir {
+	display: block;
+	-webkit-margin-before: 1em;
+	-webkit-margin-after: 1em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	-webkit-padding-start: 40px;
+}
+
+.mb_20 {
+	margin-bottom: 20px !important;
+}
+
+.pbd_table_step_title_no_line {
+	height: 20px;
+	line-height: 20px;
+	font-size: 14px;
+	font-weight: normal;
+	margin: 8px 10px;
+}
+
+.pl_0 {
+	padding-left: 0px !important;
+}
+
+input.btn, input.btn_add, input.btn_disabled {
+	min-width: 80px;
+	box-sizing: border-box;
+}
+
+.btn {
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #fff;
+	border: none;
+	background: #0066B3;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	font-size: 14px;
+	outline: none;
+	padding-left: 12px;
+	padding-right: 12px;
+	-webkit-appearance: none;
+}
+
+.btn_disabled {
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #fff;
+	border: none;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	font-size: 14px;
+	outline: none;
+	background: #ccc;
+	padding-left: 12px;
+	padding-right: 12px;
+	-webkit-appearance: none;
+}
+
+.pbd_tips_box {
+	border: 1px #AAD0F2 solid;
+	background: #EDF5FC;
+	margin: 0px 11px 40px 11px;
+	width: 936px;
+	padding-top: 12px;
+}
+
+.pbd_tips_title {
+	font-size: 16px;
+	padding: 0px 12px;
+}
+
+.pbd_tips_inner {
+	margin-top: 10px;
+	margin-bottom: 20px;
+	line-height: 22px;
+	padding: 0px 12px;
+}
+
+.pbd_tips_inner li {
+	list-style-type: none;
+}
+
+.pbd_tips_inner li {
+	padding: 0px 12px;
+	color: #666;
+}
+
+.li_liebiao0 {
+	list-style-type: none;
+}
+/* 子账户样式 */
+</style>
     <!--// Meta tag Keywords -->
     <!-- css files -->
     <link rel="stylesheet" href="css/bootstrap.css">
@@ -44,7 +353,7 @@
         <div class="agile_inner_breadcrumb">
             <ul class="w3_short">
                 <li>
-                    <a href="index.html">主页</a>
+                    <a href="javaScript:void(0);">资金归集</a>
                     <i>>></i>
                 </li>
                 <li>我的归集</li>
@@ -56,520 +365,289 @@
     <div class="typo">
         <div class="container">
             <h3 class="tittle"><span>我</span>的归<span>集</span></h3>
-            <div class="grid_3 grid_4 w3layouts">
-                <h3 class="hdg">Headings</h3>
-                <div class="bs-example">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <h1 id="h1.-bootstrap-heading">h1. Bootstrap heading<a class="anchorjs-link" href="#h1.-bootstrap-heading"><span class="anchorjs-icon"></span></a></h1>
-                                </td>
-                                <td class="type-info">Semibold 36px</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h2 id="h2.-bootstrap-heading">h2. Bootstrap heading<a class="anchorjs-link" href="#h2.-bootstrap-heading"><span class="anchorjs-icon"></span></a></h2>
-                                </td>
-                                <td class="type-info">Semibold 30px</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h3 id="h3.-bootstrap-heading">h3. Bootstrap heading<a class="anchorjs-link" href="#h3.-bootstrap-heading"><span class="anchorjs-icon"></span></a></h3>
-                                </td>
-                                <td class="type-info">Semibold 24px</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h4 id="h4.-bootstrap-heading">h4. Bootstrap heading<a class="anchorjs-link" href="#h4.-bootstrap-heading"><span class="anchorjs-icon"></span></a></h4>
-                                </td>
-                                <td class="type-info">Semibold 18px</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5 id="h5.-bootstrap-heading">h5. Bootstrap heading<a class="anchorjs-link" href="#h5.-bootstrap-heading"><span class="anchorjs-icon"></span></a></h5>
-                                </td>
-                                <td class="type-info">Semibold 14px</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h6>h6. Bootstrap heading</h6>
-                                </td>
-                                <td class="type-info">Semibold 12px</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="grid_3 grid_5 w3l">
-                <h3>Progress Bars</h3>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="domprogress">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-primary" style="width: 20%"></div>
-                        </div>
-                        <p>Info with <code>progress-bar-info</code> class.</p>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-info" style="width: 60%"></div>
-                        </div>
-                        <p>Success with <code>progress-bar-success</code> class.</p>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-success" style="width: 30%"></div>
-                        </div>
-                        <p>Warning with <code>progress-bar-warning</code> class.</p>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-warning" style="width: 70%"></div>
-                        </div>
-                        <p>Danger with <code>progress-bar-danger</code> class.</p>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-danger" style="width: 50%"></div>
-                        </div>
-                        <p>Inverse with <code>progress-bar-inverse</code> class.</p>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-inverse" style="width: 40%"></div>
-                        </div>
-                        <p>Inverse with <code>progress-bar-inverse</code> class.</p>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-success" style="width: 35%"><span class="sr-only">35% Complete (success)</span></div>
-                            <div class="progress-bar progress-bar-warning" style="width: 20%"><span class="sr-only">20% Complete (warning)</span></div>
-                            <div class="progress-bar progress-bar-danger" style="width: 10%"><span class="sr-only">10% Complete (danger)</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="grid_3 grid_5 w3ls">
-                <h3>Alerts</h3>
-                <div class="alert alert-success" role="alert">
-                    <strong>Well done!</strong> You successfully read this important alert message.
-                </div>
-                <div class="alert alert-info" role="alert">
-                    <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
-                </div>
-                <div class="alert alert-warning" role="alert">
-                    <strong>Warning!</strong> Best check yo self, you're not looking too good.
-                </div>
-                <div class="alert alert-danger" role="alert">
-                    <strong>Oh snap!</strong> Change a few things up and try submitting again.
-                </div>
-            </div>
-            <div class="grid_3 grid_5 agileits">
-                <h3>Pagination</h3>
-                <div class="col-md-6">
-                    <nav>
-                        <ul class="pagination pagination-lg">
-                            <li><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                        </ul>
-                    </nav>
-                    <nav>
-                        <ul class="pagination">
-                            <li><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                        </ul>
-                    </nav>
-                    <nav>
-                        <ul class="pagination pagination-sm">
-                            <li><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-md-6">
-                    <ul class="pagination pagination-lg">
-                        <li class="disabled"><a href="#"><i class="fa fa-angle-left">«</i></a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right">»</i></a></li>
-                    </ul>
-                    <nav>
-                        <ul class="pagination">
-                            <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-                            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                        </ul>
-                    </nav>
-                    <ul class="pagination pagination-sm">
-                        <li class="disabled"><a href="#"><i class="fa fa-angle-left">«</i></a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right">»</i></a></li>
-                    </ul>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-            <div class="grid_3 grid_5 agileinfo">
-                <h3>Breadcrumbs</h3>
-                <ol class="breadcrumb">
-                    <li class="active">Home</li>
-                </ol>
-                <ol class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li class="active">Library</li>
-                </ol>
-                <ol class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Library</a></li>
-                    <li class="active">Data</li>
-                </ol>
-            </div>
-            <div class="grid_3 grid_5 wthree">
-                <h3>Badges</h3>
-                <div class="col-md-6 agileits-w3layouts">
-                    <p>Add modifier classes to change the appearance of a badge.</p>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Classes</th>
-                                <th>Badges</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>No modifiers</td>
-                                <td><span class="badge">42</span></td>
-                            </tr>
-                            <tr>
-                                <td><code>.badge-primary</code></td>
-                                <td><span class="badge badge-primary">1</span></td>
-                            </tr>
-                            <tr>
-                                <td><code>.badge-success</code></td>
-                                <td><span class="badge badge-success">22</span></td>
-                            </tr>
-                            <tr>
-                                <td><code>.badge-info</code></td>
-                                <td><span class="badge badge-info">30</span></td>
-                            </tr>
-                            <tr>
-                                <td><code>.badge-warning</code></td>
-                                <td><span class="badge badge-warning">412</span></td>
-                            </tr>
-                            <tr>
-                                <td><code>.badge-danger</code></td>
-                                <td><span class="badge badge-danger">999</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-6 w3-agileits">
-                    <p>Easily highlight new or unread items with the <code>.badge</code> class</p>
-                    <div class="list-group list-group-alternate">
-                        <a href="#" class="list-group-item"><span class="badge">201</span> <i class="ti ti-email"></i> Inbox </a>
-                        <a href="#" class="list-group-item"><span class="badge badge-primary">5021</span> <i class="ti ti-eye"></i> Profile visits </a>
-                        <a href="#" class="list-group-item"><span class="badge">14</span> <i class="ti ti-headphone-alt"></i> Call </a>
-                        <a href="#" class="list-group-item"><span class="badge">20</span> <i class="ti ti-comments"></i> Messages </a>
-                        <a href="#" class="list-group-item"><span class="badge badge-warning">14</span> <i class="ti ti-bookmark"></i> Bookmarks </a>
-                        <a href="#" class="list-group-item"><span class="badge badge-danger">30</span> <i class="ti ti-bell"></i> Notifications </a>
-                    </div>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-            <div class="grid_3 grid_5 agile">
-                <h3>Wells</h3>
-                <div class="well">
-                    There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration
-                </div>
-                <div class="well">
-                    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here
-                </div>
-                <div class="well">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting Automated. Lorem Ipsum has been the Automated's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It
-                    has survived not only five centuries, but also the leap into electronic
-                </div>
-            </div>
-            <h3 class="bars">Unordered List</h3>
-            <ul class="list-group w3-agile">
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-            </ul>
-            <h3 class="bars">Ordered List</h3>
-            <ol>
-                <li class="list-group-item1">Cras justo odio</li>
-                <li class="list-group-item1">Dapibus ac facilisis in</li>
-                <li class="list-group-item1">Morbi leo risus</li>
-                <li class="list-group-item1">Porta ac consectetur ac</li>
-                <li class="list-group-item1">Vestibulum at eros</li>
-            </ol>
-            <h3 class="bars">Forms</h3>
-            <div class="input-group w3_w3layouts">
-                <span class="input-group-addon" id="basic-addon1">@</span>
-                <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group w3_w3layouts">
-                <input type="text" class="form-control" placeholder="Recipient's username" aria-describedby="basic-addon2">
-                <span class="input-group-addon" id="basic-addon2">@example.com</span>
-            </div>
-            <div class="input-group w3_w3layouts">
-                <span class="input-group-addon">$</span>
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                <span class="input-group-addon">.00</span>
-            </div>
-            <div class="input-group input-group-lg w3_w3layouts">
-                <span class="input-group-addon" id="sizing-addon1">@</span>
-                <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
-            </div>
-            <div class="input-group w3_w3layouts">
-                <span class="input-group-addon" id="sizing-addon2">@</span>
-                <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon2">
-            </div>
-            <div class="input-group input-group-sm w3_w3layouts">
-                <span class="input-group-addon" id="sizing-addon3">@</span>
-                <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon3">
-            </div>
-            <div class="row">
-                <div class="col-lg-6 in-gp-tl">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-								<input type="checkbox" aria-label="...">
-							</span>
-                        <input type="text" class="form-control" aria-label="...">
-                    </div>
-                    <!-- /input-group -->
-                </div>
-                <!-- /.col-lg-6 -->
-                <div class="col-lg-6 in-gp-tb">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-								<input type="radio" aria-label="...">
-							</span>
-                        <input type="text" class="form-control" aria-label="...">
-                    </div>
-                    <!-- /input-group -->
-                </div>
-                <!-- /.col-lg-6 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-6 in-gp-tl">
-                    <div class="input-group">
-                        <span class="input-group-btn">
-								<button class="btn btn-default" type="button">Go!</button>
-							</span>
-                        <input type="text" class="form-control" placeholder="Search for...">
-                    </div>
-                    <!-- /input-group -->
-                </div>
-                <!-- /.col-lg-6 -->
-                <div class="col-lg-6 in-gp-tb">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for...">
-                        <span class="input-group-btn">
-								<button class="btn btn-default" type="button">Go!</button>
-							</span>
-                    </div>
-                    <!-- /input-group -->
-                </div>
-                <!-- /.col-lg-6 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-6 in-gp-tl">
-                    <div class="input-group">
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                            </ul>
-                        </div>
-                        <!-- /btn-group -->
-                        <input type="text" class="form-control" aria-label="...">
-                    </div>
-                    <!-- /input-group -->
-                </div>
-                <!-- /.col-lg-6 -->
-                <div class="col-lg-6 in-gp-tb">
-                    <div class="input-group">
-                        <input type="text" class="form-control" aria-label="...">
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action <span class="caret"></span></button>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                            </ul>
-                        </div>
-                        <!-- /btn-group -->
-                    </div>
-                    <!-- /input-group -->
-                </div>
-                <!-- /.col-lg-6 -->
-            </div>
-            <!-- /.row -->
-            <div class="page-header">
-                <h3 class="bars">Tables</h3>
-            </div>
-            <h2 class="typoh2">Default styles</h2>
-            <p>For basic stylinglight padding and only horizontal add the base class <code>.table</code> to any <code>&lt;table&gt;</code>.</p>
-            <div class="bs-docs-example">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Username</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <hr class="bs-docs-separator">
-            <p>Add any of the following classes to the <code>.table</code> base class.</p>
-            <p>Adds zebra-striping to any table row within the <code>&lt;tbody&gt;</code> via the <code>:nth-child</code> CSS selector (not available in IE7-8).</p>
-            <div class="bs-docs-example">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Username</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p>Add borders and rounded corners to the table.</p>
-            <div class="bs-docs-example">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Username</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td rowspan="2">1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@getbootstrap</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p>Enable a hover state on table rows within a <code>&lt;tbody&gt;</code>.</p>
-            <div class="bs-docs-example">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Username</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+           <div class="grid_3 grid_4 w3_agileits_icons_page">
+				<div class="icons">
+					<h3 class="agileits-icons-title">我的归集</h3>
+
+					<div id="pbd">
+						<div class="border_box mb_0">
+							<!-- 主标题 start -->
+							<div class="pbd_h2_txt">
+								<h2>资金归集</h2>
+							</div>
+							<!-- 主标题 end -->
+							<!-- 主内容 start -->
+							<div class="main_content">
+								<div class="pbd_table_step_title">
+									<h3>主账户</h3>
+								</div>
+
+								<!-- 图形模式1 start -->
+								<div class="list_view_list_box  re" id="cardList_1">
+
+									<!--图形开始-->
+									<div class="cardbox">
+										
+										<div class="card_list"
+											style="height: 165px; width: 940px; position: relative; overflow: hidden; margin: auto;"
+											id="payAccList">
+
+											<ul
+												style="left: 0px; width: 235px; height: 165px; position: absolute; top: 0px;">
+												<li>
+													<div class="carbox_tp cli_carbox_tp">
+														<i class="arrow"></i>
+														<div class="card_box cardbox_1 cli_card_box">
+															<h2 class="card_title">
+
+																<span title="储蓄账户"></span> <b class="card_logo"><img
+																	src="images/logo.png" width="15px" height="15px;"></b>
+															</h2>
+															<b class="card_btitle"> <!--分行名--> <span
+																class="span_1">深圳市分行</span> <!--是否签约--> <span
+																class="span_2 ">已签约</span>
+															</b>
+															<!--账号-->
+															<div class="card_menoy">
+																<a>6217 0072 00** ***4 049</a>
+															</div>
+															<div class="cad_money">
+																<div class="span_txt_moy" style="font-size: 12px">可用余额（元）</div>
+																<div class="backnone" id="">
+																	<a>3.00</a>
+																</div>
+															</div>
+															<div class="pbd_cxdiv">
+																<span class="hide_mey">隐藏余额</span> <span class="card_op"
+																	style="width: 80px">
+																	
+																</span>
+															</div>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								
+								<!-- style="display:none" -->
+								<!-- 付款子账户 -->
+								
+								<div class="cardbox2">
+									<h3>子账户</h3>	
+									<div class="card_list"
+										style="height: 165px; width: 940px; position: relative; overflow: hidden; margin: auto;"
+										id="payAccList">
+
+										<ul
+											style="left: 0px; width: 940px; height: 165px; position: absolute; top: 0px;">
+											<li style="float:left;">
+												<div class="carbox_tp cli_carbox_tp">
+													<i class="arrow"></i>
+													<div class="card_box cardbox_1 cli_card_box">
+														<h2 class="card_title">
+
+															<span title="储蓄账户"></span> <b class="card_logo"><img
+																src="images/logo.png" width="15px" height="15px;"></b>
+														</h2>
+														<b class="card_btitle"> <!--分行名--> <span
+															class="span_1">深圳市分行</span> <!--是否签约--> <span
+															class="span_2 ">已签约</span>
+														</b>
+														<!--账号-->
+														<div class="card_menoy">
+															<a>6217 0072 00** ***4 049</a>
+														</div>
+														<div class="cad_money">
+															<div class="span_txt_moy" style="font-size: 12px">可用余额（元）</div>
+															<div class="backnone" id="">
+																<a>3.00</a>
+															</div>
+														</div>
+														<div class="pbd_cxdiv">
+															<span class="hide_mey">隐藏余额</span> <span class="card_op"
+																style="width: 80px">
+																
+															</span>
+														</div>
+													</div>
+												</div>
+											</li>
+											<li style="float:left; margin-left:20px;">
+												<div class="carbox_tp cli_carbox_tp">
+													<i class="arrow"></i>
+													<div class="card_box cardbox_1 cli_card_box">
+														<h2 class="card_title">
+
+															<span title="储蓄账户"></span> <b class="card_logo"><img
+																src="images/logo.png" width="15px" height="15px;"></b>
+														</h2>
+														<b class="card_btitle"> <!--分行名--> <span
+															class="span_1">深圳市分行</span> <!--是否签约--> <span
+															class="span_2 ">已签约</span>
+														</b>
+														<!--账号-->
+														<div class="card_menoy">
+															<a>6217 0072 00** ***4 049</a>
+														</div>
+														<div class="cad_money">
+															<div class="span_txt_moy" style="font-size: 12px">可用余额（元）</div>
+															<div class="backnone" id="">
+																<a>3.00</a>
+															</div>
+														</div>
+														<div class="pbd_cxdiv">
+															<span class="hide_mey">隐藏余额</span> <span class="card_op"
+																style="width: 80px">
+																
+															</span>
+														</div>
+													</div>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<!-- 规则 -->
+								<ul class="ul_liebiao">
+									<li class="li_liebiao0">
+										<div class="liebiao_div mb_20">
+											<h3 class="pbd_table_step_title_no_line mt_30 mb_20">
+												<span class="pl_0">当前资金归集规则列表共<strong class="fc_red">
+														0 </strong>个资金归集规则
+												</span> <span id="nolist_span" class="pl_0">
+													，您可以通过点击"新增归集"按钮设置资金归集规则。</span>
+											</h3>
+
+											<div id="nolist" class="" style="">
+
+												<div
+													style="text-align: center; margin-bottom: 40px; margin-top: 30px;">
+													<input class="btn mr_15"
+														type="button" value="新增归集"> <input
+														id="closeGuiji_" type="button"
+														class="btn  mr_15 btn_disabled" value="取消全部归集">
+												</div>
+											</div>
+											
+										</div>
+									</li>
+								</ul>
+
+							<div id="center">
+									
+									<div id="account">
+										<div id="form">
+											<form class="form-horizontal" action="#" method="POST"
+												id="myCollectionForm">						
+												
+												<!-- 协议发起人自动识别 -->
+												<div class="form-group">
+													<label for="receiver_name" class="col-sm-3 control-label">协议发起人</label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="receiver_name"
+															name="receiver_name">
+													</div>
+												</div>
+																			
+												<!-- 参与协议卡（账）号 -->
+												<div class="form-group">
+													<label for="collection_accout" class="col-sm-3 control-label">参与协议卡（账）号</label>
+													<div class="col-sm-6">
+														<select class="form-control ">
+															<option value="1231231231231">1212131131313131</option>
+															<option value="1231231231231">1212131131313131</option>
+														</select>
+															
+													</div>
+												</div>
+												
+												<!-- 服务项目 -->
+												<div class="form-group">
+													<label for="service_items" class="col-sm-3 control-label">服务项目</label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="service_items"
+															name="service_items">
+													</div>
+												</div>
+												<!-- 理财序号 -->
+												<div class="form-group">
+													<label for="financial_number" class="col-sm-3 control-label">理财序号</label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="financial_number"
+															name="financial_number">
+													</div>
+												</div>
+												<!-- 卡（账）号 -->
+												<div class="form-group">
+													<label for="card_id" class="col-sm-3 control-label">卡（账）号 </label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="card_id"
+															name="card_id">
+													</div>
+												</div>
+												<!-- 协议生效时间 -->
+												<div class="form-group">
+													<label for="start_time" class="col-sm-3 control-label">协议生效时间</label>
+													<div class="col-sm-6">								
+															<input type="text" class="form-control" id="start_time" readonly="readonly" 
+															name="start_time">
+													</div>
+												</div>
+												<!-- 协议失效时间 -->
+												<div class="form-group">
+													<label for="end_time" class="col-sm-3 control-label">协议生效时间</label>
+													<div class="col-sm-6">								
+															<input type="text" class="form-control" id="end_time" readonly="readonly" 
+															name="end_time">
+													</div>
+												</div>
+												<!-- 当前状态-->
+												<div class="form-group">
+													<label for="state" class="col-sm-3 control-label">协议生效时间</label>
+													<div class="col-sm-6">								
+															<input type="text" class="form-control" id="state" 
+															name="state">
+													</div>
+												</div>
+
+												<div class="form-group ">
+													<div class="col-sm-offset-4 col-sm-10 ">
+														<button type="button" class="btn btn-default btn-success" id="setCollection">设置</button>
+														<button type="button" class="btn btn-default btn-success" id="queryCollection">明细</button>
+														<button type="button" class="btn btn-default btn-success" id="delCollection">终止服务</button>
+														<!-- <button type="button" class="btn btn-default btn-success">取消全部归集</button> -->
+													</div>						
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<!-- 主内容 end -->
+								<!--温馨提示 START-->
+								<div class="pbd_tips_box">
+									<p class="pbd_tips_title">温馨提示：</p>
+									<ul class="pbd_tips_inner">
+										<li>您可选择任一我行网银签约龙卡通、理财卡、陆港通龙卡、活期一本通账户作为主账户。</li>
+										<li>资金归集暂不收取手续费。</li>
+										<li>系统将根据您设定的资金归集规则于每个归集日的0：30左右进行归集。</li>
+										<li>设置归集后，若归集账户解除互联账户查询协议或支付协议，则对应的归集规则无效。如需重新设置归集，请先取消原归集并重新签约协议。</li>
+										<li>单笔归集金额不超过人行单笔限额（5万元）或互联账户支付协议约定的单笔限额，若应归集金额超过以上任一限额，系统将根据限额自动分拆，最多可分拆30笔，超过30笔部分的金额不发起归集。若当日归集金额及分拆笔数超过互联账户支付协议约定的日累计限额及笔数、月累计限额及笔数，超过部分归集失败。</li>
+										<li>资金归集受他行系统影响，他行系统不响应或未及时响应等因素可能导致跨行资金归集不成功。</li>
+									</ul>
+								</div>
+								<!--温馨提示 END-->
+							</div>
+						</div>
+						<!--主内容区 END-->
+						<!--页脚 START-->
+						<div id="pft"></div>
+						<!--页脚 END-->
+					</div>
+				</div>
+			</div>
+           
         </div>
     </div>
     <!-- //Codes -->
@@ -577,55 +655,8 @@
     <!--复用尾部-->
     <div id="footer"></div>
 
-    <!-- js-scripts -->
-    <!-- js -->
-    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
-    <!-- Necessary-JavaScript-File-For-Bootstrap -->
-    <!-- //js -->
-    <!-- Baneer-js -->
-    <script src="js/responsiveslides.min.js"></script>
-    <script>
-        $(function() {
-            $("#slider").responsiveSlides({
-                auto: true,
-                pager: false,
-                nav: true,
-                speed: 1000,
-                namespace: "callbacks",
-                before: function() {
-                    $('.events').append("<li>before event fired.</li>");
-                },
-                after: function() {
-                    $('.events').append("<li>after event fired.</li>");
-                }
-            });
-            //复用头部JS
-            $("#header").load("common/header.html");
-            //复用尾部JS
-            $("#footer").load("common/footer.html");
-        });
-    </script>
-    <!-- //Baneer-js -->
-    <!-- start-smoth-scrolling -->
-    <script type="text/javascript" src="js/move-top.js"></script>
-    <script type="text/javascript" src="js/easing.js"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $(".scroll").click(function(event) {
-                event.preventDefault();
-                $('html,body').animate({
-                    scrollTop: $(this.hash).offset().top
-                }, 1000);
-            });
-        });
-    </script>
-    <!-- start-smoth-scrolling -->
-    <!-- Progressive-Effects-Animation-JavaScript -->
-    <script type="text/javascript" src="js/numscroller-1.0.js"></script>
-    <!-- //Progressive-Effects-Animation-JavaScript -->
-
-    <!-- //js-scripts -->
+   
+    
 </body>
 
 </html>

@@ -18,7 +18,7 @@ public class UserContext {
 	/**
 	 * 获取HttpSession的方法
 	 */
-	private  static HttpSession  getHttpSession(){
+	public  static HttpSession  getHttpSession(){
 		return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getSession();
 	}
 	

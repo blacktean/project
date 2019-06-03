@@ -4,42 +4,11 @@
 <head>
     <title>复用</title>
     <!-- Meta tag Keywords -->
+    <link rel="icon" href="images/title_logo.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="" />
-      <!-- js -->
-    <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
-    <script type="application/x-javascript">
-        addEventListener("load", function() {
-            setTimeout(hideURLbar, 0);
-        }, false);
-
-        function hideURLbar() {
-            window.scrollTo(0, 1);
-        }
-    </script>
-    <script>
-        $(function() {
-           /*  $("#bs-example-navbar-collapse-1 li a").click(function() {
-            	//alert(1);
-                //$("#bs-example-navbar-collapse-1 li a").removeClass("active");
-                $(this).toggleClass("active");
-            }); */
-        });
-    </script>
-    <!--// Meta tag Keywords -->
-    <!-- css files -->
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <!-- Bootstrap-Core-CSS -->
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
-    <!-- Style-CSS -->
-    <link rel="stylesheet" href="css/font-awesome.css">
-    <!-- Font-Awesome-Icons-CSS -->
-    <!-- //css files -->
-    <!-- web-fonts -->
-    <link href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900" rel="stylesheet">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
-    <!-- //web-fonts -->
+   
 </head>
 
 <body>
@@ -89,15 +58,15 @@
                                     <a id="transfer" href="transfer.html">转账汇款</a>
                                 </li>
                                 <li class="">
-                                    <a href="#" class="dropdown-toggle hvr-bounce-to-bottom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">资金归集
+                                    <a href="javaScript:void(0);" class="dropdown-toggle hvr-bounce-to-bottom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">资金归集
                                                     <span class="caret"></span>
                                                 </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a id="newcollection" class="hvr-bounce-to-bottom" href="" th:href="@{/newcollection}">新建归集</a>
+                                            <a id="newcollection" class="hvr-bounce-to-bottom" href="/newcollection">新建归集</a>
                                         </li>
                                         <li>
-                                            <a id="mycollection" class="hvr-bounce-to-bottom" href="mycollection.html">我的归集</a>
+                                            <a id="mycollection" class="hvr-bounce-to-bottom" href="/mycollection">我的归集</a>
                                         </li>
                                         <li>
                                             <a id="details" class="hvr-bounce-to-bottom" href="details.html">查询明细</a>

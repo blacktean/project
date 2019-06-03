@@ -7,6 +7,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
+<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript" src="js/jquery.bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.css"></link>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="js/messages_zh.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
+<!--// Meta tag Keywords -->
+<!-- css files -->
+<link rel="stylesheet" href="css/bootstrap.css">
+<!-- Bootstrap-Core-CSS -->
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+<!-- Style-CSS -->
+<link rel="stylesheet" href="css/font-awesome.css">
+<!-- Font-Awesome-Icons-CSS -->
+<!-- //css files -->
+<!-- web-fonts -->
+<link
+	href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900"
+	rel="stylesheet">
+<link
+	href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
+	rel="stylesheet">
+	
+<!-- //web-fonts -->
+
 <script type="application/x-javascript">
 	
         addEventListener("load", function() {
@@ -18,7 +46,168 @@
         }
     
 </script>
+<script type="text/javascript">
+	$(function(){		
+		//复用头部JS
+		$("#header").load("common/header.html");
+		//复用尾部JS
+		$("#footer").load("common/footer.html");
+		
+		//显示日期      
+	       $("#start_time").datetimepicker({
+	    	   format: 'yyyy-mm-dd',
+	    	   language:'zh-CN',
+	    	   minView:2
+	           //endDate:new Date()
+	       });
+		
+		//验证手机号
+		 $("#sendVerifyCode").click(function(){
+			 var debit_tel = $("#debit_tel").val();
+			 $("#addCollection").attr({"disabled":"disabled"});
+			 $.ajax({
+					url : "/checkphoneNumberById",
+					data:"debit_tel="+debit_tel,
+					dataType : "json",
+					type : "POST",
+					success:function(rs){	
+						if(rs.success){
+							//如果发送成功
+							//alert("友情提示,发送成功");	
+							var second = 60;
+							var time = setInterval(function(){
+							    if(second>0){
+							    	$("#sendVerifyCode").attr({"disabled":"disabled"});
+							        $("#sendVerifyCode").text(second+"秒后可重新发送");
+							        second--;
+							    }else{
+							        $("#sendVerifyCode").text("发送验证码");
+							        $("#sendVerifyCode").removeAttr("disabled");
+							        clearInterval(time);
+							    }
+							},1000);						
+							//当验证码文本框失去光标时验证验证码是否正确
+							$("#verifyCode").blur(function(){
+								var verifyCode = $("#verifyCode").val();
+								$.ajax({
+									url : "/checkverifyCode",
+									data:"verifyCode="+verifyCode,
+									dataType : "json",
+									type : "POST",
+									success:function(data){		
+										if(data.success){
+											//如果验证成功
+											 //alert(data.msg);
+											 $("#failToCheckCode").text(data.msg);
+											 $("#failToCheckCode").removeClass("label-danger"); 
+											 $("#failToCheckCode").addClass("label-success"); 
+											 $("#failToCheckCode").addClass("failToCheckCode"); 
+											 //移除保存按钮的禁用状态
+											 $("#addCollection").removeAttr("disabled");
+											
+										}else{
+											//验证失败
+							        		//alert(data.msg);
+							        		 $("#failToCheckCode").text(data.msg);	
+							        		 $("#failToCheckCode").addClass("label-danger"); 
+							        		 $("#failToCheckCode").addClass("failToCheckCode"); 
+							        		 $("#failToCheckCode").removeClass("label-success"); 
+							        		//把保存按钮设为禁用
+							        		$("#addCollection").attr({"disabled":"disabled"});
+										}													
+						        	}
+								});
+							});						
+						}else{
+							//发送失败
+							$.messager.popup(rs.msg);
+							$("#addCollection").attr({"disabled":"disabled"});
+						}																		
+		        	}
+				});	
+		 }); 
+		//表单验证
+		$("#newCollectionForm").validate({ 
+			rules:{
+				collection_accout:{
+					required:true					
+				},
+				debit_account:{
+					required:true					
+				},
+				receiver_name:{
+					required:true,
+				},
+				transferred_money:{
+					required:true,
+				},
+				debit_tel:{
+					required:true,
+					rangelength:[11,11]
+				},
+				start_time:{
+					required:true,
+				}
+			},
+			messages:{
+				collection_accout:{
+					required:"请填写收款账号",
+				},
+				debit_account:{
+					required:"请填写归集卡号!",
+					//rangelength:"归集卡号长度必须是19位!",
+					//remote:"该卡号不存在!"
+				},
+				receiver_name:{
+					required:"请填写用户名!",					
+				},
+				transferred_money:{
+					required:"请填写保留金额!",
+					
+				},
+				debit_tel:{
+					required:"请填写通知的手机号!",
+					rangelength:"手机号码长度必须是11位!"
+				},
+				start_time:{
+					required:"请填写协议生效时间!"					
+				}
+			},
+			submitHandler:function(form){
+				$("#newCollectionForm").ajaxSubmit({
+					dataType:"json",
+					success:function(data){
+						if(data.success){
+							$.messager.model = {
+										ok:{ text: "关闭", classed: 'btn­default' },
+										cancel: { text: "取消", classed: 'btn­error' }
+							};
+							$.messager.confirm("提示","新建资金归集成功",function(){
+								//跳转到我的归集页面
+								location.href="/mycollection";
+							});
+							
+						}else{
+							 $.messager.popup(data.msg);
+						}
+					},
+					resetForm:true
+				});
+			},
+			errorClass:"text-danger",
+			highlight:function(element){
+				$(element).closest("div.form-group").addClass("has-error");
+			},
+			unhighlight:function(element){
+				$(element).closest("div.form-group").removeClass("has-error");
+			}
+		})	
+	})
+</script>
 <style type="text/css">
+.failToCheckCode{
+	color: FFFFFF;
+}
 #pbd {
 	width: 960px;
 	margin: 0 auto;
@@ -299,25 +488,30 @@ input.btn, input.btn_add, input.btn_disabled {
 .li_liebiao0 {
 	list-style-type: none;
 }
+        
+        #center {
+            height: 900px;
+            width: 70%;
+        }
+        
+        #account {
+            height: 900px;
+            padding-top:100px;
+            padding-left:100px;
+        }
+        
+        #form {
+            margin-left: 50px;
+            width: 700px;
+            height: 900px;
+        }
+        .form-control{
+		width: 220px;
+		display: inline;
+		}
 /* 子账户样式 */
 </style>
-<!--// Meta tag Keywords -->
-<!-- css files -->
-<link rel="stylesheet" href="css/bootstrap.css">
-<!-- Bootstrap-Core-CSS -->
-<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
-<!-- Style-CSS -->
-<link rel="stylesheet" href="css/font-awesome.css">
-<!-- Font-Awesome-Icons-CSS -->
-<!-- //css files -->
-<!-- web-fonts -->
-<link
-	href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900"
-	rel="stylesheet">
-<link
-	href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
-	rel="stylesheet">
-<!-- //web-fonts -->
+
 </head>
 
 <body>
@@ -345,7 +539,7 @@ input.btn, input.btn_add, input.btn_disabled {
 			</h3>
 			<div class="grid_3 grid_4 w3_agileits_icons_page">
 				<div class="icons">
-					<h3 class="agileits-icons-title">归集列表</h3>
+					<h3 class="agileits-icons-title">请填写以下信息</h3>
 
 					<div id="pbd">
 						<div class="border_box mb_0">
@@ -356,178 +550,148 @@ input.btn, input.btn_add, input.btn_disabled {
 							<!-- 主标题 end -->
 							<!-- 主内容 start -->
 							<div class="main_content">
-								<div class="pbd_table_step_title">
-									<h3>主账户</h3>
-								</div>
-
-								<!-- 图形模式1 start -->
-								<div class="list_view_list_box  re" id="cardList_1">
-
-									<!--图形开始-->
-									<div class="cardbox">
-										
-										<div class="card_list"
-											style="height: 165px; width: 940px; position: relative; overflow: hidden; margin: auto;"
-											id="payAccList">
-
-											<ul
-												style="left: 0px; width: 235px; height: 165px; position: absolute; top: 0px;">
-												<li>
-													<div class="carbox_tp cli_carbox_tp">
-														<i class="arrow"></i>
-														<div class="card_box cardbox_1 cli_card_box">
-															<h2 class="card_title">
-
-																<span title="储蓄账户"></span> <b class="card_logo"><img
-																	src="images/logo.png" width="15px" height="15px;"></b>
-															</h2>
-															<b class="card_btitle"> <!--分行名--> <span
-																class="span_1">深圳市分行</span> <!--是否签约--> <span
-																class="span_2 ">已签约</span>
-															</b>
-															<!--账号-->
-															<div class="card_menoy">
-																<a>6217 0072 00** ***4 049</a>
-															</div>
-															<div class="cad_money">
-																<div class="span_txt_moy" style="font-size: 12px">可用余额（元）</div>
-																<div class="backnone" id="">
-																	<a>3.00</a>
-																</div>
-															</div>
-															<div class="pbd_cxdiv">
-																<span class="hide_mey">隐藏余额</span> <span class="card_op"
-																	style="width: 80px">
-																	
-																</span>
-															</div>
-														</div>
+								<div id="center">
+									
+									<div id="account">
+										<div id="form">
+											<form class="form-horizontal" action="#" method="POST"
+												id="newCollectionForm">						
+												<div class="form-group">
+													<label for="collection_accout" class="col-sm-3 control-label">收款账户</label>
+													<div class="col-sm-6">											
+														<select name="collection_accout" id="collection_accout"
+															class="form-control ">
+															<option value="1231231231231">1212131131313131</option>
+															<option value="1231231231231">1212131131313131</option>
+														</select>
 													</div>
-												</li>
-											</ul>
+												</div>
+												<div class="form-group">
+													<label for="collecting_type" class="col-sm-3 control-label">收款方式</label>
+													<div class="col-sm-6">
+														<select name="collecting_type" id="collecting_type"
+															class="form-control ">
+															<option value="1">保留余额</option>
+														</select>
+													</div>
+												</div>
+												
+												<div class="form-group">
+													<label for="debit_account" class="col-sm-3 control-label">归集卡号</label>										
+														<div class="col-sm-6">										
+														 <select name="debit_account" id="debit_account"
+															class="form-control ">
+															<option value="1231231231231">1212131131313131</option>
+															<option value="1231231231231">1212131131313131</option>
+														 </select>
+														</div>
+													
+												</div>
+												<!-- 用户名自动识别 -->
+												<div class="form-group">
+													<label for="receiver_name" class="col-sm-3 control-label">用户名</label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="receiver_name"
+															name="receiver_name">
+													</div>
+												</div>
+												<!-- 所属银行 -->
+												<div class="form-group">
+													<label for="bank_id" class="col-sm-3 control-label">所属银行</label>
+													<div class="col-sm-6">
+														<select name="bank_id" id="bank_id"
+															class="form-control ">
+															<option value="1">中国建设银行</option>
+															<option value="2">中国银行</option>
+															<option value="3">中国邮政储蓄</option>
+															<option value="4">中国农业银行</option>
+															<option value="5">中国招商银行</option>
+														</select>
+													</div>
+												</div>									
+												<!-- 选择保留余额时 -->
+												<div class="form-group">
+													<label for="transferred_money" class="col-sm-3 control-label">保留金额</label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="transferred_money"
+															name="transferred_money">
+													</div>
+												</div>
+												
+												<!-- 继续添加归集账户 -->
+												<div class="form-group">
+													<label for="debit_account2" class="col-sm-3 control-label">继续添加归集账户</label>
+													<div class="col-sm-6">								
+															
+														 <select name="debit_account2" id="debit_account2"
+															class="form-control ">
+															<option value="1231231231231">1212131131313131</option>
+															<option value="1231231231231">1212131131313131</option>
+														 </select>
+													</div>
+												</div>
+												<!-- 协议生效时间 -->
+												<div class="form-group">
+													<label for="debit_account2" class="col-sm-3 control-label">协议生效时间</label>
+													<div class="col-sm-6">								
+															<input type="text" class="form-control" id="start_time" readonly="readonly" 
+															name="start_time">
+													</div>
+												</div>
+												<!-- 协议期限 -->
+												<div class="form-group">
+													<label for="financial_number" class="col-sm-3 control-label">协议期限</label>
+													<div class="col-sm-6">								
+															<select name="financial_number" id="financial_number"
+															class="form-control ">
+															<option value="1">一个月</option>
+															<option value="2">三个月</option>
+															<option value="3">六个月</option>
+															<option value="4">十二个月</option>
+														</select>
+													</div>
+												</div>
+												<!-- 短信通知手机号 -->
+												<div class="form-group">
+													<label for="debit_tel" class="col-sm-3 control-label">短信通知手机号</label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="debit_tel"
+															name="debit_tel">
+															<button id="sendVerifyCode" class="btn btn-primary"
+															type="button" autocomplate="off">发送验证码</button>
+													</div>
+													<div class="col-sm-6">
+													</div>
+												</div>
+												<!-- 验证码 -->
+											<div class="form-group">
+												<label for="verifyCode" class="col-sm-3 control-label">验证码:</label>
+												<div class="col-sm-4">
+													<input type="text" class="form-control" id="verifyCode"
+														name="verifyCode" />
+														<p id="failToCheckCode" class="label"></p>	
+												</div>
+											</div>
+											
+												<div class="form-group">
+					                                <label for="" class="col-sm-3 control-label">附言</label>
+					                                <div class="col-sm-8">
+					                                    <textarea  class="form-control" rows="3"> 客户使用个人账户资金网上自动归集服务的，应按照1个月2元、3个月6元、6个月10元、12个月18元的标准向我行支付个人账户资金网上自动归集服务费                         
+					                                    </textarea>					
+					                                </div>
+				                            	</div>
+
+												<div class="form-group ">
+													<div class="col-sm-offset-4 col-sm-10 ">
+														<button type="submit" class="btn btn-default btn-success" id="addCollection">新增归集</button>
+														<!-- <button type="button" class="btn btn-default btn-success">取消全部归集</button> -->
+													</div>						
+												</div>
+											</form>
 										</div>
 									</div>
 								</div>
-								
-								<!-- style="display:none" -->
-								<!-- 付款子账户 -->
-								
-								<div class="cardbox2">
-									<h3>子账户</h3>	
-									<div class="card_list"
-										style="height: 165px; width: 940px; position: relative; overflow: hidden; margin: auto;"
-										id="payAccList">
-
-										<ul
-											style="left: 0px; width: 940px; height: 165px; position: absolute; top: 0px;">
-											<li style="float:left;">
-												<div class="carbox_tp cli_carbox_tp">
-													<i class="arrow"></i>
-													<div class="card_box cardbox_1 cli_card_box">
-														<h2 class="card_title">
-
-															<span title="储蓄账户"></span> <b class="card_logo"><img
-																src="images/logo.png" width="15px" height="15px;"></b>
-														</h2>
-														<b class="card_btitle"> <!--分行名--> <span
-															class="span_1">深圳市分行</span> <!--是否签约--> <span
-															class="span_2 ">已签约</span>
-														</b>
-														<!--账号-->
-														<div class="card_menoy">
-															<a>6217 0072 00** ***4 049</a>
-														</div>
-														<div class="cad_money">
-															<div class="span_txt_moy" style="font-size: 12px">可用余额（元）</div>
-															<div class="backnone" id="">
-																<a>3.00</a>
-															</div>
-														</div>
-														<div class="pbd_cxdiv">
-															<span class="hide_mey">隐藏余额</span> <span class="card_op"
-																style="width: 80px">
-																
-															</span>
-														</div>
-													</div>
-												</div>
-											</li>
-											<li style="float:left; margin-left:20px;">
-												<div class="carbox_tp cli_carbox_tp">
-													<i class="arrow"></i>
-													<div class="card_box cardbox_1 cli_card_box">
-														<h2 class="card_title">
-
-															<span title="储蓄账户"></span> <b class="card_logo"><img
-																src="images/logo.png" width="15px" height="15px;"></b>
-														</h2>
-														<b class="card_btitle"> <!--分行名--> <span
-															class="span_1">深圳市分行</span> <!--是否签约--> <span
-															class="span_2 ">已签约</span>
-														</b>
-														<!--账号-->
-														<div class="card_menoy">
-															<a>6217 0072 00** ***4 049</a>
-														</div>
-														<div class="cad_money">
-															<div class="span_txt_moy" style="font-size: 12px">可用余额（元）</div>
-															<div class="backnone" id="">
-																<a>3.00</a>
-															</div>
-														</div>
-														<div class="pbd_cxdiv">
-															<span class="hide_mey">隐藏余额</span> <span class="card_op"
-																style="width: 80px">
-																
-															</span>
-														</div>
-													</div>
-												</div>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<ul class="ul_liebiao">
-									<li class="li_liebiao0">
-										<div class="liebiao_div mb_20">
-											<h3 class="pbd_table_step_title_no_line mt_30 mb_20">
-												<span class="pl_0">当前资金归集规则列表共<strong class="fc_red">
-														0 </strong>个资金归集规则
-												</span> <span id="nolist_span" class="pl_0">
-													，您可以通过点击"新增归集"按钮设置跨行资金归集规则。</span>
-											</h3>
-
-											<div id="nolist" class="" style="">
-
-												<div
-													style="text-align: center; margin-bottom: 40px; margin-top: 30px;">
-													<input class="btn mr_15" style="disabled: false;"
-														type="button" value="新增归集"> <input
-														id="closeGuiji_" type="button"
-														class="btn  mr_15 btn_disabled" value="取消全部归集">
-												</div>
-											</div>
-											<div class="pr_10 pl_10 list_mode" id="zjlist"
-												style="display: none;">
-												<table class="one_lines_table khzjgj_td" width="100%">
-													<tbody style="white-space: nowrap;">
-													</tbody>
-												</table>
-											</div>
-										</div>
-									</li>
-								</ul>
-
-								<div class="text_align">
-
-									<div id="havavaluebutton"
-										style="text-align: center; margin-bottom: 40px; margin-top: 30px; display: none;">
-										<input class="btn mr_15" style="disabled: false;"
-											type="button" value="新增归集">&nbsp;&nbsp; <input
-											id="closeGuiji" type="button" class="btn mr_15"
-											value="取消全部归集">
-									</div>
-								</div>
+																							
 
 								<!-- 主内容 end -->
 								<!--温馨提示 START-->
@@ -561,55 +725,7 @@ input.btn, input.btn_add, input.btn_disabled {
 	<!--复用尾部-->
 	<div id="footer"></div>
 
-	<!-- js-scripts -->
-	<!-- js -->
-	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.js"></script>
-	<!-- Necessary-JavaScript-File-For-Bootstrap -->
-	<!-- //js -->
-	<!-- Baneer-js -->
-	<script src="js/responsiveslides.min.js"></script>
-	<script>
-		$(function() {
-			$("#slider").responsiveSlides({
-				auto : true,
-				pager : false,
-				nav : true,
-				speed : 1000,
-				namespace : "callbacks",
-				before : function() {
-					$('.events').append("<li>before event fired.</li>");
-				},
-				after : function() {
-					$('.events').append("<li>after event fired.</li>");
-				}
-			});
-			//复用头部JS
-			$("#header").load("common/header.html");
-			//复用尾部JS
-			$("#footer").load("common/footer.html");
-		});
-	</script>
-	<!-- //Baneer-js -->
-	<!-- start-smoth-scrolling -->
-	<script type="text/javascript" src="js/move-top.js"></script>
-	<script type="text/javascript" src="js/easing.js"></script>
-	<script type="text/javascript">
-		jQuery(document).ready(function($) {
-			$(".scroll").click(function(event) {
-				event.preventDefault();
-				$('html,body').animate({
-					scrollTop : $(this.hash).offset().top
-				}, 1000);
-			});
-		});
-	</script>
-	<!-- start-smoth-scrolling -->
-	<!-- Progressive-Effects-Animation-JavaScript -->
-	<script type="text/javascript" src="js/numscroller-1.0.js"></script>
-	<!-- //Progressive-Effects-Animation-JavaScript -->
-
-	<!-- //js-scripts -->
+	
 </body>
 
 </html>

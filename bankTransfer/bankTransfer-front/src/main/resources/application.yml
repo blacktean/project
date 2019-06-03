@@ -8,7 +8,7 @@ server:
 
 spring:
 #redis配置
-#本配置采用Redis一主三从的的配置方式来提高缓存的吞吐量
+#本配置采用Redis一主五从的的配置方式来提高缓存的吞吐量
   application:
     name: spring-boot-redis
   redis:

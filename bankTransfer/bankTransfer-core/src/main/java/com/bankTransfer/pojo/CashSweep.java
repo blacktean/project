@@ -39,7 +39,7 @@ public class CashSweep implements Serializable {
 	private String collecting_type;
 	/**扣款户名*/
 	private String account_name;
-	/**扣款卡号*/
+	/**归集卡号*/
 	private String debit_account;
 	/**扣款户名*/
 	private String debit_name;
