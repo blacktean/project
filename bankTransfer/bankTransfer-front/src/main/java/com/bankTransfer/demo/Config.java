@@ -26,6 +26,7 @@ public class Config {
 //		}
 		
 		@Bean
+	
 		public BasicDataSource dataSource() {
 			
 			BasicDataSource data = new BasicDataSource();
@@ -36,4 +37,8 @@ public class Config {
 			
 			return data;
 		}
+		
+		
+		
+		
 }

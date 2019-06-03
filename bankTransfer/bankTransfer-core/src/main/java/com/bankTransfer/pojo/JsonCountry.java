@@ -22,7 +22,7 @@ public class JsonCountry {
 	private String ip;
 	/** 网络服务商*/
 	private String isp;
-	
+	/** 省份id*/
 	private String region_id;
 	/** 结束ip*/
 	private String ipend;
