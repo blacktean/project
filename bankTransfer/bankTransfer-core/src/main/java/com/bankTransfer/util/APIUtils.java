@@ -183,11 +183,14 @@ public class APIUtils {
 					.toString();
 			Object object = JSONObject.parseObject(result).get("belong");
 			System.out.println(object.toString());
-			// showapi_res_body
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static void main(String[] args) {
+		checkCard("方佳","6217994330006373628");
 	}
 
 	/**
