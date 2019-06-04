@@ -12,5 +12,5 @@ public class BankTransferFrontApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BankTransferFrontApplication.class, args);
 	}
-
+  
 }
