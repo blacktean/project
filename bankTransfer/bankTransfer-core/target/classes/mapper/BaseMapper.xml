@@ -18,6 +18,9 @@
 	select <include refid="cardColumn"/> from t_card where user_id = #{id} and card_state = '1'
 	</select>
 	
+	<select id="queryCardByCardNumber" resultType="Card">
+	select <include refid="cardColumn"/> from t_card where id_card = #{id_card}
+	</select>
 	
 	<sql id="cardTypeColumn">
 	id,type_name,type_code

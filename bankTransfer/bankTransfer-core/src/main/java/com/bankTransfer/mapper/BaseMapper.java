@@ -36,4 +36,10 @@ public interface BaseMapper {
 	 * @return
 	 */
 	List<Card> queryCardByUserId(@Param("id")Integer id);
+	/**
+	 *	通過卡號查詢銀行卡
+	 * @param id_card
+	 * @return
+	 */
+	Card queryCardByCardNumber(@Param("id_card")String id_card);
 }
