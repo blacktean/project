@@ -36,6 +36,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		
 		<!-- 热加载依赖 -->
 		<dependency>
@@ -43,7 +44,7 @@
         <artifactId>spring-boot-devtools</artifactId>
         <optional>true</optional>
 		</dependency>
-		
+
 		<!--  添加core模块-->
 		<dependency>
 			<groupId>com.zl.project</groupId>

@@ -31,7 +31,6 @@ public class CollectionController {
 		List<Card> CardList2 = cardService.queryCardByUserIdAndMajorCard(String.valueOf(UserContext.getCurrent().getId()), "1");
 		session.setAttribute("CardList1", CardList1);
 		session.setAttribute("CardList2", CardList2);
-		//
 		return "newcollection";
 		
 	}
