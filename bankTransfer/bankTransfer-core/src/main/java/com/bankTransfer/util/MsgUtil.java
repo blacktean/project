@@ -12,7 +12,6 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.json.JSONObject;
 
 /**
  * 发送短信的工具类
