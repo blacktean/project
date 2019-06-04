@@ -7,8 +7,6 @@ import com.bankTransfer.pojo.CardType;
 import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.Document;
 
-import io.lettuce.core.dynamic.annotation.Param;
-
 public interface IBaseService {
 
 	/**
@@ -33,4 +31,9 @@ public interface IBaseService {
 	 * @return
 	 */
 	List<Card> queryCardByUserId(Integer id);
+	
+	/**
+	 * 根据银行卡号查询银行卡,用来显示余额
+	 */
+	Card queryCardByCardNumber(String number);
 }
