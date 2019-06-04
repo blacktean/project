@@ -32,7 +32,5 @@ public class TransferSingle_VO implements Serializable {
 	private String documentType;
 	/**证件号*/
 	private String documentNum;
-	/**附言*/
-	private String postscript;
 
 }

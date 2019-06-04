@@ -26,14 +26,9 @@ public interface IBaseService {
 	List<Currency> queryCurrency();
 
 	/**
-	 * 查询用户的所有银行卡
-	 * @param id
+	 * 查询用户所有的银行卡
+	 * @param  
 	 * @return
 	 */
 	List<Card> queryCardByUserId(Integer id);
-	
-	/**
-	 * 根据银行卡号查询银行卡,用来显示余额
-	 */
-	Card queryCardByCardNumber(String number);
 }

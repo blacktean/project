@@ -63,5 +63,6 @@ public class User implements Serializable {
 	private Integer state;
 	/**开户行*/
 	private String create_bank;	
-
+	/**关联logininfo id*/
+	private Integer user_id;
 }

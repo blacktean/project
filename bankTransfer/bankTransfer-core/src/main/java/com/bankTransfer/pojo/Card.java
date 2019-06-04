@@ -21,7 +21,7 @@ public class Card implements Serializable {
 	/**开户地点*/
 	private String start_place;
 	/**币种*/
-	private String curreny;
+	private String currency;
 	/**余额*/
 	private BigDecimal balance;
 	/**可用余额*/
@@ -30,13 +30,13 @@ public class Card implements Serializable {
 	private String start_place_id;
 	/**银行卡密码(md5加密)*/
 	private String password;
-	/**银行类型*/
+	/**银行卡类型*/
 	private String bank_type;
 	/**关联用户id*/
 	private String user_id;
 	/**银行卡状态*/
 	private String card_state;
-	/**银行卡类型*/
+	/**卡种*/
 	private String card_type;
 	/**主副卡标志*/
 	private String major_card;
