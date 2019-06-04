@@ -19,7 +19,14 @@
     <!-- //web-fonts -->
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/bootstrap.js"></script>
+    <script type="text/javascript"
+	src="js/jquery.validate.js"></script>
+	<script type="text/javascript" src="js/jquery.form.js"></script>
+	<script type="text/javascript" src="js/jquery.bootstrap.min.js"></script>
+	<script type="text/javascript"
+	src="js/messages_zh.js"></script>
     <script>
+    
         $(document).ready(function() {
             //去 注册
             $("#toRegist").click(function() {
@@ -41,7 +48,99 @@
             }
         });
     </script>
+     <script type="text/javascript">
+        var clock = '';
+        var nums = 30;
+        var btn;
 
+        function sendCode(thisBtn) {
+            btn = thisBtn;
+            btn.disabled = true; //将按钮置为不可点击
+            btn.value = '重新获取（' + nums + '）';
+            clock = setInterval(doLoop, 1000); //一秒执行一次
+        }
+
+        function doLoop() {
+            nums--;
+            if (nums > 0) {
+                btn.value = '重新获取（' + nums + '）';
+            } else {
+                clearInterval(clock); //清除js定时器
+                btn.disabled = false;
+                btn.value = '点击发送验证码';
+                nums = 10; //重置时间
+            }
+        }
+
+        $(document).ready(function() {
+            $("#login_QQ").click(function() {
+                alert("暂停使用！");
+            });
+            $("#login_WB").click(function() {
+                alert("暂停使用！");
+            });
+            //复用头部JS
+            $("#header").load("common/header.html");
+            //复用尾部JS
+            $("#footer").load("common/footer.html");
+        });
+    </script>
+	<script type="text/javascript">
+	$(function() {
+		//jquery的validate框架, 一个表单验证框架
+		//表单验证方法: validate({验证的规则})
+		// rules: 验证规则: 非空, 长度, 正则表达式 , 远程验证, 两次密码是否一致....
+		$("#loginForm").validate({
+			rules : {
+				login_number : {
+					required : true,
+					rangelength : [ 4, 16 ]
+				},
+				login_password : {
+					required : true,
+					rangelength : [ 3, 16 ]
+				}
+			},
+			messages : {
+				login_number : {
+					required : "用户名不能为空",
+					rangelength : "用户名必须是{0}-{1}位"
+				},
+				login_password : {
+					required : "密码不能为空",
+					rangelength : "密码必须是{0}-{1}位"
+				}
+			},
+			submitHandler:function(form){
+				//ajax请求, 把表单以ajax提交到后台
+				$(form).ajaxSubmit({
+					dataType:"json",
+					success:function(rs){
+						if(rs.success){
+							//跳转到个人中心
+							//alert("登录成功");
+							$.messager.confirm("友情提示","登录成功",function(){
+								location.href="index.html";
+							});
+						}else{
+							$.messager.alert("友情提示",rs.msg);
+						}
+					},
+					resetForm:true
+				});
+			},
+			errorClass : "text-danger",
+			highlight : function(element) {
+				$(element).closest("div.form-control").addClass("has-error");
+			},
+			unhighlight : function(element) {
+				$(element).closest("div.form-control").removeClass("has-error");
+			}
+		});
+	});
+</script>
+	
+	
 </head>
 
 <body>
@@ -71,9 +170,9 @@
                                     </div>
                                     <div id="form_container1">
                                         <br />
-                                        <form action="#" method="post">
-                                            <input type="text" class="form-control" required="required" placeholder="用户名/手机号" id="login_number" />
-                                            <input type="password" class="form-control" required="required" placeholder="密码" id="login_password" />
+                                        <form action="/logininfo" method="get" id="loginForm">
+                                            <input type="text" class="form-control" required="required" placeholder="用户名/手机号" id="login_number" name="login_number"/>
+                                            <input type="password" class="form-control" required="required" placeholder="密码" id="login_password" name="login_password" autocomplete/>
                                             <input type="submit" value="登录" class="btn btn-success" id="login_btn" />
                                         </form>
                                         <span id="rememberOrfindPwd">
@@ -117,9 +216,9 @@
                                     <form action="#" method="post">
                                         <div id="form_container2" style="padding-top: 25px;">
 
-                                            <input type="text" class="form-control" required="required" placeholder="用户名" id="regist_account">
-                                            <input type="password" class="form-control" required="required" placeholder="密码" id="regist_password1" />
-                                            <input type="password" class="form-control" required="required" placeholder="确认密码" id="regist_password2" />
+                                            <input type="text" class="form-control" required="required" placeholder="用户名" id="regist_account" autocomplete>
+                                            <input type="password" class="form-control" required="required" placeholder="密码" id="regist_password1" autocomplete/>
+                                            <input type="password" class="form-control" required="required" placeholder="确认密码" id="regist_password2" autocomplete />
                                             <input type="text" class="form-control" required="required" placeholder="手机号" id="regist_phone" />
                                             <input type="text" class="form-control" required="required" placeholder="验证码" id="regist_vcode" />
                                             <!--<button id="getVCode" type="button" class="btn btn-success" >获取验证码</button>-->
@@ -142,43 +241,7 @@
     <!-- //Slider -->
 
 
-    <script type="text/javascript">
-        var clock = '';
-        var nums = 30;
-        var btn;
-
-        function sendCode(thisBtn) {
-            btn = thisBtn;
-            btn.disabled = true; //将按钮置为不可点击
-            btn.value = '重新获取（' + nums + '）';
-            clock = setInterval(doLoop, 1000); //一秒执行一次
-        }
-
-        function doLoop() {
-            nums--;
-            if (nums > 0) {
-                btn.value = '重新获取（' + nums + '）';
-            } else {
-                clearInterval(clock); //清除js定时器
-                btn.disabled = false;
-                btn.value = '点击发送验证码';
-                nums = 10; //重置时间
-            }
-        }
-
-        $(document).ready(function() {
-            $("#login_QQ").click(function() {
-                alert("暂停使用！");
-            });
-            $("#login_WB").click(function() {
-                alert("暂停使用！");
-            });
-            //复用头部JS
-            $("#header").load("common/header.html");
-            //复用尾部JS
-            $("#footer").load("common/footer.html");
-        });
-    </script>
+   
 
 
 </body>
