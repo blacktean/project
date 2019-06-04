@@ -37,10 +37,9 @@ public class BaseServiceImpl implements IBaseService {
 		return baseMapper.queryCardByUserId(id);
 	}
 
-	@Override
-	public Card queryCardByCardNumber(String number) {
-		return baseMapper.queryCardByCardNumber(number);
-	}
+	
+
+	
 	
 	
 	

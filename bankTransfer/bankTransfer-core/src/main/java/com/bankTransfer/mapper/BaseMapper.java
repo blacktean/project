@@ -36,9 +36,4 @@ public interface BaseMapper {
 	 * @return
 	 */
 	List<Card> queryCardByUserId(@Param("id")Integer id);
-	
-	/**
-	 * 根据银行卡号查询银行卡,用来显示余额
-	 */
-	Card queryCardByCardNumber(@Param("id_card")String number);
 }
