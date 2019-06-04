@@ -1,30 +1,42 @@
 package com.bankTransfer.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bankTransfer.pojo.Card;
+import com.bankTransfer.service.ICardService;
 import com.bankTransfer.util.JsonResult;
 import com.bankTransfer.util.MsgUtil;
 import com.bankTransfer.util.RequireLogin;
+import com.bankTransfer.util.UserContext;
 
 @Controller
 public class CollectionController {
 	
+	@Autowired
+	private ICardService cardService;
+	
 	//跳转到新建归集
 	@RequestMapping("/newcollection")
-	//@RequireLogin
-	public String NewCollection() {
-		
-		
+	@RequireLogin
+	public String NewCollection(HttpSession session) {
+		System.err.println(session.getAttribute("logininfo"));
+		List<Card> CardList1 = cardService.queryCardByUserIdAndMajorCard(String.valueOf(UserContext.getCurrent().getId()), "0");
+		List<Card> CardList2 = cardService.queryCardByUserIdAndMajorCard(String.valueOf(UserContext.getCurrent().getId()), "1");
+		session.setAttribute("CardList1", CardList1);
+		session.setAttribute("CardList2", CardList2);
 		return "newcollection";
 		
 	}
 	//跳转到我的归集
 		@RequestMapping("/mycollection")
-		//@RequireLogin
+		@RequireLogin
 		public String MyCollection() {
 			
 			

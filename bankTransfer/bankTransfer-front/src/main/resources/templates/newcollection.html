@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 <title>新建归集</title>
@@ -46,6 +46,13 @@
         }
     
 </script>
+<style type="text/css">
+
+	.show_debit_account2{
+	display:inline;
+	}
+
+</style>
 <script type="text/javascript">
 	$(function(){		
 		//复用头部JS
@@ -53,6 +60,9 @@
 		//复用尾部JS
 		$("#footer").load("common/footer.html");
 		
+		//验证表单内容一样
+		var debit_account2 = $("#debit_account2").val();
+		alert(debit_account2);
 		//显示日期      
 	       $("#start_time").datetimepicker({
 	    	   format: 'yyyy-mm-dd',
@@ -60,6 +70,12 @@
 	    	   minView:2
 	           //endDate:new Date()
 	       });
+		
+		//显示继续添加归集卡号框
+		debit_account2_btn
+		$("#debit_account2_btn").click(function(){
+			$("#show_debit_account2").show();
+		});
 		
 		//验证手机号
 		 $("#sendVerifyCode").click(function(){
@@ -135,18 +151,22 @@
 				debit_account:{
 					required:true					
 				},
+				debit_account2:{
+					required:true
+					
+				}
 				receiver_name:{
-					required:true,
+					required:true
 				},
 				transferred_money:{
-					required:true,
+					required:true
 				},
 				debit_tel:{
 					required:true,
 					rangelength:[11,11]
 				},
 				start_time:{
-					required:true,
+					required:true
 				}
 			},
 			messages:{
@@ -157,6 +177,10 @@
 					required:"请填写归集卡号!",
 					//rangelength:"归集卡号长度必须是19位!",
 					//remote:"该卡号不存在!"
+				},
+				debit_account2:{
+					required:"请填写归集卡号2!"
+					
 				},
 				receiver_name:{
 					required:"请填写用户名!",					
@@ -205,6 +229,7 @@
 	})
 </script>
 <style type="text/css">
+
 .failToCheckCode{
 	color: FFFFFF;
 }
@@ -557,12 +582,13 @@ input.btn, input.btn_add, input.btn_disabled {
 											<form class="form-horizontal" action="#" method="POST"
 												id="newCollectionForm">						
 												<div class="form-group">
-													<label for="collection_accout" class="col-sm-3 control-label">收款账户</label>
-													<div class="col-sm-6">											
+													<label for="collection_accout" class="col-sm-3 control-label">收款账户(主卡)</label>
+													<div class="col-sm-6">										
 														<select name="collection_accout" id="collection_accout"
-															class="form-control ">
-															<option value="1231231231231">1212131131313131</option>
-															<option value="1231231231231">1212131131313131</option>
+															class="form-control" >
+															<span th:each="card:${session.CardList1}">
+															<option value="${card.id_card}"><span th:text="${card.id_card}"></span></option>
+															</span>
 														</select>
 													</div>
 												</div>
@@ -579,10 +605,11 @@ input.btn, input.btn_add, input.btn_disabled {
 												<div class="form-group">
 													<label for="debit_account" class="col-sm-3 control-label">归集卡号</label>										
 														<div class="col-sm-6">										
-														 <select name="debit_account" id="debit_account"
+														 <select name="debit_account" id="debit_account" 
 															class="form-control ">
-															<option value="1231231231231">1212131131313131</option>
-															<option value="1231231231231">1212131131313131</option>
+															<span th:each="card:${session.CardList2}">
+															<option value="${card.id_card}"><span th:text="${card.id_card}"></span></option>
+															</span>
 														 </select>
 														</div>
 													
@@ -618,15 +645,24 @@ input.btn, input.btn_add, input.btn_disabled {
 													</div>
 												</div>
 												
-												<!-- 继续添加归集账户 -->
 												<div class="form-group">
-													<label for="debit_account2" class="col-sm-3 control-label">继续添加归集账户</label>
+													<label for="debit_account2_btn" class="col-sm-3 control-label"></label>
+													<div class="col-sm-6">								
+															<input type="button" class="btn btn-success" id="debit_account2_btn"
+															name="debit_account2_btn" value="继续添加归集账户">
+														 
+													</div>
+												</div>
+												<!-- 继续添加归集账户 -->
+												<div class="form-group" style="display:none;" id="show_debit_account2">
+													<label for="debit_account2" class="col-sm-3 control-label">归集账户2</label>
 													<div class="col-sm-6">								
 															
 														 <select name="debit_account2" id="debit_account2"
 															class="form-control ">
-															<option value="1231231231231">1212131131313131</option>
-															<option value="1231231231231">1212131131313131</option>
+															<span th:each="card:${session.CardList2}">
+															<option value="${card.id_card}"><span th:text="${card.id_card}"></span></option>
+															</span>
 														 </select>
 													</div>
 												</div>

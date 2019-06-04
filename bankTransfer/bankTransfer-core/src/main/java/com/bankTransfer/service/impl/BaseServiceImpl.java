@@ -36,6 +36,10 @@ public class BaseServiceImpl implements IBaseService {
 	public List<Card> queryCardByUserId(Integer id) {
 		return baseMapper.queryCardByUserId(id);
 	}
+
+	
+
+	
 	
 	
 	
