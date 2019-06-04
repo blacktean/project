@@ -5,7 +5,7 @@ import lombok.Setter;
 
 /**
  * 发送给前台的json对象
- * @author suke
+ * @author hcf
  *
  */
 @Getter
