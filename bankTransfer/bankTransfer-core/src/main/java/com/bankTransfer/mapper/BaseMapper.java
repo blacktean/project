@@ -2,13 +2,15 @@ package com.bankTransfer.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.CardType;
 import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.Document;
 
 import io.lettuce.core.dynamic.annotation.Param;
-
+@Mapper
 public interface BaseMapper {
 
 	/**

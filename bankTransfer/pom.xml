@@ -127,9 +127,9 @@
 
 		<!-- 热加载依赖 -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-devtools</artifactId>
+        <optional>true</optional>
 		</dependency>
 		<!-- 加入redis数据库依赖 -->
 		<dependency>
