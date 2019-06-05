@@ -13,9 +13,9 @@ public interface TransferMapper {
 	
 	void subtractBalance(@Param("transferAmount")BigDecimal transferAmount, @Param("paymentAccount")String paymentAccount);
 
-	boolean judgeContact(@Param("receiveCardId")String receiveCardId);
+	int judgeContact(@Param("receiveCardId")String receiveCardId);
 
-	void addContact(@Param("receiveName")String receiveName, @Param("receiveCardId")String receiveCardId);
+	void addContact(@Param("user_id")Integer user_id,@Param("receiveName")String receiveName, @Param("receiveCardId")String receiveCardId);
 
 	void insertRecord(TransferSingle_VO singleVO);
 

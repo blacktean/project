@@ -15,7 +15,7 @@ import com.bankTransfer.util.JsonResult;
 @RestController
 public class TransferController {
 	
-	@Autowired
+	@Autowired 
 	private ITransferService transferService;
 	
 	@PostMapping("singleTransfer")
@@ -48,6 +48,7 @@ public class TransferController {
 			//往转账交易记录表中插入一条记录
 			transferService.insertRecord(singleVO);
 		}		
+		
 		return jsonResult;
 	}
 	
