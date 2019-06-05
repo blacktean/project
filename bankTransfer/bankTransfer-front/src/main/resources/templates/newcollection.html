@@ -23,12 +23,7 @@
 <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
 <!-- Style-CSS -->
 <link rel="stylesheet" href="css/font-awesome.css">
-<!-- Font-Awesome-Icons-CSS -->
-<!-- //css files -->
-<!-- web-fonts -->
 
-	
-<!-- //web-fonts -->
 
 <script type="application/x-javascript">
 	
@@ -54,10 +49,32 @@
 		$("#header").load("common/header.html");
 		//复用尾部JS
 		$("#footer").load("common/footer.html");
+		//去我的资金归集页面
+		$("#tOMyCollection").click(function(){
+			location.href="/mycollection";
+		})
 		
-		//验证表单内容一样
-		//var debit_account = $("#debit_account").text();
-		//alert(debit_account);
+		//显示模态框
+		 $('#checkPailPWD').modal('show');
+		 
+		 $("#outbindPailPWD").click(function(){
+			 location.href="/index.html";
+		 })
+	 	
+		  //给保存按钮添加一个点击事件,提交表单,用于验证支付密码
+            $("#checkPailPWDForm").ajaxForm(function(data){
+                if(data.success){
+                     //关闭模态框
+                	 $('#checkPailPWD').modal('hide');
+                }else{
+                    $.messager.popup(data.msg);
+                }
+            });
+            $("#bindPailPWD").click(function(){
+                $("#checkPailPWDForm").submit();
+            });
+            
+            
 		//显示日期      
 	       $("#start_time").datetimepicker({
 	    	   format: 'yyyy-mm-dd',
@@ -66,7 +83,7 @@
 	           //endDate:new Date()
 	       });
 	   	var tr ='<div class="form-group" id="show_debit_account2">'+
-		'<label for="debit_account2" class="col-sm-3 control-label">归集账户2</label>'+
+		'<label for="debit_account2" class="col-sm-4 control-label">参与协议卡号（副卡）扣款账户2</label>'+
 		'<div class="col-sm-6">'+	
 		'<input type="text" class="form-control" id="debit_account2" name="debit_account2">'+			 
 		'</div>'+
@@ -77,7 +94,7 @@
 			$("#show_debit_account").append(tr);
 			$("#debit_account2_btn").attr({"disabled":"disabled"});
 		});
-	
+		
 	
 		//验证手机号
 		 $("#sendVerifyCode").click(function(){
@@ -576,37 +593,35 @@ input.btn, input.btn_add, input.btn_disabled {
 				<span>新</span>建归<span>集</span>
 			</h3>
 			<div class="grid_3 grid_4 w3_agileits_icons_page">
-				<div class="icons">
-					<h3 class="agileits-icons-title">请填写以下信息</h3>
+				<div class="icons" >
+					<h3 th:if="${session.isHaveCard} eq true" class="agileits-icons-title">请填写以下信息</h3>
 
 					<div id="pbd">
 						<div class="border_box mb_0">
 							<!-- 主标题 start -->
-							<div class="pbd_h2_txt">
+							<div class="pbd_h2_txt" th:if="${session.isHaveCard} eq true">
 								<h2>资金归集</h2>
 							</div>
 							<!-- 主标题 end -->
 							<!-- 主内容 start -->
 							<div class="main_content">
-								<div id="center">
+								<div id="center" th:if="${session.isHaveCard} eq false">
 									
 									<div id="account">
 										<div id="form">
 											<form class="form-horizontal" action="/addCollection" method="POST"
 												id="newCollectionForm">						
 												<div class="form-group">
-													<label for="collection_accout" class="col-sm-3 control-label">收款账户(主卡)</label>
+													<label for="collection_accout" class="col-sm-4 control-label">参与协议卡号（主卡）收款账户</label>
 													<div class="col-sm-6">										
 														<select name="collection_accout" id="collection_accout"
 															class="form-control" >
-															<span th:each="card:${session.CardList1}">
-															<option value="${card.id_card}"><span th:text="${card.id_card}"></span></option>
-															</span>
+															<option th:each="card:${session.CardList1}" th:value="${card.id_card}" th:text="${card.id_card}"></option>
 														</select>
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="collecting_type" class="col-sm-3 control-label">归集方式</label>
+													<label for="collecting_type" class="col-sm-4 control-label">归集方式</label>
 													<div class="col-sm-6">
 														<select name="collecting_type" id="collecting_type"
 															class="form-control ">
@@ -617,20 +632,18 @@ input.btn, input.btn_add, input.btn_disabled {
 												</div>
 												
 												<div class="form-group">
-													<label for="debit_account" class="col-sm-3 control-label">归集卡号</label>										
+													<label for="debit_account" class="col-sm-4 control-label">参与协议卡号（副卡）扣款账户1</label>										
 														<div class="col-sm-6">										
 														 <select name="debit_account" id="debit_account" 
-															class="form-control ">
-															<span th:each="card:${session.CardList2}">
-															<option value="${card.id_card}"><span th:text="${card.id_card}"></span></option>
-															</span>
+															class="form-control ">														
+															<option th:each="card:${session.CardList2}" th:value="${card.id_card}" th:text="${card.id_card}"></option>															
 														 </select>
 														</div>
 													
 												</div>
 												<!-- 用户名自动识别 -->
 												<div class="form-group">
-													<label for="receiver_name" class="col-sm-3 control-label">用户名</label>
+													<label for="receiver_name" class="col-sm-4 control-label">用户名</label>
 													<div class="col-sm-6">
 														<input type="text" class="form-control" id="receiver_name"
 															name="receiver_name" th:value="${session.collectionname}" readonly="readonly">
@@ -638,7 +651,7 @@ input.btn, input.btn_add, input.btn_disabled {
 												</div>
 												<!-- 所属银行 -->
 												<div class="form-group">
-													<label for="bank_id" class="col-sm-3 control-label">所属银行</label>
+													<label for="bank_id" class="col-sm-4 control-label">所属银行</label>
 													<div class="col-sm-6">
 														<select name="bank_id" id="bank_id"
 															class="form-control ">
@@ -649,7 +662,7 @@ input.btn, input.btn_add, input.btn_disabled {
 												</div>									
 												<!-- 选择保留余额时 -->
 												<div class="form-group">
-													<label for="transferred_money" class="col-sm-3 control-label">保留金额</label>
+													<label for="transferred_money" class="col-sm-4 control-label">保留金额</label>
 													<div class="col-sm-6">
 														<input type="text" class="form-control" id="transferred_money"
 															name="transferred_money">
@@ -657,7 +670,7 @@ input.btn, input.btn_add, input.btn_disabled {
 												</div>
 												
 												<div class="form-group">
-													<label for="debit_account2_btn" class="col-sm-3 control-label"></label>
+													<label for="debit_account2_btn" class="col-sm-4 control-label"></label>
 													<div class="col-sm-6">								
 															<input type="button" class="btn btn-success" id="debit_account2_btn"
 															 value="继续添加归集账户">
@@ -681,7 +694,7 @@ input.btn, input.btn_add, input.btn_disabled {
 												</div> -->
 												<!-- 协议生效时间 -->
 												<div class="form-group">
-													<label for="debit_account2" class="col-sm-3 control-label">协议生效时间</label>
+													<label for="debit_account2" class="col-sm-4 control-label">协议生效时间</label>
 													<div class="col-sm-6">								
 															<input type="text" class="form-control" id="start_time" readonly="readonly" 
 															name="start_time">
@@ -689,7 +702,7 @@ input.btn, input.btn_add, input.btn_disabled {
 												</div>
 												<!-- 协议期限 理财序号 -->
 												<div class="form-group">
-													<label for="financial_number" class="col-sm-3 control-label">协议期限</label>
+													<label for="financial_number" class="col-sm-4 control-label">协议期限</label>
 													<div class="col-sm-6">								
 															<select name="financial_number" id="financial_number"
 															class="form-control ">
@@ -701,8 +714,8 @@ input.btn, input.btn_add, input.btn_disabled {
 													</div>
 												</div>
 												<!-- 短信通知手机号 -->
-												<div class="form-group">
-													<label for="debit_tel" class="col-sm-3 control-label">短信通知手机号</label>
+												 <div class="form-group">
+													<label for="debit_tel" class="col-sm-4 control-label">短信通知手机号</label>
 													<div class="col-sm-6">
 														<input type="text" class="form-control" id="debit_tel"
 															name="debit_tel">
@@ -711,19 +724,19 @@ input.btn, input.btn_add, input.btn_disabled {
 													</div>
 													<div class="col-sm-6">
 													</div>
-												</div>
+												</div> 
 												<!-- 验证码 -->
 											<div class="form-group">
-												<label for="verifyCode" class="col-sm-3 control-label">验证码:</label>
+												<label for="verifyCode" class="col-sm-4 control-label">验证码:</label>
 												<div class="col-sm-4">
 													<input type="text" class="form-control" id="verifyCode"
 														name="verifyCode" />
-														<p id="failToCheckCode" class="label"></p>	
+														<p id="failToCheckCode" class="label" style="color: white;"></p>	
 												</div>
 											</div>
 											
 												<div class="form-group">
-					                                <label for="" class="col-sm-3 control-label">附言</label>
+					                                <label for="" class="col-sm-4 control-label">附言</label>
 					                                <div class="col-sm-8">
 					                                    <textarea  class="form-control" rows="3"> 客户使用个人账户资金网上自动归集服务的，应按照1个月2元、3个月6元、6个月10元、12个月18元的标准向我行支付个人账户资金网上自动归集服务费                         
 					                                    </textarea>					
@@ -740,7 +753,29 @@ input.btn, input.btn_add, input.btn_disabled {
 										</div>
 									</div>
 								</div>
-																							
+									<!-- 规则 -->
+								<div th:if="${session.isHaveCard} eq true">
+								<ul class="ul_liebiao">
+									<li class="li_liebiao0">
+										<div class="liebiao_div mb_20">
+											<h3 class="pbd_table_step_title_no_line mt_30 mb_20" style="font-size: 18px;">
+												<span class="pl_0">您已经办理资金归集业务
+												</span> <span id="nolist_span" class="pl_0">
+													，您可以通过点击"我的归集"按钮查看资金归集规则。</span>
+											</h3>
+
+											<div id="nolist" >
+												<div
+													style="text-align: center; margin-bottom: 40px; margin-top: 30px;">
+													<input class="btn mr_15"
+														type="button" value="我的归集" id="tOMyCollection">
+												</div>
+											</div>
+											
+										</div>
+									</li>
+								</ul>
+							   </div>														
 
 								<!-- 主内容 end -->
 								<!--温馨提示 START-->
@@ -773,8 +808,38 @@ input.btn, input.btn_add, input.btn_disabled {
 
 	<!--复用尾部-->
 	<div id="footer"></div>
-
-	
+	<!-- 模态框 -->
+		<div class="modal fade" id="checkPailPWD" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<!-- <span aria-hidden="true">&times;</span> -->
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">验证支付密码</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="checkPailPWDForm" method="post"
+						action="/checkPailPWD">
+						<div class="form-group">
+							<label for="email" class="col-sm-2 control-label">支付密码:</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="pailPWD" name="pailPWD" />							
+							</div>
+							
+						</div>					
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" id="outbindPailPWD">取消</button>
+					<button type="button" class="btn btn-primary" id="bindPailPWD">保存</button>
+				</div>
+			</div>
+		</div>
+	 </div>
+	 
 </body>
 
 </html>
