@@ -66,106 +66,144 @@
 }
 </style>
 <script>
-        $(function() {
-            //复用头部JS
-            $("#header").load("common/header.html");
-            //复用尾部JS
-            $("#footer").load("common/footer.html");
-            
-            
-          //显示日期      
- 	      /*  $("#paymentDate").datetimepicker({
- 	    	   format: 'yyyy-mm-dd',
- 	    	   language:'zh-CN',
- 	    	   minView:2
- 	           //endDate:new Date()
- 	       });  */
-	 		//表单验证
-	 		$("#singleTransferForm").validate({ 
-	 			rules:{
-	 				receivingAccount:{
-	 					required:true,
-	 					range : [ 17,19 ]
-	 				},receivingName:{
-	 					required:true,
-	 					rangelength : [ 2, 16 ]
-	 				},transferAmount:{
-	 					required:true,
-	 					min:500,
-						max:50000,
-						remote:{
-							url:"/checkMoney",  
-							type:"post"
-						}
-	 				}
-	 			},
-	 			messages:{
-	 				receivingAccount:{
-	 					required:"请填写收款账号",
-	 					range :"收款账户必须为{0}或{1}位"
-	 				},
-	 				transferAmount:{
-	 					required:"请填写转账金额!",
-	 					min:"单次转账金额不能低于500",
-						max:"单次转账金额不能高于50000",
-						remote:"银行卡余额不足,请选择别的银行卡"
-	 				},receivingName:{
-	 					required:"收款姓名不能为空",
-	 					rangelength :"收款姓名必须为{0}-{1}位"
-	 				}
-	 			},submitHandler : function(form) {
-	 				$("#inputPassword").modal();
-					//ajax请求, 把表单以ajax提交到后台
-					 $(form).ajaxSubmit({
+	$(function() {
+		//复用头部JS
+		$("#header").load("common/header.html");
+		//复用尾部JS
+		$("#footer").load("common/footer.html");
+
+		//显示日期      
+		/*  $("#paymentDate").datetimepicker({
+		   format: 'yyyy-mm-dd',
+		   language:'zh-CN',
+		   minView:2
+		     //endDate:new Date()
+		 });  */
+		//表单验证
+		$("#singleTransferForm").validate({
+			rules : {
+				receivingAccount : {
+					required : true,
+					rangelength : [ 17, 19 ]
+				},
+				receivingName : {
+					required : true,
+					rangelength : [ 2, 16 ]
+				},
+				transferAmount : {
+					required : true,
+					min : 500,
+					max : 50000
+				}
+			},
+			messages : {
+				receivingAccount : {
+					required : "请填写收款账号",
+					rangelength : "收款账户必须为{0}或{1}位"
+				},
+				transferAmount : {
+					required : "请填写转账金额!",
+					min : "单次转账金额不能低于500",
+					max : "单次转账金额不能高于50000"
+				},
+				receivingName : {
+					required : "收款姓名不能为空",
+					rangelength : "收款姓名必须为{0}-{1}位"
+				}
+			},
+			submitHandler : function(form) {
+				checkBalance();
+			},
+			errorClass : "text-danger",
+			highlight : function(element) {
+				$(element).closest("div.form-group").addClass("has-error");
+			},
+			unhighlight : function(element) {
+				$(element).closest("div.form-group").removeClass("has-error");
+			}
+		})
+
+		//显示余额
+		$("#paymentAccount").change(function() {
+			$.ajax({
+				dataType : "json",
+				url : "/showBalance?id_card=" + $(this).val(),
+				success : function(rs) {
+					$("#balance").val(rs.balance);
+				}
+			});
+		});
+
+		//查询余额是否充足
+		/* $("#singleTransferForm").submit(function(){
+			checkBalance();
+				}); */
+		
+		function checkBalance(){
+		
+				if (parseInt($("#balance").val()) < 
+					parseInt($("#transferAmount").val())){
+					alert("余额不足");
+					return false;
+				} else {
+					$("#inputPassword").modal();
+				}
+				return false;
+			}
+		
+		//选择账号
+		$(".chooseAccount").click(function() {
+			$("#receivingAccount").val($(this).html());
+		});
+		//验证密码
+		$("#checkPassword").click(
+				function() {
+					$.ajax({
 						dataType : "json",
+						url : "/checkPassword?password=" + $("#password").val()
+								+ "&id_card=" + $("#paymentAccount").val(),
 						success : function(rs) {
 							if (rs.success) {
-								
+								$("#singleTransferForm").ajaxSubmit({
+									dataType : "json",
+									success : function(rs) {
+										if (rs.success) {
+											location.href = "index.html";
+										} else {
+											$.messager.alert("友情提示", rs.msg);
+										}
+									}
+								});
 							} else {
-								$.messager.alert("友情提示", rs.msg);
+								alert("密码错误!!请重新输入密码");
+								$("#codeTime").val(
+										parseInt($("#codeTime").val()) + 1);
+								if ($("#codeTime").val() == "3") {
+									alert("银行卡已冻结,请联系管理员");
+								}
 							}
 						}
-						}); 
-						
-						},
-	 			errorClass:"text-danger",
-				highlight:function(element){
-					$(element).closest("div.form-group").addClass("has-error");
-				},
-				unhighlight:function(element){
-					$(element).closest("div.form-group").removeClass("has-error");
-				}
-	 		})	
-	 		
-	 		//显示余额
-	 		$("#paymentAccount").change(function(){
-	 			$.ajax({
-					dataType : "json",
-					url : "/showBalance?id_card=" + (this).val(),
-					success : function(rs) {
-						$("#balance").val(rs.balance+"元");
-					}
-				})
-	 		});
-	 		//选择账号
-	 		$(".chooseAccount").click(function(){
-	 			$("#receivingAccount").val($(this).html());
-	 		});
- 	       
- 	       var date = new Date();
- 	       //到账时间设置
- 	       $("#realTime").click(function(){
- 	    	   alert(date);
- 	       });
- 	       $("#ordinary").click(function(){
- 	    	  alert(date);
- 	       });
- 	       $("#nextDay").click(function(){
- 	    	  alert(date);
- 	       });
-        });
-    </script>
+
+					});
+
+				});
+
+		var date = new Date();
+		//到账时间设置
+		$("#realTime").click(function() {
+			alert(date);
+		});
+		$("#ordinary").click(function() {
+			alert(date);
+		});
+		$("#nextDay").click(function() {
+			alert(date);
+		});
+	});
+</script>
 </head>
+
+
 
 <body>
 	<!--复用头部-->
@@ -193,9 +231,9 @@
 					<div id="menu">
 						<div class="list-group">
 							<a href="javascript::" class="list-group-item active">单笔汇款</a> <a
-								href="registerAccountTransfer.html" class="list-group-item">注册账户汇款</a>
-							<a href="batchTransfer.html" class="list-group-item">批量汇款</a> <a
-								href="crossBorderTransfer.html" class="list-group-item">跨境汇款</a>
+								href="/toRegisterAccountTransfer" class="list-group-item">注册账户汇款</a>
+							<a href="/toBatchTransfer" class="list-group-item">批量汇款</a> <a
+								href="/toCrossBorderTransfer" class="list-group-item">跨境汇款</a>
 						</div>
 					</div>
 				</div>
@@ -205,16 +243,17 @@
 					</h3>
 					<div id="account">
 						<div id="form">
-							<form class="form-horizontal" action="/singleTransfer" method="POST"
-								id="singleTransferForm">
+							<form class="form-horizontal" action="/singleTransfer"
+								method="POST" id="singleTransferForm">
 								<div class="form-group">
 									<label for="paymentAccount" class="col-sm-2 control-label">付款卡号</label>
 									<div class="col-sm-8">
 										<select name="paymentAccount" id="paymentAccount"
-											class="form-control ">
-											<option th:each="card:${cards}" th:value="${card.id}"
-												th:text="${car.id_card}"></option>
+											class="form-control">
+											<option th:each="card:${cards}" th:value="${card.id_card}"
+												th:text="${card.id_card}"></option>
 										</select>
+
 									</div>
 								</div>
 								<div class="form-group">
@@ -222,6 +261,7 @@
 									<div class="col-sm-6">
 										<input type="text" class="form-control" id="balance"
 											name="balance">
+
 									</div>
 								</div>
 								<div class="form-group">
@@ -320,12 +360,12 @@
 					<h4 class="modal-title" id="exampleModalLabel">输入密码</h4>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal" id="bindEmailForm" method="post"
-						action="/bindEmail.do">
+					<form class="form-horizontal" id="checkPasswordForm" method="post"
+						action="/checkPassword">
 						<div class="form-group">
 							<label for="email" class="col-sm-2 control-label">密码 </label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="password"
+								<input type="password" class="form-control" id="password"
 									name="password" />
 							</div>
 						</div>
@@ -333,8 +373,9 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button type="button" class="btn btn-primary" id="checkPassword">保存</button>
+					<input type="hidden" value="0" id="codeTime" />
+					<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+					<button type="button" class="btn btn-primary" id="checkPassword">确认汇款</button>
 				</div>
 			</div>
 		</div>

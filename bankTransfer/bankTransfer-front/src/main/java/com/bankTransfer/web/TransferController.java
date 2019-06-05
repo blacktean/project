@@ -10,13 +10,12 @@ import com.bankTransfer.util.JsonResult;
 @RestController
 public class TransferController {
 	
-	@Autowired
+	@Autowired 
 	private ITransferService transferService;
 	
 	@PostMapping("singleTransfer")
 	public JsonResult singleTransfer() {
 		JsonResult jsonResult = new JsonResult();
-		
 		
 		return jsonResult;
 	}

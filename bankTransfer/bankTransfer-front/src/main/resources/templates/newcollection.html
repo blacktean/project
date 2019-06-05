@@ -600,7 +600,7 @@ input.btn, input.btn_add, input.btn_disabled {
 														<select name="collection_accout" id="collection_accout"
 															class="form-control" >
 															<span th:each="card:${session.CardList1}">
-															<option value="${card.id_card}"><span th:text="${card.id_card}"></span></option>
+															<option th:value="${card.id_card}"><span th:text="${card.id_card}"></span></option>
 															</span>
 														</select>
 													</div>
@@ -665,7 +665,6 @@ input.btn, input.btn_add, input.btn_disabled {
 													</div>
 												</div>
 												<div class="form-group" id="show_debit_account">
-													
 												</div>
 												<!-- 继续添加归集账户 -->
 												<!-- <div class="form-group" style="display:none;" id="show_debit_account2">
