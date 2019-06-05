@@ -34,7 +34,7 @@
 	
 	<sql id="cardColumn">
 id,id_card,start_place,currency,balance,available_balance,start_place_id,
-password,card_type,user_id,card_state,card_type_1,major_card,create_time,
+password,card_type,user_id,card_state,bank_type,major_card,create_time,
 effective_time,register_type,max_price
 	</sql>
 </mapper>
