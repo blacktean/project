@@ -26,12 +26,7 @@
 <!-- Font-Awesome-Icons-CSS -->
 <!-- //css files -->
 <!-- web-fonts -->
-<link
-	href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900"
-	rel="stylesheet">
-<link
-	href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
-	rel="stylesheet">
+
 	
 <!-- //web-fonts -->
 
@@ -61,8 +56,8 @@
 		$("#footer").load("common/footer.html");
 		
 		//验证表单内容一样
-		var debit_account2 = $("#debit_account2").val();
-		alert(debit_account2);
+		//var debit_account = $("#debit_account").text();
+		//alert(debit_account);
 		//显示日期      
 	       $("#start_time").datetimepicker({
 	    	   format: 'yyyy-mm-dd',
@@ -70,13 +65,20 @@
 	    	   minView:2
 	           //endDate:new Date()
 	       });
-		
+	   	var tr ='<div class="form-group" id="show_debit_account2">'+
+		'<label for="debit_account2" class="col-sm-3 control-label">归集账户2</label>'+
+		'<div class="col-sm-6">'+	
+		'<input type="text" class="form-control" id="debit_account2" name="debit_account2">'+			 
+		'</div>'+
+	'</div>';
 		//显示继续添加归集卡号框
-		debit_account2_btn
 		$("#debit_account2_btn").click(function(){
-			$("#show_debit_account2").show();
+			//alert(tr)
+			$("#show_debit_account").append(tr);
+			$("#debit_account2_btn").attr({"disabled":"disabled"});
 		});
-		
+	
+	
 		//验证手机号
 		 $("#sendVerifyCode").click(function(){
 			 var debit_tel = $("#debit_tel").val();
@@ -150,11 +152,21 @@
 				},
 				debit_account:{
 					required:true					
-				},
+				},	
 				debit_account2:{
-					required:true
-					
-				}
+					required:true,
+					rangelength:[19,19],
+					remote:{    		//验证用户名是否存在
+						url:"/checkDebit_account2",    //servlet
+						type:"post",
+						 data:{
+							 //username:function(){return $("#username").val();}
+							 debit_account2:function(){
+								 return $("#debit_account2").val();
+								 }
+					         }
+					}
+				},
 				receiver_name:{
 					required:true
 				},
@@ -179,8 +191,9 @@
 					//remote:"该卡号不存在!"
 				},
 				debit_account2:{
-					required:"请填写归集卡号2!"
-					
+					required:"请填写归集卡号2!",
+					rangelength:"归集卡号长度必须是19位!",
+					remote:"该卡号不存在!"
 				},
 				receiver_name:{
 					required:"请填写用户名!",					
@@ -579,7 +592,7 @@ input.btn, input.btn_add, input.btn_disabled {
 									
 									<div id="account">
 										<div id="form">
-											<form class="form-horizontal" action="#" method="POST"
+											<form class="form-horizontal" action="/addCollection" method="POST"
 												id="newCollectionForm">						
 												<div class="form-group">
 													<label for="collection_accout" class="col-sm-3 control-label">收款账户(主卡)</label>
@@ -593,11 +606,12 @@ input.btn, input.btn_add, input.btn_disabled {
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="collecting_type" class="col-sm-3 control-label">收款方式</label>
+													<label for="collecting_type" class="col-sm-3 control-label">归集方式</label>
 													<div class="col-sm-6">
 														<select name="collecting_type" id="collecting_type"
 															class="form-control ">
-															<option value="1">保留余额</option>
+															<option value="0">保留余额</option>
+															<option value="1">定期转入</option>
 														</select>
 													</div>
 												</div>
@@ -619,7 +633,7 @@ input.btn, input.btn_add, input.btn_disabled {
 													<label for="receiver_name" class="col-sm-3 control-label">用户名</label>
 													<div class="col-sm-6">
 														<input type="text" class="form-control" id="receiver_name"
-															name="receiver_name">
+															name="receiver_name" th:value="${session.collectionname}" readonly="readonly">
 													</div>
 												</div>
 												<!-- 所属银行 -->
@@ -628,11 +642,8 @@ input.btn, input.btn_add, input.btn_disabled {
 													<div class="col-sm-6">
 														<select name="bank_id" id="bank_id"
 															class="form-control ">
-															<option value="1">中国建设银行</option>
-															<option value="2">中国银行</option>
-															<option value="3">中国邮政储蓄</option>
-															<option value="4">中国农业银行</option>
-															<option value="5">中国招商银行</option>
+															<option value="999">乔治银行</option>
+															
 														</select>
 													</div>
 												</div>									
@@ -649,15 +660,17 @@ input.btn, input.btn_add, input.btn_disabled {
 													<label for="debit_account2_btn" class="col-sm-3 control-label"></label>
 													<div class="col-sm-6">								
 															<input type="button" class="btn btn-success" id="debit_account2_btn"
-															name="debit_account2_btn" value="继续添加归集账户">
+															 value="继续添加归集账户">
 														 
 													</div>
 												</div>
+												<div class="form-group" id="show_debit_account">
+													
+												</div>
 												<!-- 继续添加归集账户 -->
-												<div class="form-group" style="display:none;" id="show_debit_account2">
+												<!-- <div class="form-group" style="display:none;" id="show_debit_account2">
 													<label for="debit_account2" class="col-sm-3 control-label">归集账户2</label>
-													<div class="col-sm-6">								
-															
+													<div class="col-sm-6">											
 														 <select name="debit_account2" id="debit_account2"
 															class="form-control ">
 															<span th:each="card:${session.CardList2}">
@@ -665,7 +678,7 @@ input.btn, input.btn_add, input.btn_disabled {
 															</span>
 														 </select>
 													</div>
-												</div>
+												</div> -->
 												<!-- 协议生效时间 -->
 												<div class="form-group">
 													<label for="debit_account2" class="col-sm-3 control-label">协议生效时间</label>
@@ -674,7 +687,7 @@ input.btn, input.btn_add, input.btn_disabled {
 															name="start_time">
 													</div>
 												</div>
-												<!-- 协议期限 -->
+												<!-- 协议期限 理财序号 -->
 												<div class="form-group">
 													<label for="financial_number" class="col-sm-3 control-label">协议期限</label>
 													<div class="col-sm-6">								
