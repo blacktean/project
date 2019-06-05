@@ -9,9 +9,10 @@ public interface IRegisterService {
 	/**
 	 * 检验用户名是否已存在
 	 * @param regist_account
+	 * @param usertype 
 	 * @return
 	 */
-	boolean checkUsername(String regist_account);
+	boolean checkUsername(String regist_account, int usertype);
 
 	
 	/**

@@ -21,9 +21,9 @@ public class RegisterServiceImpl implements IRegisterService {
 	 * 检验用户名是否存在
 	 */
 	@Override
-	public boolean checkUsername(String username) {
+	public boolean checkUsername(String username,int usertype) {
 		// TODO Auto-generated method stub
-		return registerMapper.checkUsername(username)==null;
+		return registerMapper.checkUsername(username,usertype)==null;
 	}
 
 	@Override

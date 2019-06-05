@@ -235,7 +235,7 @@
                                     _this.text("重新发送验证码");
                                 }
                             },1000); */
-                             alert(data.msg);
+                             alert("验证码"+data.msg);
                         }else{ //失败
                             _this.attr("disabled",false);
                             $.messager.popup(data.msg);

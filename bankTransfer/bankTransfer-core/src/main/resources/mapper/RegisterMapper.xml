@@ -4,7 +4,7 @@
 <mapper namespace="com.bankTransfer.mapper.RegisterMapper">
 	
 	<select id="checkUsername" resultType="Logininfo">
-	select * from logininfo where username=#{username}	
+	select * from logininfo where username=#{username}	and usertype=#{usertype}
 	</select>
 	<insert id="register">
 	insert into logininfo (id,username,password,state,usertype,telphone) values(logininfo_id.nextval,#{username},#{password},#{state},#{usertype},#{telphone})

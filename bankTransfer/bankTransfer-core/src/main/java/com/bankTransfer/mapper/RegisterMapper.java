@@ -15,9 +15,10 @@ public interface RegisterMapper {
 /**
  * 检验用户名是否已经被注册
  * @param username 用户名
+ * @param usertype 
  * @return
  */
-	Logininfo checkUsername(@Param("username")String username);
+	Logininfo checkUsername(@Param("username")String username, @Param("usertype")int usertype);
 
 	/**
 	 * 注册 

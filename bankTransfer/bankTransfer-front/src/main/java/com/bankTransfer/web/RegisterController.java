@@ -33,7 +33,7 @@ public class RegisterController {
 	@RequestMapping("/checkUsername")
 	@ResponseBody
 	public boolean checkUsername(String regist_account) {
-		return registerService.checkUsername(regist_account);
+		return registerService.checkUsername(regist_account,Logininfo.USERTYPE_NORMAL);
 	}
 
 	/**
