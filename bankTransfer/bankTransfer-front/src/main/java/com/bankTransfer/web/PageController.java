@@ -36,9 +36,11 @@ public class PageController {
 		List<Currency> currencys = baseService.queryCurrency();
 		List<Card> cards = baseService.queryCardByUserId(UserContext.getCurrent().getId());
 		List<CardType> cardTypes = baseService.queryCardType();
+		List<Document> documents = baseService.queryDocument();
 		model.addAttribute("currencys", currencys);
 		model.addAttribute("cards", cards);
 		model.addAttribute("cardTypes", cardTypes);
+		model.addAttribute("documents", documents);
 		return "forward:/crossBorderTransfer.html";
 	}
 	

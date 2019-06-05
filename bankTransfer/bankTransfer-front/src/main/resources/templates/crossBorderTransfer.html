@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 <title>转账汇款</title>
@@ -122,11 +122,7 @@
 									<div class="col-sm-8">
 										<select name=" affiliatedBank " id="input "
 											class="form-control ">
-											<option value="01 ">中国建设银行</option>
-											<option value="02 ">中国银行</option>
-											<option value="03 ">中国邮政储蓄</option>
-											<option value="04 ">中国农业银行</option>
-											<option value="05 ">中国招商银行</option>
+											<option th:each="cardType:${cardTypes}" th:value="${cardType.id}" th:text="${cardType.type_name}"></option>
 										</select>
 									</div>
 								</div>
@@ -152,8 +148,7 @@
 									<div class="col-sm-8">
 										<select name=" payCardNum " id="payCardNum "
 											class="form-control ">
-											<option value="DSF">人民币</option>
-											<option value="SAD">美元</option>
+											 <option th:each="currency:${currencys}" th:value="${currency.money_number}" th:text="${currency.money_name}"></option>
 										</select>
 									</div>
 								</div>
@@ -190,9 +185,8 @@
 									<div class="col-sm-8">
 										<select name=" payCardNum " id="payCardNum "
 											class="form-control ">
-											<option value="3721900520000479143">3721900520000479143</option>
-											<option value="6723200025873451739">6723200025873451739</option>
-										</select>
+											 <option th:each="card:${cards}" th:value="${card.id}" th:text="${car.id_card}"></option>
+											 </select>
 									</div>
 								</div>
 								
@@ -231,8 +225,7 @@
                                 <label for="payCardNum" class="col-sm-2 control-label">证件类型</label>
                                 <div class="col-sm-8">
                                     <select name=" payCardNum " id="payCardNum " class="form-control ">
-                                        <option value="1221">身份证</option>
-                                        <option value="dasd">军人证</option>
+                                         <option th:each="document:${documents}" th:value="${document.id}" th:text="${document.document_name}"></option>
                                     </select>
                                 </div>
                             </div>
