@@ -24,7 +24,7 @@ public class CashSweep implements Serializable {
 	/**理财序号*/
 	private String financial_number;
 	/**卡(账)号,非空*/
-	private String card_id;
+	//private String card_id;
 	/**服务生效时间*/
 	private Date start_time;
 	/**服务失效时间*/
@@ -37,8 +37,6 @@ public class CashSweep implements Serializable {
 	private String receiver_name;
 	/**归集方式*/
 	private String collecting_type;
-	/**扣款户名*/
-	private String account_name;
 	/**归集卡号*/
 	private String debit_account;
 	/**扣款户名*/

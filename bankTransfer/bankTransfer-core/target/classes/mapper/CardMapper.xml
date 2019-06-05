@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.bankTransfer.mapper.CardMapper">
 
+<mapper namespace="com.bankTransfer.mapper.CardMapper">
+	<select id="queryCardByUser_Id" resultType="Card">
+		select * from T_CARD WHERE user_id=#{user_id};
+	</select>
+	<select id="queryCardByIdCard" resultType="Card">
+		select * from T_CARD WHERE id_card=#{id_card}
+	</select>
+
+	<!-- 通过登录id查询当前用户名 -->
+	<select id="queryUserName" resultType="String">
+	select distinct real_name from t_user where user_id=#{id}
+	</select>
+	
+	<select id="getCountByIdCard" resultType="int">
+		select count(0) from t_card where id_card=#{id_card}
+	</select>
 	<!-- 通过主副卡标志查询当前所有银行卡 -->
 	<select id="queryCardByUserIdAndMajorCard" resultType="Card">
 	select <include refid="cardColumn"/> from t_card where user_id = #{user_id} and card_state = '1' and major_card=#{major_card}
 	</select>
 	
 	<sql id="cardColumn">
-id,id_card,start_place,currency,balance,available_balance,start_place_id,
-password,card_type,user_id,card_state,major_card,create_time,
-effective_time,register_type,max_price,bank_type
+		id,id_card,start_place,currency,balance,available_balance,start_place_id,
+		password,card_type,user_id,card_state,major_card,create_time,
+		effective_time,register_type,max_price,bank_type
 	</sql>
 </mapper>

@@ -9,13 +9,27 @@ import com.bankTransfer.mapper.CardMapper;
 import com.bankTransfer.pojo.Card;
 import com.bankTransfer.service.ICardService;
 @Service
-public class ICardServiceImpl implements ICardService {
+public class CardServiceImpl implements ICardService {
 	
 	@Autowired
 	private CardMapper cardMapper;
+	
+	@Override
+	public Card queryCardByUser_Id(String user_id) {
+		return cardMapper.queryCardByUser_Id(user_id);
+	}
 	@Override
 	public List<Card> queryCardByUserIdAndMajorCard(String user_id, String major_card) {
 		return cardMapper.queryCardByUserIdAndMajorCard(user_id, major_card);
+	}
+	@Override
+	public String queryUserName(Integer id) {
+		return cardMapper.queryUserName(id);
+	}
+	@Override
+	public boolean getCountByIdCard(String id_card) {
+		
+		return cardMapper.getCountByIdCard(id_card)>0;
 	}
 
 }
