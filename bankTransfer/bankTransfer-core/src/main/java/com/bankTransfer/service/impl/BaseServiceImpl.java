@@ -11,6 +11,7 @@ import com.bankTransfer.pojo.CardType;
 import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.Document;
 import com.bankTransfer.service.IBaseService;
+import com.bankTransfer.util.MD5;
 
 @Service
 public class BaseServiceImpl implements IBaseService {
@@ -40,6 +41,13 @@ public class BaseServiceImpl implements IBaseService {
 	@Override
 	public Card queryCardByCardNumber(String id_card) {
 		return baseMapper.queryCardByCardNumber(id_card);
+	}
+
+	@Override
+	public void queryCardByIdCardAndPassword(String id_card, String password) {
+		if(baseMapper.queryCardByIdCardAndPassword(id_card,MD5.encode(password))==null) {
+			throw new RuntimeException("密码错误!!");
+		}
 	}
 
 	

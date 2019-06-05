@@ -38,4 +38,10 @@ public interface IBaseService {
 	 * @return
 	 */
 	Card queryCardByCardNumber(String id_card);
+	/**
+	 * 查询密码是否正确
+	 * @param id_card
+	 * @param password
+	 */
+	void queryCardByIdCardAndPassword(String id_card, String password);
 }

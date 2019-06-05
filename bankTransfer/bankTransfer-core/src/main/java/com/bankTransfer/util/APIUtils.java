@@ -20,7 +20,7 @@ import com.bankTransfer.pojo.JsonUserInfo;
 
 public class APIUtils {
 	/**
-	 * 验证码数组
+	 * 验证码数组 
 	 */
 	private static int[] seeds = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	/**
@@ -36,7 +36,7 @@ public class APIUtils {
 	 * 根据ip获取城市
 	 * 
 	 * @param ip
-	 * @return
+	 * @return 
 	 */
 	public static JsonCountry getJsonCountry() {
 		String host = "https://ipro.market.alicloudapi.com";
