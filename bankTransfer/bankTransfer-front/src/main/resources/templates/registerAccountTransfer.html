@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>转账汇款</title>
@@ -110,8 +110,7 @@
                                 <label for="payCardNum" class="col-sm-2 control-label">转入卡号</label>
                                 <div class="col-sm-8">
                                     <select name=" payCardNum " id="payCardNum " class="form-control ">
-                                        <option value="3721900520000479143">3721900520000479143</option>
-                                        <option value="6723200025873451739">6723200025873451739</option>
+                                        <option th:each="card:${cards}" th:value="${card.id}" th:text="${car.id_card}"></option>
                                     </select>
                                 </div>
                             </div>
@@ -119,8 +118,7 @@
                                 <label for="payCardNum" class="col-sm-2 control-label">转出卡号</label>
                                 <div class="col-sm-8">
                                     <select name=" payCardNum " id="payCardNum " class="form-control ">
-                                        <option value="3721900520000479143">3721900520000479143</option>
-                                        <option value="6723200025873451739">6723200025873451739</option>
+                                        <option th:each="card:${cards}" th:value="${card.id}" th:text="${car.id_card}"></option>
                                     </select>
                                 </div>
                             </div>
@@ -140,8 +138,7 @@
                                 <label for="payCardNum" class="col-sm-2 control-label">证件类型</label>
                                 <div class="col-sm-8">
                                     <select name=" payCardNum " id="payCardNum " class="form-control ">
-                                        <option value="1221">身份证</option>
-                                        <option value="dasd">军人证</option>
+                                        <option th:each="document:${documents}" th:value="${document.id}" th:text="${document.document_name}"></option>
                                     </select>
                                 </div>
                             </div>
@@ -179,7 +176,7 @@
 
                             <div class="form-group ">
                                 <div class="col-sm-offset-8 col-sm-10 ">
-                                    <button type="submit " class="btn btn-default">确认转账</button>
+                                    <button type="submit" class="btn btn-default">确认转账</button>
                                 </div>
                             </div>
                         </form>
