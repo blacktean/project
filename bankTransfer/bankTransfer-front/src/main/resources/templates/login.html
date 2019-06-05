@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
+<head >
     <meta charset="utf-8">
     <title>注册登录界面</title>
 
@@ -53,12 +53,12 @@
         var nums = 30;
         var btn;
 
-        function sendCode(thisBtn) {
+          function sendCode(thisBtn) {
             btn = thisBtn;
             btn.disabled = true; //将按钮置为不可点击
             btn.value = '重新获取（' + nums + '）';
             clock = setInterval(doLoop, 1000); //一秒执行一次
-        }
+        } 
 
         function doLoop() {
             nums--;
@@ -70,7 +70,7 @@
                 btn.value = '点击发送验证码';
                 nums = 10; //重置时间
             }
-        }
+        } 
 
         $(document).ready(function() {
             $("#login_QQ").click(function() {
@@ -139,7 +139,129 @@
 		});
 	});
 </script>
+	<script type="text/javascript">
+	$(function(){
+		$("#registerForm").validate({
+			rules:{
+				regist_account:{
+					required:true,
+					rangelength:[4,16],
+					remote:{
+						url:"/checkUsername",  
+						type:"post"
+					}
+				},
+				regist_password1:{
+					required:true,
+					rangelength:[4,20]
+				},
+				regist_password2:{
+					required:true,
+					equalTo:"#regist_password1"
+				}
+			},
+			messages:{
+				regist_account:{
+					required:"请填写用户名!",
+					rangelength:"用户名长度必须在{0}-{1}之间!",
+					remote:"该用户名已经存在!"
+				},
+				regist_password1:{
+					required:"请填写密码!",
+					rangelength:"密码长度必须在{0}-{1}之间!"
+				},
+				regist_password2:{
+					required:"请再次确认密码",
+					equalTo:"两次密码不一致"
+				}
+			},
+			submitHandler:function(form){
+				$("#registerForm").ajaxSubmit({
+					dataType:"json",
+					success:function(data){
+						if(data.success){
+							$.messager.model = {
+										ok:{ text: "关闭", classed: 'btn­default' },
+										cancel: { text: "取消", classed: 'btn­error' }
+							};
+							$.messager.confirm("提示","注册成功",function(){
+								//跳转到登录页面
+								location.href="login.html";
+							});
+							
+						}else{
+							$.messager.popup(data.msg)
+						}
+					},
+					resetForm:true
+				});
+			},
+			errorClass:"text-danger",
+			highlight:function(element){
+				$(element).closest("div.form-group").addClass("has-error");
+			},
+			unhighlight:function(element){
+				$(element).closest("div.form-group").removeClass("has-error");
+			}
+		})	
 	
+	
+	
+	
+	
+	
+	
+	
+            $("#getVCode").click(function(){
+                //手机号码的验证, 非空, 格式, 有吗绑定
+                
+                var _this = $(this);
+                _this.attr("disabled",true);  //禁用
+                $.ajax({
+                    url:"/sendVerifyCode",
+                    type:"post",
+                    dataType:"json",
+                    data:{regist_phone:$("#regist_phone").val()},
+                    success:function(data){
+                        if(data.success){  //成功
+                          /*   var sec = 90;
+                            var timer = setInterval(function(){
+                                sec--;
+                                if(sec > 0){
+                                    _this.text(sec+"秒后重新发送验证码");
+                                }else{
+                                    clearInterval(timer);
+                                    _this.attr("disabled",false);
+                                    _this.text("重新发送验证码");
+                                }
+                            },1000); */
+                             alert(data.msg);
+                        }else{ //失败
+                            _this.attr("disabled",false);
+                            $.messager.popup(data.msg);
+                        }
+                    }
+                    
+                });
+
+            //给保存按钮添加一个点击事件,提交表单,用于绑定手机
+            $("#bindPhoneForm").ajaxForm(function(data){
+                if(data.success){
+                    //刷新页面
+                    location.reload();
+                }else{
+                    $.messager.popup(data.msg);
+                }
+            });
+            $("#bindPhone").click(function(){
+                $("#bindPhoneForm").submit();
+            });
+        });
+	})
+	
+	
+	
+</script>
 	
 </head>
 
@@ -172,7 +294,7 @@
                                         <br />
                                         <form action="/logininfo" method="get" id="loginForm">
                                             <input type="text" class="form-control" required="required" placeholder="用户名/手机号" id="login_number" name="login_number"/>
-                                            <input type="password" class="form-control" required="required" placeholder="密码" id="login_password" name="login_password" autocomplete/>
+                                            <input type="password" class="form-control" required="required" placeholder="密码" id="login_password" name="login_password"/>
                                             <input type="submit" value="登录" class="btn btn-success" id="login_btn" />
                                         </form>
                                         <span id="rememberOrfindPwd">
@@ -213,16 +335,17 @@
 									<span id='toLogin' style="color: #EB9316;cursor: pointer;">立即登录</span>
                                         </span>
                                     </div>
-                                    <form action="#" method="post">
+                                    
+                                    <form action="/register" method="post" id="registerForm">
                                         <div id="form_container2" style="padding-top: 25px;">
 
-                                            <input type="text" class="form-control" required="required" placeholder="用户名" id="regist_account" autocomplete>
-                                            <input type="password" class="form-control" required="required" placeholder="密码" id="regist_password1" autocomplete/>
-                                            <input type="password" class="form-control" required="required" placeholder="确认密码" id="regist_password2" autocomplete />
-                                            <input type="text" class="form-control" required="required" placeholder="手机号" id="regist_phone" />
-                                            <input type="text" class="form-control" required="required" placeholder="验证码" id="regist_vcode" />
-                                            <!--<button id="getVCode" type="button" class="btn btn-success" >获取验证码</button>-->
-                                            <input id="getVCode" type="button" class="btn btn-success" required="required" value="点击发送验证码" onclick="sendCode(this)" />
+                                            <input type="text" class="form-control" required="required" placeholder="用户名" name="regist_account" id="regist_account">
+                                            <input type="password" class="form-control" required="required" placeholder="密码" name="regist_password1" id="regist_password1" />
+                                            <input type="password" class="form-control" required="required" placeholder="确认密码" name="regist_password2" id="regist_password2" />
+                                            <input type="text" class="form-control" required="required" placeholder="手机号" name="regist_phone" id="regist_phone" />
+                                            <input type="text" class="form-control" required="required" placeholder="验证码" name="regist_vcode" id="regist_vcode"  />
+                                            <!--<button id="getVCode" type="button" class="btn btn-success" >获取验证码</button>--><!-- onclick="sendCode(this)" -->
+                                            <input id="getVCode" type="button" class="btn btn-success" required="required" value="点击发送验证码"  onclick="sendCode(this)" />
 
                                         </div>
                                         <input type="submit" value="注册" class="btn btn-success" id="regist_btn" />

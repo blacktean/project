@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bankTransfer.mapper.RegisterMapper">
+	
+	<select id="checkUsername" resultType="Logininfo">
+	select * from logininfo where username=#{username}	
+	</select>
+	<insert id="register">
+	insert into logininfo (id,username,password,state,usertype,telphone) values(logininfo_id.nextval,#{username},#{password},#{state},#{usertype},#{telphone})
+	</insert>
+	
+</mapper>
