@@ -34,4 +34,12 @@ public interface ICardService {
 	 * @return
 	 */
 	boolean getCountByIdCard(String id_card);
+	
+	/**
+	 * 验证交易密码 
+	 * @param user_id
+	 * @param pailPWD
+	 * @return
+	 */
+	boolean checkPailPWD(String user_id,String pailPWD);
 }

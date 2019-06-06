@@ -50,6 +50,8 @@ spring:
     encoding: utf-8
     prefix: classpath:/templates/
     suffix: .html  #热部署文件,false页面不产生缓存,及时更新,true开启缓存
+    servlet:      content-type: text/html
+    mode: HTML
     #资源文件配置
   resources:    static-locations:    - classpath:templates/
     - classpath:static/

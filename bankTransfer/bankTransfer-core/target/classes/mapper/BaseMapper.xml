@@ -22,6 +22,12 @@
 	select <include refid="cardColumn"/> from t_card where id_card = #{id_card}
 	</select>
 	
+	<select id="queryCardByIdCardAndPassword" resultType="Card">
+	select id_card from t_card where id_card = #{id_card} and password = #{password}
+	</select>
+
+
+	
 	<sql id="cardTypeColumn">
 	id,type_name,type_code
 	</sql>
@@ -29,12 +35,13 @@
 	id,document_name,document_number
 	</sql>
 	<sql id="currencyColumn">
-	id.money_name,money_number
+	id,money_name,money_number
 	</sql>
+	
 	
 	<sql id="cardColumn">
 id,id_card,start_place,currency,balance,available_balance,start_place_id,
-password,card_type,user_id,card_state,card_type_1,major_card,create_time,
+password,card_type,user_id,card_state,bank_type,major_card,create_time,
 effective_time,register_type,max_price
 	</sql>
 </mapper>

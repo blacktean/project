@@ -6,6 +6,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.bankTransfer.pojo.Logininfo;
+import com.bankTransfer.pojo.VerifyCodeVo;
 
 /***
  * 封装获取session,以及往HttpSession存放数据
@@ -14,7 +15,8 @@ import com.bankTransfer.pojo.Logininfo;
  */
 public class UserContext {
 	private static String USER_IN_SESSION = "logininfo";
-    
+	private static String VERIFYCODE_IN_SESSION = "verifycodeInSession";
+
 	/**
 	 * 获取HttpSession的方法
 	 */
@@ -31,6 +33,17 @@ public class UserContext {
 		getHttpSession().setAttribute(USER_IN_SESSION, logininfo);
 	}
 	
-
+	/**
+	 * 存放短信验证码
+	 */
+	public static  VerifyCodeVo  getCurrentVerifyCodeVo(){
+		return (VerifyCodeVo) getHttpSession().getAttribute(VERIFYCODE_IN_SESSION);
+	}
+	
+	
+	public static void setCurrentVerifyCodeVo(VerifyCodeVo verifyCodeVo){
+		getHttpSession().setAttribute(VERIFYCODE_IN_SESSION, verifyCodeVo);
+	}
+	
 	
 }

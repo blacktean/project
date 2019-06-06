@@ -20,7 +20,7 @@ import com.bankTransfer.pojo.JsonUserInfo;
 
 public class APIUtils {
 	/**
-	 * 验证码数组
+	 * 验证码数组 
 	 */
 	private static int[] seeds = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	/**
@@ -36,7 +36,7 @@ public class APIUtils {
 	 * 根据ip获取城市
 	 * 
 	 * @param ip
-	 * @return
+	 * @return 
 	 */
 	public static JsonCountry getJsonCountry() {
 		String host = "https://ipro.market.alicloudapi.com";
@@ -143,22 +143,25 @@ public class APIUtils {
 	 * @param phone
 	 * @return
 	 */
-	public static boolean sendMessage(String phone) {
+	public static String sendMessage(String phone) {
 		String host = "https://duanxi.market.alicloudapi.com";
 		String path = "/sendSms";
+		String code = randomCode(4);
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("Authorization", "APPCODE " + APP_CODE);
 		Map<String, String> querys = new HashMap<String, String>();
 		querys.put("mobile", phone);
-		querys.put("content", "{\"userName\":\"用户\",\"code\":\"" + randomCode(4) + "\",\"minute\":\"5\"}");
+		querys.put("content", "{\"userName\":\"用户\",\"code\":\"" + code + "\",\"minute\":\"5\",\"comName\":\",祝您生活愉快\"}");
 		querys.put("tNum", "T150606060602");
 		try {
 			HttpResponse response = HttpUtils.doGet(host, path, GET_METHOD, headers, querys);
-			return response.getEntity() != null;
+			if(response.getEntity() != null) {
+				return code;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 
 	/**
@@ -182,9 +185,11 @@ public class APIUtils {
 			String result = JSONObject.parseObject(EntityUtils.toString(response.getEntity())).get("showapi_res_body")
 					.toString();
 			Object object = JSONObject.parseObject(result).get("belong");
-			System.out.println(object.toString());
+			if(object!=null) {
+				return "success";
+			}
+			
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return null;
 	}

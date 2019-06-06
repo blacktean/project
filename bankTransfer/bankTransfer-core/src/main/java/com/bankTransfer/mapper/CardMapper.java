@@ -19,7 +19,7 @@ public interface CardMapper {
 	 */
 	List<Card> queryCardByUserId(int user_id);
 	/**
-	 * 通过登录id查询当前用户名
+	 * 通过登录id查询当前资金归集用户名
 	 * @param id
 	 * @return
 	 */
@@ -38,4 +38,12 @@ public interface CardMapper {
 	 * @return
 	 */
 	int getCountByIdCard(@Param("id_card")String id_card);
+	
+	/**
+	 * 验证交易密码 
+	 * @param user_id
+	 * @param pailPWD
+	 * @return
+	 */
+	int checkPailPWD(@Param("user_id")String user_id,@Param("pailPWD")String pailPWD);
 }

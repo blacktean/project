@@ -8,6 +8,7 @@ import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.CardType;
 import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.Document;
+import com.bankTransfer.pojo.Logininfo;
 
 import io.lettuce.core.dynamic.annotation.Param;
 @Mapper
@@ -42,4 +43,10 @@ public interface BaseMapper {
 	 * @return
 	 */
 	Card queryCardByCardNumber(@Param("id_card")String id_card);
+	/**
+	 * 验证密码是否正确
+	 * @param id_card
+	 * @param password
+	 */
+	Card queryCardByIdCardAndPassword(@Param("id_card")String id_card,@Param("password")String password);
 }

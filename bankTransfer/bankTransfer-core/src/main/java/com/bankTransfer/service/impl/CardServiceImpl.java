@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.bankTransfer.mapper.CardMapper;
 import com.bankTransfer.pojo.Card;
 import com.bankTransfer.service.ICardService;
+import com.bankTransfer.util.MD5;
 @Service
 public class CardServiceImpl implements ICardService {
 	
@@ -30,6 +31,13 @@ public class CardServiceImpl implements ICardService {
 	public boolean getCountByIdCard(String id_card) {
 		
 		return cardMapper.getCountByIdCard(id_card)>0;
+	}
+	@Override
+	public boolean checkPailPWD(String user_id, String pailPWD) {
+		if(cardMapper.checkPailPWD(user_id, MD5.encode(pailPWD))>0) {
+			return true;
+		}
+		return false;
 	}
 
 }

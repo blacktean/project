@@ -102,9 +102,9 @@
 				<div id="left-menu">
 					<div id="menu">
 						<div class="list-group">
-							<a href="singleTransfer.html" class="list-group-item">单笔汇款</a> <a
-								href="registerAccountTransfer.html" class="list-group-item">注册账户汇款</a>
-							<a href="batchTransfer.html" class="list-group-item ">批量汇款</a> <a
+							<a href="/toSingleTransfer" class="list-group-item">单笔汇款</a> <a
+								href="/toRegisterAccountTransfer" class="list-group-item">注册账户汇款</a>
+							<a href="/toBatchTransfer" class="list-group-item ">批量汇款</a> <a
 								href="javascript::" class="list-group-item active">跨境汇款</a>
 						</div>
 					</div>
@@ -185,7 +185,7 @@
 									<div class="col-sm-8">
 										<select name=" payCardNum " id="payCardNum "
 											class="form-control ">
-											 <option th:each="card:${cards}" th:value="${card.id}" th:text="${car.id_card}"></option>
+											 <option th:each="card:${cards}" th:value="${card.id}" th:text="${card.id_card}"></option>
 											 </select>
 									</div>
 								</div>
