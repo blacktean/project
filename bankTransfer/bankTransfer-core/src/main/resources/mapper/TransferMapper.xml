@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bankTransfer.mapper.TransferMapper">
+	<update id="subtractBalance">
+		UPDATE t_card SET balance = balance-#{transferAmount},available_balance = available_balance - #{transferAmount} 
+			WHERE id_card = #{paymentAccount}
+	</update>
+	<select id="judgeContact" resultType="int">
+		SELECT COUNT(1) FROM t_contacts WHERE receiving_account = #{receiveCardId}
+	</select>
+	<insert id="addContact">
+		INSERT INTO t_contacts VALUES(seq_contacts.nextval,#{user_id},#{receiveCardId},#{receiveName})
+	</insert>
+	<insert id="insertRecord" parameterType="TransferSingle_VO">
+		INSERT INTO t_transfer VALUES(seq_transferLog.nextval,#{paymentName},#{paymentAccount},#{paymentDate}
+			,#{transferAmount},#{receivingName},#{receivingAccount},#{serviceCharge},#{result},#{paymentId})
+	</insert>
+</mapper>
