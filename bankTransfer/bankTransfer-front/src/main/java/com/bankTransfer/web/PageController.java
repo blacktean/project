@@ -22,17 +22,20 @@ import com.bankTransfer.util.UserContext;
  *
  */
 @Controller
+
 public class PageController { 
 	@Autowired
 	private IBaseService baseService;
 	
 	@GetMapping("toBatchTransfer")
+	@RequireLogin
 	public String toBatchTransfer(Model model) {
 		List<Card> cards = baseService.queryCardByUserId(UserContext.getCurrent().getId());
 		model.addAttribute("cards", cards);
 		return "batchTransfer";
 	}
 	@GetMapping("toCrossBorderTransfer")
+	@RequireLogin
 	public String toCrossBorderTransfer(Model model) {
 		List<Currency> currencys = baseService.queryCurrency();
 		List<Card> cards = baseService.queryCardByUserId(UserContext.getCurrent().getId());
@@ -46,6 +49,7 @@ public class PageController {
 	} 
 	 
 	@GetMapping("toRegisterAccountTransfer")
+	@RequireLogin
 	public String toRegisterAccountTransfer(Model model) {
 		List<Card> cards = baseService.queryCardByUserId(UserContext.getCurrent().getId());
 		List<Document> documents = baseService.queryDocument();

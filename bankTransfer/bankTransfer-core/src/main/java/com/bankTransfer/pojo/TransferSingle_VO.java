@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -27,6 +29,7 @@ public class TransferSingle_VO implements Serializable {
 	/**收款人姓名*/
 	private String receivingName;
 	/**到账时间*/
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date paymentDate;
 	/**所属银行*/
 	private String bankName;

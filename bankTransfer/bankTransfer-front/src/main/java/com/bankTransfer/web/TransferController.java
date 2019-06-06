@@ -20,6 +20,7 @@ public class TransferController {
 	
 	@PostMapping("singleTransfer")
 	public JsonResult singleTransfer(TransferSingle_VO singleVO) {
+		System.err.println("进来了");
 		JsonResult jsonResult = new JsonResult();
 		//收款人卡号
 		String receiveCardId = singleVO.getReceivingAccount();

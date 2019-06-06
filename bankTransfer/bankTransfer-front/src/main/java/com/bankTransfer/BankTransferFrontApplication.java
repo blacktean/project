@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @MapperScan("com.bankTransfer.mapper")
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class BankTransferFrontApplication {
-
+ 
 	public static void main(String[] args) {
 		SpringApplication.run(BankTransferFrontApplication.class, args);
 	}

@@ -182,9 +182,11 @@ public class APIUtils {
 			String result = JSONObject.parseObject(EntityUtils.toString(response.getEntity())).get("showapi_res_body")
 					.toString();
 			Object object = JSONObject.parseObject(result).get("belong");
-			System.out.println(object.toString());
+			if(object!=null) {
+				return "success";
+			}
+			
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return null;
 	}
