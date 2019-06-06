@@ -11,7 +11,7 @@ public interface ICardService {
 	 * @param user_id
 	 * @return 
 	 */
-	Card queryCardByUser_Id(String user_id);
+	List<Card> queryCardByUserId(int user_id);
 	
 	/**
 	 * 通过登录id查询当前用户名

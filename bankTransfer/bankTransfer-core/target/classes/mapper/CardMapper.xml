@@ -2,8 +2,8 @@
 <!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.bankTransfer.mapper.CardMapper">
-	<select id="queryCardByUser_Id" resultType="Card">
-		select * from T_CARD WHERE user_id=#{user_id};
+	<select id="queryCardByUserId" resultType="Card">
+		select * from T_CARD WHERE user_id=#{user_id}
 	</select>
 	<select id="queryCardByIdCard" resultType="Card">
 		select * from T_CARD WHERE id_card=#{id_card}

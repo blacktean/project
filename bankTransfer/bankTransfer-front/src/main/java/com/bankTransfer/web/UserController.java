@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bankTransfer.pojo.Logininfo;
 import com.bankTransfer.pojo.User;
 import com.bankTransfer.service.IUserService;
 
@@ -17,10 +18,9 @@ public class UserController {
 	
 	@RequestMapping("/queryUserOne")
 	public String queryUserOne(String user_name,HttpSession session) {
-		System.err.println(user_name);
-		User user = iUserService.queryUserByUser_name(user_name);
+		Logininfo logini = (Logininfo) session.getAttribute("logininfo");
+		User user = iUserService.queryUserByUser_name(logini.getUsername());
 		session.setAttribute("user", user);
-		System.out.println(user);
 		return "test";
 	}
 }
