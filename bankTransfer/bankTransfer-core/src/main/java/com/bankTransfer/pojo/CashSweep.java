@@ -44,7 +44,11 @@ public class CashSweep implements Serializable {
 	/**所属银行*/
 	private String bank_id;
 	/**转入金额*/
-	private Integer transferred_money;
+	private Double transferred_money;
 	/**扣款户主手机号*/
 	private String debit_tel;
+	/**主卡余额*/
+	private Double balance1;
+	/**副卡余额*/
+	private Double balance2;
 }

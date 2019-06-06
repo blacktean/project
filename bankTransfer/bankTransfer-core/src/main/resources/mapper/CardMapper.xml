@@ -7,7 +7,7 @@
 	select distinct real_name from t_user where user_id=#{id}
 	
 	</select>
-	
+	<!-- 验证是否存在银行卡 -->
 	<select id="getCountByIdCard" resultType="int">
 		select count(0) from t_card where id_card=#{id_card}
 	</select>
@@ -16,6 +16,11 @@
 	select <include refid="cardColumn"/> from t_card where user_id = #{user_id} and card_state = '1' and major_card=#{major_card}
 	</select>
 	
+	<!-- 验证交易密码 -->
+	<select id="checkPailPWD" resultType="int">
+	select count(0) from t_card where  user_id=#{user_id} and password=#{pailPWD}
+	
+	</select>
 	
 	<sql id="cardColumn">
 id,id_card,start_place,currency,balance,available_balance,start_place_id,

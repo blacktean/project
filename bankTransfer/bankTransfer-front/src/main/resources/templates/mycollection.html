@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>我的归集</title>
@@ -7,9 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="" />
-    <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript" src="js/jquery.bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.css"></link>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="js/messages_zh.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
+<!--// Meta tag Keywords -->
+<!-- css files -->
+<link rel="stylesheet" href="css/bootstrap.css">
+<!-- Bootstrap-Core-CSS -->
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+<!-- Style-CSS -->
+<link rel="stylesheet" href="css/font-awesome.css">
     <script type="application/x-javascript">
         addEventListener("load", function() {
             setTimeout(hideURLbar, 0);
@@ -26,20 +39,50 @@
 		//复用尾部JS
 		$("#footer").load("common/footer.html");
 		
-		//点击设置按钮时
+		//点击设置按钮时 弹出模态框
 		$("#setCollection").click(function(){
-			location.href="setupcollection.html";
+			 
+			 location.href="/setupcollection";
 		});
 		//点击明细按钮时
 		$("#queryCollection").click(function(){
-			location.href="collectiondetails.html";
+			location.href="/collectiondetails";
 		});
 		//点击终止按钮时
 		$("#delCollection").click(function(){
-			if(confirm("确定要终止服务吗?")){
-    			location.href="";
-			}
+			$('#checkPailPWD').modal('show');
+			
 		   });
+		//点击新增归集时
+		$("#addNewCollection").click(function(){
+			location.href="/newcollection";
+		})
+		//显示和隐藏余额
+		$("#balance1Btn").click(function(){
+			$("#showBalance1").toggle();
+		})
+			
+		 //点击取消按钮时跳转回主页
+		 $("#outbindPailPWD").click(function(){
+			 $('#checkPailPWD').modal('hide');
+		 })
+	 	
+		  //给保存按钮添加一个点击事件,提交表单,用于验证支付密码
+           $("#checkPailPWDForm").ajaxForm(function(data){
+               if(data.success){
+                    //关闭模态框
+               	 $('#checkPailPWD').modal('hide');
+                    //弹出提示 终止服务成功
+               	   $.messager.popup(data.msg);
+               	location.href="/mycollection"; 
+               }else{
+                   $.messager.popup(data.msg);
+               }
+           });
+           $("#bindPailPWD").click(function(){
+               $("#checkPailPWDForm").submit();
+           });
+           
 	   });
     
     </script>
@@ -378,12 +421,12 @@ input.btn, input.btn_add, input.btn_disabled {
 							<!-- 主标题 end -->
 							<!-- 主内容 start -->
 							<div class="main_content">
-								<div class="pbd_table_step_title">
+								<div class="pbd_table_step_title" th:if="${session.isHaveCard} eq true">
 									<h3>主账户</h3>
 								</div>
 
 								<!-- 图形模式1 start -->
-								<div class="list_view_list_box  re" id="cardList_1">
+								<div class="list_view_list_box  re" id="cardList_1" th:if="${session.isHaveCard} eq true">
 
 									<!--图形开始-->
 									<div class="cardbox">
@@ -409,16 +452,16 @@ input.btn, input.btn_add, input.btn_disabled {
 															</b>
 															<!--账号-->
 															<div class="card_menoy">
-																<a>6217 0072 00** ***4 049</a>
+																<a th:text="${session.cashSweep.collection_accout}"></a>
 															</div>
 															<div class="cad_money">
 																<div class="span_txt_moy" style="font-size: 12px">可用余额（元）</div>
-																<div class="backnone" id="">
-																	<a>3.00</a>
+																<div class="backnone">
+																	<a  id="showBalance1" th:text="${session.cashSweep.balance1}"></a>
 																</div>
 															</div>
 															<div class="pbd_cxdiv">
-																<span class="hide_mey">隐藏余额</span> <span class="card_op"
+																<span class="hide_mey" id="balance1Btn">隐藏余额</span> <span class="card_op"
 																	style="width: 80px">
 																	
 																</span>
@@ -434,7 +477,7 @@ input.btn, input.btn_add, input.btn_disabled {
 								<!-- style="display:none" -->
 								<!-- 付款子账户 -->
 								
-								<div class="cardbox2">
+								<div class="cardbox2" th:if="${session.isHaveCard} eq true">
 									<h3>子账户</h3>	
 									<div class="card_list"
 										style="height: 165px; width: 940px; position: relative; overflow: hidden; margin: auto;"
@@ -442,7 +485,7 @@ input.btn, input.btn_add, input.btn_disabled {
 
 										<ul
 											style="left: 0px; width: 940px; height: 165px; position: absolute; top: 0px;">
-											<li style="float:left;">
+											<li style="float:left;" th:each="cashSweep2:${session.collectionList}">
 												<div class="carbox_tp cli_carbox_tp">
 													<i class="arrow"></i>
 													<div class="card_box cardbox_1 cli_card_box">
@@ -457,59 +500,28 @@ input.btn, input.btn_add, input.btn_disabled {
 														</b>
 														<!--账号-->
 														<div class="card_menoy">
-															<a>6217 0072 00** ***4 049</a>
+															<a  th:text="${cashSweep2.debit_account}"></a>
 														</div>
 														<div class="cad_money">
 															<div class="span_txt_moy" style="font-size: 12px">可用余额（元）</div>
-															<div class="backnone" id="">
-																<a>3.00</a>
+															<div class="backnone" id="showBalance2">
+																<a th:text="${cashSweep2.balance2}"></a>
 															</div>
 														</div>
 														<div class="pbd_cxdiv">
-															<span class="hide_mey">隐藏余额</span> <span class="card_op"
+															<span class="hide_mey" id="balance2Btn">隐藏余额</span> <span class="card_op"
 																style="width: 80px">
 																
 															</span>
 														</div>
 													</div>
 												</div>
-											</li>
-											<li style="float:left; margin-left:20px;">
-												<div class="carbox_tp cli_carbox_tp">
-													<i class="arrow"></i>
-													<div class="card_box cardbox_1 cli_card_box">
-														<h2 class="card_title">
-
-															<span title="储蓄账户"></span> <b class="card_logo"><img
-																src="images/logo.png" width="15px" height="15px;"></b>
-														</h2>
-														<b class="card_btitle"> <!--分行名--> <span
-															class="span_1">深圳市分行</span> <!--是否签约--> <span
-															class="span_2 ">已签约</span>
-														</b>
-														<!--账号-->
-														<div class="card_menoy">
-															<a>6217 0072 00** ***4 049</a>
-														</div>
-														<div class="cad_money">
-															<div class="span_txt_moy" style="font-size: 12px">可用余额（元）</div>
-															<div class="backnone" id="">
-																<a>3.00</a>
-															</div>
-														</div>
-														<div class="pbd_cxdiv">
-															<span class="hide_mey">隐藏余额</span> <span class="card_op"
-																style="width: 80px">
-																
-															</span>
-														</div>
-													</div>
-												</div>
-											</li>
+											</li>											
 										</ul>
 									</div>
 								</div>
 								<!-- 规则 -->
+								<div th:if="${session.isHaveCard} eq false">
 								<ul class="ul_liebiao">
 									<li class="li_liebiao0">
 										<div class="liebiao_div mb_20">
@@ -520,22 +532,19 @@ input.btn, input.btn_add, input.btn_disabled {
 													，您可以通过点击"新增归集"按钮设置资金归集规则。</span>
 											</h3>
 
-											<div id="nolist" class="" style="">
-
+											<div id="nolist" >
 												<div
 													style="text-align: center; margin-bottom: 40px; margin-top: 30px;">
 													<input class="btn mr_15"
-														type="button" value="新增归集"> <input
-														id="closeGuiji_" type="button"
-														class="btn  mr_15 btn_disabled" value="取消全部归集">
+														type="button" value="新增归集" id="addNewCollection">
 												</div>
 											</div>
 											
 										</div>
 									</li>
 								</ul>
-
-							<div id="center">
+							   </div>
+							<div id="center" th:if="${session.isHaveCard} eq true"  style="padding-top: 20px;">
 									
 									<div id="account">
 										<div id="form">
@@ -544,71 +553,79 @@ input.btn, input.btn_add, input.btn_disabled {
 												
 												<!-- 协议发起人自动识别 -->
 												<div class="form-group">
-													<label for="receiver_name" class="col-sm-3 control-label">协议发起人</label>
+													<label for="receiver_name" class="col-sm-4 control-label">协议发起人</label>
 													<div class="col-sm-6">
-														<input type="text" class="form-control" id="receiver_name"
-															name="receiver_name">
+														<input type="text" class="form-control" id="receiver_name" readonly="readonly"
+															name="receiver_name" th:value="${session.cashSweep.receiver_name}">
 													</div>
 												</div>
 																			
 												<!-- 参与协议卡（账）号 -->
 												<div class="form-group">
-													<label for="collection_accout" class="col-sm-3 control-label">参与协议卡（账）号</label>
+													<label for="collection_accout" class="col-sm-4 control-label">参与协议卡号（主卡）收款账户</label>
 													<div class="col-sm-6">
-														<select class="form-control ">
-															<option value="1231231231231">1212131131313131</option>
-															<option value="1231231231231">1212131131313131</option>
-														</select>
+														<input type="text" class="form-control" id="collection_accout"
+															name="collection_accout" th:value="${session.cashSweep.collection_accout}" readonly="readonly">
 															
 													</div>
 												</div>
 												
 												<!-- 服务项目 -->
 												<div class="form-group">
-													<label for="service_items" class="col-sm-3 control-label">服务项目</label>
+													<label for="service_items" class="col-sm-4 control-label">服务项目</label>
 													<div class="col-sm-6">
-														<input type="text" class="form-control" id="service_items"
-															name="service_items">
+														<input type="text" class="form-control" id="service_items" readonly="readonly"
+															name="service_items" th:value="${session.cashSweep.service_items}">
 													</div>
 												</div>
-												<!-- 理财序号 -->
+												<!-- 协议期限 理财序号 -->
 												<div class="form-group">
-													<label for="financial_number" class="col-sm-3 control-label">理财序号</label>
-													<div class="col-sm-6">
-														<input type="text" class="form-control" id="financial_number"
-															name="financial_number">
+													<label for="financial_number" class="col-sm-4 control-label">协议期限</label>
+													<div class="col-sm-6" th:switch="${session.cashSweep.financial_number}">
+														<input type="text" class="form-control" id="financial_number" readonly="readonly"
+															name="financial_number" th:case="1" value="一个月" >
+														<input type="text" class="form-control" id="financial_number" readonly="readonly"
+															name="financial_number" th:case="2" value="三个月" >
+														<input type="text" class="form-control" id="financial_number" readonly="readonly"
+															name="financial_number" th:case="3" value="六个月" >
+														<input type="text" class="form-control" id="financial_number" readonly="readonly"
+															name="financial_number" th:case="*" value="十二个月" >
 													</div>
 												</div>
 												<!-- 卡（账）号 -->
 												<div class="form-group">
-													<label for="card_id" class="col-sm-3 control-label">卡（账）号 </label>
+													<label for="debit_account" class="col-sm-4 control-label">参与协议卡号（副卡）扣款账户 </label>
 													<div class="col-sm-6">
-														<input type="text" class="form-control" id="card_id"
-															name="card_id">
+														 <select name="debit_account" id="debit_account"
+															class="form-control ">														
+															<option th:each="cashSweep2:${session.collectionList}" th:value="${cashSweep2.debit_account}" th:text="${cashSweep2.debit_account}"></option>															
+														 </select>
 													</div>
 												</div>
-												<!-- 协议生效时间 -->
+												<!-- 服务生效时间 -->
 												<div class="form-group">
-													<label for="start_time" class="col-sm-3 control-label">协议生效时间</label>
+													<label for="start_time" class="col-sm-4 control-label">服务生效时间</label>
 													<div class="col-sm-6">								
 															<input type="text" class="form-control" id="start_time" readonly="readonly" 
-															name="start_time">
+															name="start_time" th:value="${#dates.format(session.cashSweep.start_time,'yyyy-MM-dd')}">
 													</div>
 												</div>
-												<!-- 协议失效时间 -->
+												<!-- 服务失效时间 -->
 												<div class="form-group">
-													<label for="end_time" class="col-sm-3 control-label">协议生效时间</label>
+													<label for="end_time" class="col-sm-4 control-label">服务失效时间</label>
 													<div class="col-sm-6">								
 															<input type="text" class="form-control" id="end_time" readonly="readonly" 
-															name="end_time">
+															name="end_time" th:value="${#dates.format(session.cashSweep.end_time,'yyyy-MM-dd')}">
 													</div>
 												</div>
 												<!-- 当前状态-->
 												<div class="form-group">
-													<label for="state" class="col-sm-3 control-label">协议生效时间</label>
-													<div class="col-sm-6">								
-															<input type="text" class="form-control" id="state" 
-															name="state">
+													<label for="state" class="col-sm-4 control-label">当前状态</label>
+													<div class="col-sm-6" th:switch="${session.cashSweep.state}">								
+															<input type="text" class="form-control" id="state" readonly="readonly"
+															name="state" th:case="0" value="正常" >
+															<input type="text" class="form-control" id="state" readonly="readonly"
+															name="state" th:case="*" value="失效" >
 													</div>
 												</div>
 
@@ -654,7 +671,38 @@ input.btn, input.btn_add, input.btn_disabled {
 
     <!--复用尾部-->
     <div id="footer"></div>
-
+	
+	<!-- 模态框 -->
+		<div class="modal fade" id="checkPailPWD" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<!-- <span aria-hidden="true">&times;</span> -->
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">验证支付密码</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="checkPailPWDForm" method="post"
+						action="/shutDownService">
+						<div class="form-group">
+							<label for="email" class="col-sm-2 control-label">支付密码:</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="pailPWD" name="pailPWD" />							
+							</div>
+							
+						</div>					
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" id="outbindPailPWD">取消</button>
+					<button type="button" class="btn btn-primary" id="bindPailPWD">保存</button>
+				</div>
+			</div>
+		</div>
+	 </div>
    
     
 </body>

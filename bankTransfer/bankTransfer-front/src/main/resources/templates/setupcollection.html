@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 <title>新建归集</title>
@@ -23,17 +23,6 @@
 <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
 <!-- Style-CSS -->
 <link rel="stylesheet" href="css/font-awesome.css">
-<!-- Font-Awesome-Icons-CSS -->
-<!-- //css files -->
-<!-- web-fonts -->
-<link
-	href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900"
-	rel="stylesheet">
-<link
-	href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
-	rel="stylesheet">
-	
-<!-- //web-fonts -->
 
 <script type="application/x-javascript">
 	
@@ -52,9 +41,43 @@
 		$("#header").load("common/header.html");
 		//复用尾部JS
 		$("#footer").load("common/footer.html");
-	 
+		
+		//显示模态框
+		 $('#checkPailPWD').modal('show');
+		 
+		 $("#outbindPailPWD").click(function(){
+			 location.href="/mycollection";
+		 })
+	 	
+		  //给保存按钮添加一个点击事件,提交表单,用于验证支付密码
+           $("#checkPailPWDForm").ajaxForm(function(data){
+               if(data.success){
+                    //关闭模态框
+               	 $('#checkPailPWD').modal('hide');
+               }else{
+                   $.messager.popup(data.msg);
+               }
+           });
+           $("#bindPailPWD").click(function(){
+               $("#checkPailPWDForm").submit();
+           });
+           
+		//显示日期      
+	       $("#start_time").datetimepicker({
+	    	   format: 'yyyy-mm-dd',
+	    	   language:'zh-CN',
+	    	   minView:2
+	           //endDate:new Date()
+	       });
+	       $("#end_time").datetimepicker({
+	    	   format: 'yyyy-mm-dd',
+	    	   language:'zh-CN',
+	    	   minView:2
+	           //endDate:new Date()
+	       });
+		
 		//表单验证
-		$("#newCollectionForm").validate({ 
+		$("#updateCollectionForm").validate({ 
 			rules:{
 				collection_accout:{
 					required:true					
@@ -76,20 +99,20 @@
 					required:true,
 				}
 			},
-			messages:{
+			messages:{				
 				collection_accout:{
-					required:"请填写收款账号",
+					required:"请填写收款账号"
 				},
 				debit_account:{
-					required:"请填写归集卡号!",
+					required:"请填写归集卡号!"
 					//rangelength:"归集卡号长度必须是19位!",
 					//remote:"该卡号不存在!"
 				},
 				receiver_name:{
-					required:"请填写用户名!",					
+					required:"请填写用户名!"				
 				},
 				transferred_money:{
-					required:"请填写保留金额!",
+					required:"请填写保留金额!"
 					
 				},
 				debit_tel:{
@@ -101,7 +124,7 @@
 				}
 			},
 			submitHandler:function(form){
-				$("#newCollectionForm").ajaxSubmit({
+				$("#updateCollectionForm").ajaxSubmit({
 					dataType:"json",
 					success:function(data){
 						if(data.success){
@@ -109,7 +132,7 @@
 										ok:{ text: "关闭", classed: 'btn­default' },
 										cancel: { text: "取消", classed: 'btn­error' }
 							};
-							$.messager.confirm("提示","设置资金归集成功",function(){
+							$.messager.confirm("提示","修改资金归集成功",function(){
 								//跳转到我的归集页面
 								location.href="/mycollection";
 							});
@@ -462,11 +485,11 @@ input.btn, input.btn_add, input.btn_disabled {
 	<div class="w3_wthree_agileits_icons main-grid-border">
 		<div class="container">
 			<h3 class="tittle">
-				<span>新</span>建归<span>集</span>
+				<span>归</span>集设<span>置</span>
 			</h3>
 			<div class="grid_3 grid_4 w3_agileits_icons_page">
 				<div class="icons">
-					<h3 class="agileits-icons-title">请填写以下信息</h3>
+					<h3 class="agileits-icons-title">资金归集信息如下</h3>
 
 					<div id="pbd">
 						<div class="border_box mb_0">
@@ -481,115 +504,130 @@ input.btn, input.btn_add, input.btn_disabled {
 									
 									<div id="account">
 										<div id="form">
-											<form class="form-horizontal" action="#" method="POST"
-												id="newCollectionForm">						
+											<form class="form-horizontal" action="/saveUpdateCollection" method="POST"
+												id="updateCollectionForm">						
+												<!-- 参与协议卡（账）号 -->
 												<div class="form-group">
-													<label for="collection_accout" class="col-sm-3 control-label">收款账户</label>
-													<div class="col-sm-6">											
-														<select name="collection_accout" id="collection_accout"
-															class="form-control ">
-															<option value="1231231231231">1212131131313131</option>
-															<option value="1231231231231">1212131131313131</option>
-														</select>
-													</div>
-												</div>
-												<div class="form-group">
-													<label for="collecting_type" class="col-sm-3 control-label">收款方式</label>
+													<label for="collection_accout" class="col-sm-4 control-label">参与协议卡号（主卡）收款账户</label>
 													<div class="col-sm-6">
-														<select name="collecting_type" id="collecting_type"
-															class="form-control ">
-															<option value="1">保留余额</option>
-														</select>
+														<input type="text" class="form-control" id="collection_accout"
+															name="collection_accout" th:value="${session.cashSweep.collection_accout}">
+															
 													</div>
 												</div>
 												
+												<!-- 服务项目 -->
 												<div class="form-group">
-													<label for="debit_account" class="col-sm-3 control-label">归集卡号</label>										
-														<div class="col-sm-6">										
-														 <select name="debit_account" id="debit_account"
-															class="form-control ">
-															<option value="1231231231231">1212131131313131</option>
-															<option value="1231231231231">1212131131313131</option>
-														 </select>
-														</div>
-													
-												</div>
-												<!-- 用户名自动识别 -->
-												<div class="form-group">
-													<label for="receiver_name" class="col-sm-3 control-label">用户名</label>
+													<label for="service_items" class="col-sm-4 control-label">服务项目</label>
 													<div class="col-sm-6">
-														<input type="text" class="form-control" id="receiver_name"
-															name="receiver_name">
+														<input type="text" class="form-control" id="service_items" readonly="readonly"
+															name="service_items" th:value="${session.cashSweep.service_items}">
+													</div>
+												</div>
+												<!-- 协议期限 理财序号 -->
+												<div class="form-group">
+													<label for="financial_number" class="col-sm-4 control-label">协议期限</label>
+													<div class="col-sm-6">
+														<select name="financial_number" id="financial_number"
+															class="form-control ">
+															<option value="1" th:selected="${session.cashSweep.financial_number eq '1'}">一个月</option>
+															<option value="2" th:selected="${session.cashSweep.financial_number eq '2'}">三个月</option>
+															<option value="3" th:selected="${session.cashSweep.financial_number eq '3'}">六个月</option>
+															<option value="4" th:selected="${session.cashSweep.financial_number eq '4'}">十二个月</option>
+														</select>
+													</div>
+												</div>
+												<!-- 卡（账）号 -->
+												<div class="form-group">
+													<label for="debit_account" class="col-sm-4 control-label">参与协议卡号（副卡）扣款账户 </label>
+													<div class="col-sm-6">
+														 <select name="debit_account" id="debit_account"
+															class="form-control ">														
+															<option th:each="cashSweep2:${session.collectionList}" th:value="${cashSweep2.debit_account}" th:text="${cashSweep2.debit_account}"></option>															
+														 </select>
+													</div>
+												</div>
+												<!-- 服务生效时间 -->
+												<div class="form-group">
+													<label for="start_time" class="col-sm-4 control-label">服务生效时间</label>
+													<div class="col-sm-6">								
+															<input type="text" class="form-control" id="start_time" readonly="readonly"
+															name="start_time" th:value="${#dates.format(session.cashSweep.start_time,'yyyy-MM-dd')}">
+													</div>
+												</div>
+												<!-- 服务失效时间 -->
+												<div class="form-group">
+													<label for="end_time" class="col-sm-4 control-label">服务失效时间</label>
+													<div class="col-sm-6">								
+															<input type="text" class="form-control" id="end_time" readonly="readonly"
+															name="end_time" th:value="${#dates.format(session.cashSweep.end_time,'yyyy-MM-dd')}">
+													</div>
+												</div>
+																																			
+												<!-- 当前状态-->
+												<div class="form-group">
+													<label for="state" class="col-sm-4 control-label">当前状态</label> 
+													<div class="col-sm-6" th:switch="${session.cashSweep.state}"> 								
+															<input type="text" class="form-control" id="state" readonly="readonly"
+															name="state" th:case="0" value="正常" >
+															<input type="text" class="form-control" id="state" readonly="readonly"
+															name="state" th:case="*" value="失效" >
+													</div>
+												</div>
+												<!-- 用户名 -->
+												<div class="form-group">
+													<label for="receiver_name" class="col-sm-4 control-label">用户名</label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="receiver_name" 
+															name="receiver_name" th:value="${session.cashSweep.receiver_name}">
+													</div>
+												</div>
+												<!-- 归集方式 -->
+												<div class="form-group">
+													<label for="collecting_type" class="col-sm-4 control-label">归集方式</label>
+													<div class="col-sm-6">
+														<select name="collecting_type" id="collecting_type"
+															class="form-control ">
+															<option value="0" th:selected="${session.cashSweep.collecting_type eq '0'}">保留余额</option>
+															<option value="1" th:selected="${session.cashSweep.collecting_type eq '1'}">定期转入</option>
+														</select>
 													</div>
 												</div>
 												<!-- 所属银行 -->
 												<div class="form-group">
-													<label for="bank_id" class="col-sm-3 control-label">所属银行</label>
-													<div class="col-sm-6">
+													<label for="bank_id" class="col-sm-4 control-label">所属银行</label>
+													<div class="col-sm-6" >
 														<select name="bank_id" id="bank_id"
-															class="form-control ">
-															<option value="1">中国建设银行</option>
-															<option value="2">中国银行</option>
-															<option value="3">中国邮政储蓄</option>
-															<option value="4">中国农业银行</option>
-															<option value="5">中国招商银行</option>
+															class="form-control ">																
+															<option value="1" th:selected="${session.cashSweep.bank_id eq '1'}">建设银行</option>	
+															<option value="2" th:selected="${session.cashSweep.bank_id eq '2'}">工商银行</option>		
+															<option value="3" th:selected="${session.cashSweep.bank_id eq '3'}">农商银行</option>
+															<option value="4" th:selected="${session.cashSweep.bank_id eq '4'}">邮政银行</option>		
+															<option value="999" th:selected="${session.cashSweep.bank_id eq '999'}">乔治银行</option>											
 														</select>
 													</div>
-												</div>									
-												<!-- 选择保留余额时 -->
+												</div>
+												
+												<!-- 保留余额 -->
 												<div class="form-group">
-													<label for="transferred_money" class="col-sm-3 control-label">保留金额</label>
+													<label for="transferred_money" class="col-sm-4 control-label">保留金额</label>
 													<div class="col-sm-6">
-														<input type="text" class="form-control" id="transferred_money"
-															name="transferred_money">
+														<input type="text" class="form-control" id="transferred_money" 
+															name="transferred_money" th:value="${session.cashSweep.transferred_money}">
 													</div>
 												</div>
-												
-												<!-- 归集账户2 -->
-												<div class="form-group">
-													<label for="debit_account2" class="col-sm-3 control-label">归集账户2</label>
-													<div class="col-sm-6">								
-															
-														 <select name="debit_account2" id="debit_account2"
-															class="form-control ">
-															<option value="1231231231231">1212131131313131</option>
-															<option value="1231231231231">1212131131313131</option>
-														 </select>
-													</div>
-												</div>
-												<!-- 协议生效时间 -->
-												<div class="form-group">
-													<label for="debit_account2" class="col-sm-3 control-label">协议生效时间</label>
-													<div class="col-sm-6">								
-															<input type="text" class="form-control" id="start_time" readonly="readonly" 
-															name="start_time">
-													</div>
-												</div>
-												<!-- 协议期限 -->
-												<div class="form-group">
-													<label for="financial_number" class="col-sm-3 control-label">协议期限</label>
-													<div class="col-sm-6">								
-															<select name="financial_number" id="financial_number"
-															class="form-control ">
-															<option value="1">一个月</option>
-															<option value="2">三个月</option>
-															<option value="3">六个月</option>
-															<option value="4">十二个月</option>
-														</select>
-													</div>
-												</div>
-												
 											
-												<div class="form-group">
-					                                <label for="" class="col-sm-3 control-label">附言</label>
-					                                <div class="col-sm-8">
-					                                    <textarea  class="form-control" rows="3"> 客户使用个人账户资金网上自动归集服务的，应按照1个月2元、3个月6元、6个月10元、12个月18元的标准向我行支付个人账户资金网上自动归集服务费                         
-					                                    </textarea>					
-					                                </div>
-				                            	</div>
-
-												<div class="form-group ">
-													<div class="col-sm-offset-4 col-sm-10 ">
+												<!-- 短信通知手机号 -->
+												 <div class="form-group">
+													<label for="debit_tel" class="col-sm-4 control-label">短信通知手机号</label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="debit_tel" 
+															name="debit_tel" th:value="${session.cashSweep.debit_tel}">													
+													</div>													
+												</div> 
+											 	
+											 	<div class="form-group ">
+													<div class="col-sm-offset-7 col-sm-10 ">
 														<button type="submit" class="btn btn-default btn-success" id="saveCollection">保存</button>
 														<!-- <button type="button" class="btn btn-default btn-success">取消全部归集</button> -->
 													</div>						
@@ -631,7 +669,37 @@ input.btn, input.btn_add, input.btn_disabled {
 
 	<!--复用尾部-->
 	<div id="footer"></div>
-
+<!-- 模态框 -->
+		<div class="modal fade" id="checkPailPWD" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<!-- <span aria-hidden="true">&times;</span> -->
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">验证支付密码</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="checkPailPWDForm" method="post"
+						action="/checkPailPWD">
+						<div class="form-group">
+							<label for="email" class="col-sm-2 control-label">支付密码:</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="pailPWD" name="pailPWD" />							
+							</div>
+							
+						</div>					
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" id="outbindPailPWD">取消</button>
+					<button type="button" class="btn btn-primary" id="bindPailPWD">保存</button>
+				</div>
+			</div>
+		</div>
+	 </div>
 	
 </body>
 
