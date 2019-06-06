@@ -39,6 +39,8 @@ public class TransferSingle_VO implements Serializable {
 	private String documentType;
 	/**证件号*/
 	private String documentNum;
+	/**手机号码*/
+	private String phone;
 	/**转账结果*/
 	private String result;
 	/**转账手续费*/
