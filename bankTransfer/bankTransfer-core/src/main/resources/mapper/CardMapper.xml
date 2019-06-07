@@ -22,15 +22,12 @@
 	select <include refid="cardColumn"/> from t_card where user_id = #{user_id} and card_state = '1' and major_card=#{major_card}
 	</select>
 	
-<<<<<<< HEAD
-=======
 	<!-- 验证交易密码 -->
 	<select id="checkPailPWD" resultType="int">
 	select count(0) from t_card where  user_id=#{user_id} and password=#{pailPWD}
 	
 	</select>
 	
->>>>>>> branch 'master' of https://github.com/blacktean/project.git
 	<sql id="cardColumn">
 		id,id_card,start_place,currency,balance,available_balance,start_place_id,
 		password,card_type,user_id,card_state,major_card,create_time,

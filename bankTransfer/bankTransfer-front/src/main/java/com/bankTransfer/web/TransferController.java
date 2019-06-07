@@ -65,7 +65,7 @@ public class TransferController {
 	@PostMapping("batchTranfer")
 	public JsonResult batchTransfer(TransferBatch_VO batch_VO) {
 		JsonResult jsonResult = new JsonResult();
-		
+		System.err.println(batch_VO);
 		
 		
 		return jsonResult;

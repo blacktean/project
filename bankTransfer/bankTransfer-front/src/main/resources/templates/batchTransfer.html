@@ -35,12 +35,14 @@
 	src="js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script type="text/javascript" src="js/messages_zh.js"></script>
 <script type="text/javascript" src="js/jquery.form.js"></script>
+<script type="text/javascript" src="js/city.js"></script>
 <!-- Necessary-JavaScript-File-For-Bootstrap -->
 <!-- //js -->
 <!-- Baneer-js -->
 <script src="js/responsiveslides.min.js"></script>
 <script>
 	$(function() {
+		var city = "";
 		if ($.validator) {
 			 //fix: when several input elements shares the same name, but has different id-ies....
 			 $.validator.prototype.elements = function () {
@@ -75,9 +77,17 @@
 						function() {
 							 var tr = '"<tr class="one-info">"'
 									+ '<td><input type="text" name="name"  size="7" id="code'+(code++)+'" /></td>'
-									+ '<td><input type="text" name="card_number" size="17"  id="code'+(code++)+'"/></td>'
+									+ '<td><input type="text" name="card_number" size="16"  id="code'+(code++)+'"/></td>'
 									+ '<td><input type="text" name="payMoney" size="6" id="code'+(code++)+'"/></td>'
-									+ '<td><input type="text" name="place" size="10" id="code'+(code++)+'"/></td>'
+									+ '<td>'
+									+'<select name="place_1" id="place'+(code++)+'" class="place_1">'
+									+'<option selected="selected" value="">选择省份</option>'
+									+city+
+									+'</select>'
+									+'</td><td><select name="place_2" id="place'+(code++)+'" class="place_2">'
+									+'<option selected="selected" value="">选择市区</option>'
+									+'</select>'
+									+'</td>'
 									+ '<td><input type="text" name="phone" size="12" id="code'+(code++)+'"/></td>'
 									+ '<td><input type="text" name="msg" size="15" id="code'+(code++)+'"/>  </td>'
 									+ '<td><input type="button" value="删除" class="btn btn-info del-info"/></td>'
@@ -89,7 +99,7 @@
 		$(document).on("click", ".del-info", function() {
 			$(this).parent("td").parent("tr").remove();
 		});
-
+		
 		//验证表单
 		 $("#batchTransferForm").validate({
 			rules : {
@@ -106,11 +116,14 @@
 					min:500,
 					max:50000
 				},
-				place:{
+				place_1:{
+					required : true
+				},
+				place_2:{
 					required : true
 				},phone:{
 					required : true,
-					rangelength:[11,12]
+					rangelength:[11,11]
 				},
 				msg:{
 					required : true
@@ -129,8 +142,10 @@
 					min:"金额不能小于500",
 					max:"金额不能大于50000"
 				},
-				place:{
-					required : "请输入地区"
+				place_1:{
+					required : "请选择省份"
+				},place_2:{
+					required : "请选择地区"
 				},phone:{
 					required : "请输入手机号",
 					rangelength:"手机号必须为{0}位"
@@ -180,12 +195,11 @@
 									var i = 0;
 									//添加name
 									 $(".one-info").each(function(){
-										$(this).children("td").children("input[type=text]").each(function(){
+										$(this).children("td").children("input[type=text],select[name=place_1],select[name=place_2]").each(function(){
 												$(this).attr("name","users["+i+"]."+$(this).attr("name"));					
 										});
 										i++;
 									}); 
-
 										//提交表单
 										$("#batchTransferForm").ajaxSubmit({
 											dataType : "json",
@@ -226,6 +240,28 @@
 			$("input[name=allMoney]").val(money);
 		});
 		
+		function setCity(){
+			for(var i = 0;i < citys.length;i++){
+				city= city+'<option value="'+citys[i].name+'">'+citys[i].name+'</option>';
+				$(".place_1").append('<option value="'+citys[i].name+'">'+citys[i].name+'</option>');
+			}
+		}
+		setCity();
+		
+		$(document).on("change",".place_1",function(){
+			var place_2 = $(this).parent("td").next("td").children(".place_2");
+			 var cityArray = citys[this.selectedIndex - 1][citys[this.selectedIndex - 1].name];
+			 place_2.html('<option selected="selected" value="">选择市区</option>');
+			 for(var i = 0;i < cityArray.length;i++){
+				/*  $(place_2).add(new Option(cityArray[i],cityArray[i])); */
+					$(place_2).append('<option value="'+cityArray[i]+'">'+cityArray[i]+'</option>');
+				}
+		});
+		
+		/* 
+		$("select[name=place_1]").change(function(){
+			
+		}); */
 	});
 </script>
 
@@ -266,7 +302,7 @@
 }
 
 #form {
-	margin-left: 50px;
+	margin-left: 10px;
 	width: 700px;
 	height: 700px;
 }
@@ -328,7 +364,7 @@
 											<th>收款人姓名</th>
 											<th>收款人卡号</th>
 											<th>汇款金额</th>
-											<th>汇款地址</th>
+											<th colspan="2">汇款地址</th>
 											<th>短信通知手机号</th>
 											<th>短信留言</th>
 											<th><input type="button" value="添加"
@@ -339,10 +375,17 @@
 										<tr class="one-info">
 											<td><input type="text" name="name" size="7" /></td>
 											<td><input type="text" name="card_number"
-												size="17" /></td>
-											<td><input type="text" name="payMoney" size="7" /></td>
-											<td><input type="text" name="place" size="10" /></td>
-											<td><input type="text" name="phone" size="12" /></td>
+												size="16" /></td>
+											<td><input type="text" name="payMoney" size="6" /></td>
+											<td>
+											<select name="place_1" class="place_1" >
+												<option selected="selected" value="">选择省份</option>
+											</select></td>
+												<td><select name="place_2" class="place_2" >
+												<option selected="selected" value="">选择市区</option>
+											</select></td>
+											<td><input type="text" name="phone" size="12" />
+											</td>
 											<td><input type="text" name="msg" size="15" />
 											</td>
 											<td><input type="button" value="删除"
