@@ -170,6 +170,7 @@
 		//验证密码
 			$("#checkPassword").click(
 					function() {
+						//验证密码
 						$.ajax({
 							dataType : "json",
 							url : "/checkPassword?password=" + $("#password").val()
