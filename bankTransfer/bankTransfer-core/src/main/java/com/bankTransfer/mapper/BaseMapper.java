@@ -8,6 +8,7 @@ import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.CardType;
 import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.Document;
+import com.bankTransfer.pojo.Logininfo;
 
 import io.lettuce.core.dynamic.annotation.Param;
 @Mapper
