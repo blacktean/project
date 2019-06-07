@@ -40,5 +40,6 @@ public class Logininfo implements Serializable {
 	private Integer usertype;
 	/**手机号*/
 	private String telphone;
-	
+	/**剩余登陆次数*/
+	private Integer times;
 }	
