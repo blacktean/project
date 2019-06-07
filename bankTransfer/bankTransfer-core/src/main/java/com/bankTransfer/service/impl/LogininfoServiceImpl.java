@@ -24,7 +24,7 @@ public class LogininfoServiceImpl implements ILogininfoService {
 
 	@Override
 	public boolean queryByUsernameOrPhoneAndPassword(String login_number, String login_password, int usertype) throws LogininfoException {
-		Logininfo logininfo =logininfoMapper.queryByUsernameOrPhoneAndPassword(login_number, MD5.encode(login_password));
+		Logininfo logininfo =logininfoMapper.queryByUsernameOrPhoneAndPassword(login_number, MD5.encode(login_password),usertype);
 		if(logininfo!=null) {
 			if(logininfo.getState()==Logininfo.STATE_LOCK) {
 				throw new LogininfoException("账户已锁定");

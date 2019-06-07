@@ -32,7 +32,7 @@ public class LogininfoController {
 	JsonResult js = new JsonResult();
 	boolean isOk;
 	try {
-		isOk = logininfoService.queryByUsernameOrPhoneAndPassword(login_number, login_password, 0);
+		isOk = logininfoService.queryByUsernameOrPhoneAndPassword(login_number, login_password, com.bankTransfer.pojo.Logininfo.USERTYPE_NORMAL);
 		System.err.println(isOk);
 		if(!isOk) {
 			js.setSuccess(false);

@@ -21,6 +21,6 @@
 		
 	</select>
 	 <select id="queryByUsernameOrPhoneAndPassword" resultType="Logininfo" >
-		select <include refid="key"/> from Logininfo where  password=#{login_password} and username=#{login_number} or telphone=#{login_number}  
+		select <include refid="key"/> from Logininfo where usertype=#{usertype} and password=#{login_password} and username=#{login_number} or telphone=#{login_number}  
 	</select>
 </mapper>
