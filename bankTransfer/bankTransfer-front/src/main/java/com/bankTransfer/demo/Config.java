@@ -28,8 +28,8 @@ public class Config {
 //			data.setDriverClassName("com.mysql.jdbc.Driver");
 //			return data;
 //		}
-		
-		@Bean  
+
+		@Bean
 		public BasicDataSource dataSource() {
 			
 			BasicDataSource data = new BasicDataSource();
