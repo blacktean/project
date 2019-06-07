@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class TransferRgisterAccount_VO implements Serializable {
+public class TransferRegisterAccount_VO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	/**转出卡号*/

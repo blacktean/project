@@ -5,6 +5,14 @@ import java.util.List;
 import com.bankTransfer.pojo.Card;
 
 public interface ICardService {
+	
+	/**
+	 * 通过登录user_id查询当前用户的银行卡
+	 * @param user_id
+	 * @return 
+	 */
+	List<Card> queryCardByUserId(int user_id);
+	
 	/**
 	 * 通过登录id查询当前用户名
 	 * @param id

@@ -3,10 +3,11 @@ package com.bankTransfer.web;
 import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bankTransfer.pojo.TransferBatch_VO;
+import com.bankTransfer.pojo.TransferRegisterAccount_VO;
 import com.bankTransfer.pojo.TransferSingle_VO;
 import com.bankTransfer.service.ITransferService;
 import com.bankTransfer.util.APIUtils;
@@ -49,6 +50,23 @@ public class TransferController {
 			//往转账交易记录表中插入一条记录
 			transferService.insertRecord(singleVO);
 		}		
+		
+		return jsonResult;
+	}
+	
+	@PostMapping("registerAccountTransfer")
+	public JsonResult registerAccountTransfer(TransferRegisterAccount_VO transferRgister_VO) {
+		JsonResult jsonResult = new JsonResult();
+		
+		return jsonResult;
+	}
+	
+	
+	@PostMapping("batchTranfer")
+	public JsonResult batchTransfer(TransferBatch_VO batch_VO) {
+		JsonResult jsonResult = new JsonResult();
+		System.err.println(batch_VO);
+		
 		
 		return jsonResult;
 	}

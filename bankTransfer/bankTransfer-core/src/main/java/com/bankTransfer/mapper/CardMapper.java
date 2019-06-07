@@ -3,13 +3,21 @@ package com.bankTransfer.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import com.bankTransfer.pojo.Card;
 
 import io.lettuce.core.dynamic.annotation.Param;
 @Mapper
+@Repository
 public interface CardMapper {
 	
+	/**
+	 * 通过登录user_id查询当前用户的银行卡
+	 * @param user_id
+	 * @return 
+	 */
+	List<Card> queryCardByUserId(int user_id);
 	/**
 	 * 通过登录id查询当前资金归集用户名
 	 * @param id
