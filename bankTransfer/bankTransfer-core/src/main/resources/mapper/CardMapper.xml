@@ -15,8 +15,14 @@
 	</select>
 	<!-- 验证是否存在银行卡 -->
 	<select id="getCountByIdCard" resultType="int">
-		select count(0) from t_card where id_card=#{id_card}
+		select count(0) from t_card where id_card=#{id_card} and card_state = '1'
 	</select>
+	
+	<!-- 查询用户是否开户 -->
+	<select id="queryCard" resultType="int">
+	select count(0) from t_card where user_id = #{user_id} and card_state = '1' and major_card=#{major_card}
+	</select>
+	
 	<!-- 通过主副卡标志查询当前所有银行卡 -->
 	<select id="queryCardByUserIdAndMajorCard" resultType="Card">
 	select <include refid="cardColumn"/> from t_card where user_id = #{user_id} and card_state = '1' and major_card=#{major_card}

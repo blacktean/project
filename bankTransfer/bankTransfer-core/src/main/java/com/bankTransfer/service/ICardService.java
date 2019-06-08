@@ -29,6 +29,14 @@ public interface ICardService {
 	List<Card> queryCardByUserIdAndMajorCard(String user_id,String major_card);
 	
 	/**
+	 * 查询用户是否有银行卡
+	 * @param user_id 关联的用户ID
+	 * @param major_card 主卡或者副卡
+	 * @return
+	 */
+	boolean queryCard(String user_id,String major_card);
+	
+	/**
 	 * 验证是否存在银行卡
 	 * @param id_card
 	 * @return

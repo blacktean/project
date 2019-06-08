@@ -63,7 +63,7 @@
            });
            
 		//显示日期      
-	       $("#start_time").datetimepicker({
+	      /*  $("#start_time").datetimepicker({
 	    	   format: 'yyyy-mm-dd',
 	    	   language:'zh-CN',
 	    	   minView:2
@@ -74,17 +74,26 @@
 	    	   language:'zh-CN',
 	    	   minView:2
 	           //endDate:new Date()
-	       });
+	       }); */
 		
 		//表单验证
 		$("#updateCollectionForm").validate({ 
 			rules:{
 				collection_accout:{
-					required:true					
+					required:true,
+					rangelength:[19,19],
+					remote:{    		//验证卡号是否存在
+						url:"/checkDebit_account2",    //servlet
+						type:"post",
+						 data:{
+							 //username:function(){return $("#username").val();}
+							 debit_account2:function(){
+								 return $("#collection_accout").val();
+								 }
+					         }
+					}
 				},
-				debit_account:{
-					required:true					
-				},
+				
 				receiver_name:{
 					required:true,
 				},
@@ -94,20 +103,15 @@
 				debit_tel:{
 					required:true,
 					rangelength:[11,11]
-				},
-				start_time:{
-					required:true,
 				}
 			},
 			messages:{				
 				collection_accout:{
-					required:"请填写收款账号"
+					required:"请填写收款账号",
+					rangelength:"归集卡号长度必须是19位!",
+					remote:"该卡号不存在!"
 				},
-				debit_account:{
-					required:"请填写归集卡号!"
-					//rangelength:"归集卡号长度必须是19位!",
-					//remote:"该卡号不存在!"
-				},
+				
 				receiver_name:{
 					required:"请填写用户名!"				
 				},
@@ -118,9 +122,6 @@
 				debit_tel:{
 					required:"请填写通知的手机号!",
 					rangelength:"手机号码长度必须是11位!"
-				},
-				start_time:{
-					required:"请填写协议生效时间!"					
 				}
 			},
 			submitHandler:function(form){
@@ -525,7 +526,7 @@ input.btn, input.btn_add, input.btn_disabled {
 													</div>
 												</div>
 												<!-- 协议期限 理财序号 -->
-												<div class="form-group">
+												<div class="form-group" style="display:none;">
 													<label for="financial_number" class="col-sm-4 control-label">协议期限</label>
 													<div class="col-sm-6">
 														<select name="financial_number" id="financial_number"
@@ -541,10 +542,9 @@ input.btn, input.btn_add, input.btn_disabled {
 												<div class="form-group">
 													<label for="debit_account" class="col-sm-4 control-label">参与协议卡号（副卡）扣款账户 </label>
 													<div class="col-sm-6">
-														 <select name="debit_account" id="debit_account"
-															class="form-control ">														
-															<option th:each="cashSweep2:${session.collectionList}" th:value="${cashSweep2.debit_account}" th:text="${cashSweep2.debit_account}"></option>															
-														 </select>
+														 
+														 <input type="text" class="form-control" id="debit_account"
+															name="debit_account" th:each="cashSweep2:${session.collectionList}" th:value="${cashSweep2.debit_account}">
 													</div>
 												</div>
 												<!-- 服务生效时间 -->
@@ -582,6 +582,7 @@ input.btn, input.btn_add, input.btn_disabled {
 															name="receiver_name" th:value="${session.cashSweep.receiver_name}">
 													</div>
 												</div>
+												
 												<!-- 归集方式 -->
 												<div class="form-group">
 													<label for="collecting_type" class="col-sm-4 control-label">归集方式</label>
@@ -687,7 +688,7 @@ input.btn, input.btn_add, input.btn_disabled {
 						<div class="form-group">
 							<label for="email" class="col-sm-2 control-label">支付密码:</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="pailPWD" name="pailPWD" />							
+								<input type="password" class="form-control" id="pailPWD" name="pailPWD" />							
 							</div>
 							
 						</div>					

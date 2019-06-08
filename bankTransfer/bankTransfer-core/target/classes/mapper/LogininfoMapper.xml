@@ -14,7 +14,7 @@
 		<result property="usertype" column="usertype"/>
 	</resultMap> -->
 	<!-- 定义表中字段 -->
-	<sql id="key">id,username,password,state,usertype,telphone</sql>
+	<sql id="key">id,username,password,state,usertype,telphone,times</sql>
 	<!-- 查询所有数据 -->
 	<select id="queryAll" resultType="Logininfo">
 	select <include refid="key"/> from logininfo
