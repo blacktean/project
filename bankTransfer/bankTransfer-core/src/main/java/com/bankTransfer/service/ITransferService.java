@@ -13,6 +13,10 @@ public interface ITransferService {
 	void addContact(String receiveName, String receiveCardId);
 	/**插入一条转账交易成功记录*/
 	void insertRecord(TransferSingle_VO singleVO);
+	/**根据卡号查询该用户的转账限额*/
+	BigDecimal getMaxPrice(String paymentAccount);
+	/**验证身份证号与姓名是否存在于数据库并匹配*/
+	boolean judgeDocumentNum(String card, String name);
 	
 
 }

@@ -35,10 +35,6 @@ public class TransferSingle_VO implements Serializable {
 	private String bankName;
 	/**转账金额*/
 	private BigDecimal transferAmount;
-	/**证件类型*/
-	private String documentType;
-	/**证件号*/
-	private String documentNum;
 	/**转账结果*/
 	private String result;
 	/**转账手续费*/

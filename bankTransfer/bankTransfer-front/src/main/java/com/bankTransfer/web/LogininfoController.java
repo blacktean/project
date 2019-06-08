@@ -34,21 +34,8 @@ public class LogininfoController {
 	 * @param login_password 密 码
 	 * @return
 	 */
-<<<<<<< HEAD
-@RequestMapping("/logininfo")	
-@ResponseBody
-	public JsonResult Logininfo(String login_number,String login_password ) {
-	System.err.println("进来了");
-	System.err.println(login_number+""+login_password);
-	JsonResult js = new JsonResult();
-	boolean isOk;
-	try {
-		isOk = logininfoService.queryByUsernameOrPhoneAndPassword(login_number, login_password, com.bankTransfer.pojo.Logininfo.USERTYPE_NORMAL);
-		System.err.println(isOk);
-		if(!isOk) {
-			js.setSuccess(false);
-			js.setMsg("用户名或密码错误");
-=======
+
+
 	@RequestMapping("/logininfo")
 	@ResponseBody
 	public JsonResult Logininfo(String login_number, String login_password) {
@@ -58,7 +45,6 @@ public class LogininfoController {
 		boolean isOk;
 		try {
 			isOk = logininfoService.queryByUsernameOrPhoneAndPassword(login_number, login_password, 0);
->>>>>>> branch 'master' of https://github.com/blacktean/project.git
 			System.err.println(isOk);
 			if (!isOk) {
 				js.setSuccess(false);
