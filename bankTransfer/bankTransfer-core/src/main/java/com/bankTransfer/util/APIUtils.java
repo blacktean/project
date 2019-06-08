@@ -130,12 +130,38 @@ public class APIUtils {
 		try {
 			HttpResponse response = HttpUtils.doGet(host, path, GET_METHOD, headers, querys);
 			String result = JSONObject.parseObject(EntityUtils.toString(response.getEntity())).get("data").toString();
+			System.err.println(result);
 			jsonUserInfo = JSONObject.parseObject(result, JsonUserInfo.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return jsonUserInfo;
 	}
+	/**
+	 * 验证身份证号和姓名
+	 * @param number
+	 * @param name
+	 * @return
+	 */
+	public static boolean checkNumberAndName(String number,String name) {
+		 String host = "https://eid.shumaidata.com";
+		    String path = "/eid/check";
+		    Map<String, String> headers = new HashMap<String, String>();
+		    headers.put("Authorization", "APPCODE " + APP_CODE);
+		    Map<String, String> querys = new HashMap<String, String>();
+		    querys.put("idcard", number);
+		    querys.put("name", name);
+		    Map<String, String> bodys = new HashMap<String, String>();
+		    try {
+		    	HttpResponse response = HttpUtils.doPost(host, path, GET_METHOD, headers, querys, bodys);
+		    	String result = JSONObject.parseObject(EntityUtils.toString(response.getEntity())).get("code").toString();
+		    	return "0".equals(result);
+		    } catch (Exception e) {
+		    	e.printStackTrace();
+		    }
+		    return false;
+	}
+	
 
 	/**
 	 * 发送验证码
@@ -194,9 +220,6 @@ public class APIUtils {
 		return null;
 	}
 	
-	public static void main(String[] args) {
-		checkCard("方佳","6217994330006373628");
-	}
 
 	/**
 	 * 随机生成验证码

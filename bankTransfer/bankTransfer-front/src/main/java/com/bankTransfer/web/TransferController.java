@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+<<<<<<< HEAD
+=======
+import com.bankTransfer.pojo.TransferBatch_VO;
+>>>>>>> branch 'master' of https://github.com/blacktean/project.git
 import com.bankTransfer.pojo.TransferRegisterAccount_VO;
 import com.bankTransfer.pojo.TransferSingle_VO;
 import com.bankTransfer.service.ITransferService;
@@ -80,6 +84,23 @@ public class TransferController {
 			jsonResult.setSuccess(false);
 			jsonResult.setMsg("身份信息输入有误!");
 		}
+		return jsonResult;
+	}
+	
+	@PostMapping("registerAccountTransfer")
+	public JsonResult registerAccountTransfer(TransferRegisterAccount_VO transferRgister_VO) {
+		JsonResult jsonResult = new JsonResult();
+		
+		return jsonResult;
+	}
+	
+	
+	@PostMapping("batchTranfer")
+	public JsonResult batchTransfer(TransferBatch_VO batch_VO) {
+		JsonResult jsonResult = new JsonResult();
+		System.err.println(batch_VO);
+		
+		
 		return jsonResult;
 	}
 	

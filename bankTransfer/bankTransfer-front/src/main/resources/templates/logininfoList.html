@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>分页查询例子</title>
+<!-- Meta tag Keywords -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+
+<link rel="stylesheet" href="css/bootstrap.css">
+
+</head>
+
+<body>
+	<div class="table-bordered"
+			style="border-radius: 5px; margin-top: 20px; width:1000px; margin:0px auto;">
+			<table class="table table-hover ">
+				<thead>
+							<tr>
+								<td>用户ID</td>
+								<td>用户名</td>
+								<td>用户密码</td>
+								<td>账号状态</td>
+								<td>用户类型</td>
+								<td>手机号</td>
+								<td>剩余登陆次数</td>
+							</tr>
+				</thead>
+				<tbody>
+					
+						<tr th:each="loginfinfo:${session.logininfolist}">
+							<td th:text="${loginfinfo.id}"></td>
+							<td th:text="${loginfinfo.username}"></td>
+							<td th:text="${loginfinfo.password}"></td>
+							<td th:if="${loginfinfo.state} eq '0'">正常状态</td>
+							<td th:if="${loginfinfo.state} eq '1'">锁定状态</td>
+							<td th:if="${loginfinfo.state} eq '2'">已删除状态</td>
+							<td th:if="${loginfinfo.usertype} eq '0'">前台用户</td>
+							<td th:if="${loginfinfo.usertype} eq '1'">后台用户</td>
+							<td th:text="${loginfinfo.telphone}"></td>
+							<td th:text="${loginfinfo.times}"></td>
+						</tr>
+					
+				</tbody>
+	 </table>
+	 </div>
+</body>
+
+</html>
