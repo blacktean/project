@@ -25,6 +25,8 @@
 	<select id="queryCardByIdCardAndPassword" resultType="Card">
 	select id_card from t_card where id_card = #{id_card} and password = #{password}
 	</select>
+
+
 	
 	<sql id="cardTypeColumn">
 	id,type_name,type_code
@@ -35,6 +37,7 @@
 	<sql id="currencyColumn">
 	id,money_name,money_number
 	</sql>
+	
 	
 	<sql id="cardColumn">
 id,id_card,start_place,currency,balance,available_balance,start_place_id,

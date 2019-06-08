@@ -7,7 +7,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
-
+<script type="application/x-javascript">
+        addEventListener("load", function() {
+            setTimeout(hideURLbar, 0);
+        }, false);
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+</script>
 <!--// Meta tag Keywords -->
 <!-- css files -->
 <link rel="stylesheet" href="css/bootstrap.css">
@@ -59,6 +66,15 @@
 	height: 800px;
 }
 </style>
+<!-- //css files -->
+<!-- web-fonts -->
+<link
+	href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900"
+	rel="stylesheet">
+<link
+	href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
+	rel="stylesheet">
+<!-- //web-fonts -->
 </head>
 <script type="text/javascript">
 	$(function() {
@@ -67,36 +83,59 @@
 		$("#header").load("common/header.html");
 		//复用尾部JS
 		$("#footer").load("common/footer.html");
-
+		//验证表单
 		$("#registerAccountTransferForm").validate({
 			rules : {
-				realName:{
+				realName : {
 					required : true,
 				},
-				documentNum:{
+				documentNum : {
 					required : true
+				},
+				phone : {
+					required : true,
+					remote : {
+						url : "/checkPhone",
+						type : "post"
+					}
+				},
+				code : {
+					required : true,
+					remote : {
+						url : "/checkCode",
+						type : "post"
+					}
+				},
+				imgCode : {
+					required : true,
+					remote : {
+						url : "/checkImgCode",
+						type : "post"
+					}
 				}
 			},
 			messages : {
-				realName:{
+				realName : {
 					required : "真实姓名不能为空!!",
 				},
-				documentNum:{
-					required : "证件号不能为空"
+				documentNum : {
+					required : "证件号不能为空!!"
+				},
+				phone : {
+					required : "手机号不能为空",
+					remote : "手机号与绑定的手机号不一致"
+				},
+				code : {
+					required : "手机验证码不能为空",
+						remote : "手机验证码错误,请重新输入"
+				},
+				imgCode : {
+					required : "图片验证码不能为空",
+					remote : "验证码有误,请重新输入"
 				}
 			},
 			submitHandler : function(form) {
-				$(form).ajaxSubmit({
-					dataType:"json",
-					success:function(data){
-						if(data.success){
-							
-						}else{
-							$.messager.popup("转账失败!");
-						}
-					},
-					resetForm:true
-				});
+				checkBalance();
 			},
 			errorClass : "text-danger",
 			highlight : function(element) {
@@ -105,8 +144,18 @@
 			unhighlight : function(element) {
 				$(element).closest("div.form-group").removeClass("has-error");
 			}
-		})
-		
+		});
+		//检查余额是否足够
+		function checkBalance() {
+			if (parseInt($("#balance").val()) < parseInt($("#paymentAccount")
+					.val())) {
+				alert("余额不足");
+				return false;
+			} else {
+				$("#inputPassword").modal();
+			}
+			return false;
+		}
 		//显示余额
 		$("#paymentAccount").change(function() {
 			$.ajax({
@@ -117,7 +166,79 @@
 				}
 			});
 		});
+		//验证密码
+		$("#checkPassword").click(
+				function() {
+					$.ajax({
+						dataType : "json",
+						url : "/checkPassword?password=" + $("#password").val()
+								+ "&id_card=" + $("#paymentAccount").val(),
+						success : function(rs) {
+							if (rs.success) {
+								$("#registerAccountTransferForm").ajaxSubmit({
+									dataType : "json",
+									success : function(rs) {
+										if (rs.success) {
+											location.href = "index.html";
+										} else {
+											$.messager.alert("友情提示", rs.msg);
+										}
+									}
+								});
+							} else {
+								alert("密码错误!!请重新输入密码");
+								$("#codeTime").val(
+										parseInt($("#codeTime").val()) + 1);
+								if ($("#codeTime").val() == "3") {
+									alert("银行卡已冻结,请联系管理员");
+								}
+							}
+						}
 
+					});
+
+				});
+		
+		
+		//发送手机验证码
+		$("#sendCode").click(function(){
+			 var _this = $(this);
+			var phone =  $("#phone").val();
+			$.ajax({
+				dataType : "json",
+				type:"POST",
+				url : "/checkPhone?phone=" + phone,
+				success : function(rs) {
+					if(rs){
+						$.ajax({
+							dataType : "json",	
+							type:"POST",
+							url : "/sendMssage?phone=" + phone,
+							success : function(rs) {
+								if(rs.success){
+									 var sec = 90;
+	                       			 var timer = setInterval(function(){
+	                         	  	 	sec--;
+	                           			 if(sec > 0){
+	                          	    	 	 _this.text(sec+"秒后重新发送验证码");
+	                           			 }else{
+	                               			 clearInterval(timer);
+	                               			 _this.attr("disabled",false);
+	                               			 _this.text("重新发送验证码");
+	                           			 }
+	                        		 },1000);
+								}
+							}
+						});
+					}else{
+						alert("请正确填写手机号!!");	
+					
+					}
+				}
+			});
+		});
+
+		
 	});
 </script>
 <body>
@@ -158,12 +279,12 @@
 					</h3>
 					<div id="account">
 						<div id="form">
-							<form class="form-horizontal" action="/registerAccountTransfer" method="POST"
-								id="transferForm">
+							<form class="form-horizontal" action="/registerAccountTransfer"
+								method="POST" id="registerAccountTransferForm">
 								<div class="form-group">
-									<label for="paymentAccount" class="col-sm-2 control-label">转出卡号</label>
+									<label for="payCardNum" class="col-sm-2 control-label">转入卡号</label>
 									<div class="col-sm-8">
-										<select name="paymentAccount" id="paymentAccount"
+										<select name="receivingAccount" id="receivingAccount"
 											class="form-control ">
 											<option th:each="card:${cards}" th:value="${card.id}"
 												th:text="${card.id_card}"></option>
@@ -171,9 +292,9 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="receivingAccount" class="col-sm-2 control-label">转入卡号</label>
+									<label for="payCardNum" class="col-sm-2 control-label">转出卡号</label>
 									<div class="col-sm-8">
-										<select name="receivingAccount" id="receivingAccount"
+										<select name="paymentAccount" id="paymentAccount"
 											class="form-control ">
 											<option th:each="card:${cards}" th:value="${card.id_card}"
 												th:text="${card.id_card}"></option>
@@ -185,18 +306,18 @@
 									<div class="col-sm-6">
 
 										<input type="text" class="form-control" id="balance"
-											name="balance">
+											name="balance" th:value="${cards[1].balance}">
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="paymentName" class="col-sm-2 control-label">真实姓名</label>
+									<label for="payeeName" class="col-sm-2 control-label">真实姓名</label>
 									<div class="col-sm-6">
-										<input type="text" class="form-control" id="paymentName"
-											name="paymentName">
+										<input type="text" class="form-control" id="realName"
+											name="realName">
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="documentType" class="col-sm-2 control-label">证件类型</label>
+									<label for="payCardNum" class="col-sm-2 control-label">证件类型</label>
 									<div class="col-sm-8">
 										<select name="documentType" id="documentType"
 											class="form-control ">
@@ -227,7 +348,7 @@
 								<div class="form-group">
 									<label for="paymentDate" class="col-sm-2 control-label">验证码</label>
 									<div class="col-sm-6">
-										<input type="text" class="form-control" name="code">
+										<input type="text" class="form-control" name="code" />
 									</div>
 								</div>
 
@@ -236,11 +357,21 @@
 								<div class="form-group">
 									<label for="input" class="col-sm-2 control-label">请输入图片中的验证码</label>
 									<div class="col-sm-6">
-										<input type="text" class="form-control" name="imgCode"><img
-											src="" />
+										<input type="text" class="form-control" name="imgCode"
+											id="imgCode">
+									</div>
+									<div class="col-sm-4">
+										<img alt="验证码"
+											onclick="this.src='/defaultKaptcha?d='+new Date()*1"
+											src="/defaultKaptcha" /><br />
 									</div>
 								</div>
 
+								<div class="form-group ">
+									<div class="col-sm-6">
+										<div id="vifyCodeError"></div>
+									</div>
+								</div>
 								<div class="form-group ">
 									<div class="col-sm-offset-8 col-sm-10 ">
 										<button type="submit" class="btn btn-default">确认转账</button>
@@ -253,9 +384,41 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="inputPassword" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">输入密码</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="checkPasswordForm" method="post"
+						action="/checkPassword">
+						<div class="form-group">
+							<label for="email" class="col-sm-2 control-label">密码 </label>
+							<div class="col-sm-4">
+								<input type="password" class="form-control" id="password"
+									name="password" />
+							</div>
+						</div>
+					</form>
+				</div>
 
+				<div class="modal-footer">
+					<input type="hidden" value="0" id="codeTime" />
+					<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+					<button type="button" class="btn btn-primary" id="checkPassword">确认汇款</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!--复用尾部-->
 	<div id="footer"></div>
+
 
 </body>
 

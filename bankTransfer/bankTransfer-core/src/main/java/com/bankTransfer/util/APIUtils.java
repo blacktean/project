@@ -143,22 +143,25 @@ public class APIUtils {
 	 * @param phone
 	 * @return
 	 */
-	public static boolean sendMessage(String phone) {
+	public static String sendMessage(String phone) {
 		String host = "https://duanxi.market.alicloudapi.com";
 		String path = "/sendSms";
+		String code = randomCode(4);
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("Authorization", "APPCODE " + APP_CODE);
 		Map<String, String> querys = new HashMap<String, String>();
 		querys.put("mobile", phone);
-		querys.put("content", "{\"userName\":\"用户\",\"code\":\"" + randomCode(4) + "\",\"minute\":\"5\"}");
+		querys.put("content", "{\"userName\":\"用户\",\"code\":\"" + code + "\",\"minute\":\"5\",\"comName\":\",祝您生活愉快\"}");
 		querys.put("tNum", "T150606060602");
 		try {
 			HttpResponse response = HttpUtils.doGet(host, path, GET_METHOD, headers, querys);
-			return response.getEntity() != null;
+			if(response.getEntity() != null) {
+				return code;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 
 	/**

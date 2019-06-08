@@ -19,4 +19,8 @@ public interface TransferMapper {
 
 	void insertRecord(TransferSingle_VO singleVO);
 
+	Double getMaxPrice(@Param("paymentAccount")String paymentAccount);
+
+	int judgeDocumentNum(@Param("card")String card, @Param("name")String name, @Param("id")Integer id);
+
 }
