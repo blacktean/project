@@ -9,6 +9,7 @@
 <meta name="keywords" content="" />
 <script type="application/x-javascript">
 	
+	
         addEventListener("load", function() {
             setTimeout(hideURLbar, 0);
         }, false);
@@ -19,37 +20,251 @@
     
     	
     	
+
 </script>
 
-	<!-- js-scripts -->
-	<!-- js -->
-	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.js"></script>
-	<!-- Necessary-JavaScript-File-For-Bootstrap -->
-	<!-- //js -->
-	<!-- Baneer-js -->
-	<script src="js/responsiveslides.min.js"></script>
-	<script>
-		$(function() {
-			
-			//复用头部JS
-			$("#header").load("common/header.html");
-			//复用尾部JS
-			$("#footer").load("common/footer.html");
-			
-			var tr = $("#tbody").html();
-		    	    		    			    
-				$("#add-info").click(function(){
-		    		$("#tbody").append(tr);
-		    	});
-				
-				$(document).on("click",".del-info",function(){
-					$(this).parent("td").parent("tr").remove();
-					});
-				
+<!-- js-scripts -->
+<!-- js -->
+<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script>  
+<script type="text/javascript" src="js/jquery.bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.css"></link>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript"
+	src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="js/messages_zh.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
+<script type="text/javascript" src="js/city.js"></script>
+<!-- Necessary-JavaScript-File-For-Bootstrap -->
+<!-- //js -->
+<!-- Baneer-js -->
+<script src="js/responsiveslides.min.js"></script>
+<script>
+	$(function() {
+		var city = "";
+		if ($.validator) {
+			 //fix: when several input elements shares the same name, but has different id-ies....
+			 $.validator.prototype.elements = function () {
+			 var validator = this,
+			  rulesCache = {};
+			 // select all valid inputs inside the form (no submit or reset buttons)
+			 // workaround $Query([]).add until http://dev.jquery.com/ticket/2114 is solved
+			 return $([]).add(this.currentForm.elements)
+			 .filter(":input")
+			 .not(":submit, :reset, :image, [disabled]")
+			 .not(this.settings.ignore)
+			 .filter(function () {
+			  var elementIdentification = this.id || this.name;
+			  !elementIdentification && validator.settings.debug && window.console && console.error("%o has no id nor name assigned", this);
+			  // select only the first element for each name, and only those with rules specified
+			  if (elementIdentification in rulesCache || !validator.objectLength($(this).rules()))
+			  return false;
+			  rulesCache[elementIdentification] = true;
+			  return true;
+			 });
+			 };
+			}
+		//复用头部JS
+		$("#header").load("common/header.html");
+		//复用尾部JS
+		$("#footer").load("common/footer.html");
+
+		//var tr = $("#tbody").html();		
+		var code=1;
+		$("#add-info")
+				.click(
+						function() {
+							 var tr = '"<tr class="one-info">"'
+									+ '<td><input type="text" name="name"  size="7" id="code'+(code++)+'" /></td>'
+									+ '<td><input type="text" name="card_number" size="16"  id="code'+(code++)+'"/></td>'
+									+ '<td><input type="text" name="payMoney" size="6" id="code'+(code++)+'"/></td>'
+									+ '<td>'
+									+'<select name="place_1" id="place'+(code++)+'" class="place_1">'
+									+'<option selected="selected" value="">选择省份</option>'
+									+city+
+									+'</select>'
+									+'</td><td><select name="place_2" id="place'+(code++)+'" class="place_2">'
+									+'<option selected="selected" value="">选择市区</option>'
+									+'</select>'
+									+'</td>'
+									+ '<td><input type="text" name="phone" size="12" id="code'+(code++)+'"/></td>'
+									+ '<td><input type="text" name="msg" size="15" id="code'+(code++)+'"/>  </td>'
+									+ '<td><input type="button" value="删除" class="btn btn-info del-info"/></td>'
+									+ '</tr>'; 
+							$("#tbody").append(tr);
+						
+						});
+
+		$(document).on("click", ".del-info", function() {
+			$(this).parent("td").parent("tr").remove();
 		});
-	</script>
-	
+		
+		//验证表单
+		 $("#batchTransferForm").validate({
+			rules : {
+				name:{
+					required : true
+				},
+				card_number:{
+					required : true,
+					rangelength : [ 17, 19 ]
+					
+				},
+				payMoney:{
+					required : true,
+					min:500,
+					max:50000
+				},
+				place_1:{
+					required : true
+				},
+				place_2:{
+					required : true
+				},phone:{
+					required : true,
+					rangelength:[11,11]
+				},
+				msg:{
+					required : true
+				}
+			},
+			messages : {
+				name:{
+					required : "请输入姓名"
+				},
+				card_number:{
+					required : "请输入卡号",
+					rangelength:"卡号必须为{0}或{1}位"
+				},
+				payMoney:{
+					required : "请输入金额",
+					min:"金额不能小于500",
+					max:"金额不能大于50000"
+				},
+				place_1:{
+					required : "请选择省份"
+				},place_2:{
+					required : "请选择地区"
+				},phone:{
+					required : "请输入手机号",
+					rangelength:"手机号必须为{0}位"
+				},
+				msg:{
+					required : "请输入备注信息"
+				}
+			},
+			submitHandler : function(form) {
+				checkBalance();
+				
+				
+			},
+			errorClass : "text-danger",
+			highlight : function(element) {
+				$(element).closest("div.form-group").addClass("has-error");
+			},
+			unhighlight : function(element) {
+				$(element).closest("div.form-group").removeClass("has-error");
+			}
+		}); 
+		
+		 function checkBalance(){
+			 $("#showAllMoney").click();
+			 $.ajax({
+					dataType : "json",
+					url : "/showBalance?id_card=" + $("#payCardNum").val(),
+					success : function(rs) {
+						if(parseInt(rs.balance)<$("#allMoney").val()){
+							alert("余额不足!!");	
+						}else{
+							$("#inputPassword").modal();
+						}
+					}
+				});
+			}
+		//验证密码
+			$("#checkPassword").click(
+					function() {
+						//验证密码
+						$.ajax({
+							dataType : "json",
+							url : "/checkPassword?password=" + $("#password").val()
+									+ "&id_card=" + $("#payCardNum").val(),
+							success : function(rs) {
+								if (rs.success) {
+									var i = 0;
+									//添加name
+									 $(".one-info").each(function(){
+										$(this).children("td").children("input[type=text],select[name=place_1],select[name=place_2]").each(function(){
+												$(this).attr("name","users["+i+"]."+$(this).attr("name"));					
+										});
+										i++;
+									}); 
+										//提交表单
+										$("#batchTransferForm").ajaxSubmit({
+											dataType : "json",
+											success : function(rs) {
+												if (rs.success) {
+													location.href = "index.html";
+												} else {
+													$.messager.alert("友情提示", rs.msg);
+												}
+											}
+										});
+									
+								} else {
+									alert("密码错误!!请重新输入密码");
+									$("#codeTime").val(
+											parseInt($("#codeTime").val()) + 1);
+									if ($("#codeTime").val() == "3") {
+										alert("银行卡已冻结,请联系管理员");
+									}
+								}
+							}
+
+						});
+
+					});
+		
+		
+		//总计金额更改
+		$("#showAllMoney").click(function(){
+			var money = 0;
+			$("input[name=payMoney]").each(function(){
+				money = parseInt(this.value) + money;	
+			});
+			if(!money){
+				$("input[name=allMoney]").val(0);
+				return;
+			}
+			$("input[name=allMoney]").val(money);
+		});
+		
+		function setCity(){
+			for(var i = 0;i < citys.length;i++){
+				city= city+'<option value="'+citys[i].name+'">'+citys[i].name+'</option>';
+				$(".place_1").append('<option value="'+citys[i].name+'">'+citys[i].name+'</option>');
+			}
+		}
+		setCity();
+		
+		$(document).on("change",".place_1",function(){
+			var place_2 = $(this).parent("td").next("td").children(".place_2");
+			 var cityArray = citys[this.selectedIndex - 1][citys[this.selectedIndex - 1].name];
+			 place_2.html('<option selected="selected" value="">选择市区</option>');
+			 for(var i = 0;i < cityArray.length;i++){
+				/*  $(place_2).add(new Option(cityArray[i],cityArray[i])); */
+					$(place_2).append('<option value="'+cityArray[i]+'">'+cityArray[i]+'</option>');
+				}
+		});
+		
+		/* 
+		$("select[name=place_1]").change(function(){
+			
+		}); */
+	});
+</script>
+
 <!--// Meta tag Keywords -->
 <!-- css files -->
 <link rel="stylesheet" href="css/bootstrap.css">
@@ -87,7 +302,7 @@
 }
 
 #form {
-	margin-left: 50px;
+	margin-left: 10px;
 	width: 700px;
 	height: 700px;
 }
@@ -141,50 +356,67 @@
 					</h3>
 					<div id="account">
 						<div id="form">
-							<form class="form-horizontal" action="#" method="POST"
-								id="transferForm">
-								<table class="table" >
+							<form class="form-horizontal" action="/batchTranfer"
+								method="POST" id="batchTransferForm">
+								<table class="table">
 									<thead>
 										<tr>
 											<th>收款人姓名</th>
 											<th>收款人卡号</th>
 											<th>汇款金额</th>
-											<th>汇款地址</th>
+											<th colspan="2">汇款地址</th>
 											<th>短信通知手机号</th>
 											<th>短信留言</th>
-											<th><input type="button" value="添加" class="btn btn-default" id="add-info"/></th>
+											<th><input type="button" value="添加"
+												class="btn btn-default" id="add-info" /></th>
 										</tr>
 									</thead>
 									<tbody id="tbody">
 										<tr class="one-info">
-											<td><input type="text" size="7"/></td>
-											<td><input type="text" size="17"/></td>
-											<td><input type="text" size="6"/></td>
-											<td><input type="text" size="10"/></td>
-											<td><input type="text" size="12"/></td>
-											<td><input type="text" size="15"/>  </td>
-											<td><input type="button" value="删除" class="btn btn-info del-info"/></td>
+											<td><input type="text" name="name" size="7" /></td>
+											<td><input type="text" name="card_number"
+												size="16" /></td>
+											<td><input type="text" name="payMoney" size="6" /></td>
+											<td>
+											<select name="place_1" class="place_1" >
+												<option selected="selected" value="">选择省份</option>
+											</select></td>
+												<td><select name="place_2" class="place_2" >
+												<option selected="selected" value="">选择市区</option>
+											</select></td>
+											<td><input type="text" name="phone" size="12" />
+											</td>
+											<td><input type="text" name="msg" size="15" />
+											</td>
+											<td><input type="button" value="删除"
+												class="btn btn-info del-info" /></td>
 										</tr>
 									</tbody>
 								</table>
-								
-							<div class="form-group">
-                                <label for="balance" class="col-sm-2 control-label">总计金额</label>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="balance" name="balance">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="balance" class="col-sm-6 control-label">汇款通知费：0.20元/条</label>
-                            </div>
-							 <div class="form-group">
-                                <label for="payCardNum" class="col-sm-2 control-label">付款卡号</label>
-                                <div class="col-sm-8">
-                                    <select name=" payCardNum " id="payCardNum " class="form-control ">
-                                         <option th:each="card:${cards}" th:value="${card.id}" th:text="${card.id_card}"></option>
-                                    </select>
-                                </div>
-                            </div>
+
+								<div class="form-group">
+									<label for="balance" class="col-sm-2 control-label">总计金额</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" id="allMoney"
+											name="allMoney" readonly="readonly">
+									</div>
+									<div class="col-sm-4">
+										<a href="javascript::" id="showAllMoney" class="btn btn-default">计算总计金额</a>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="balance" class="col-sm-6 control-label">汇款通知费：0.20元/条</label>
+								</div>
+								<div class="form-group">
+									<label for="payCardNum" class="col-sm-2 control-label">付款卡号</label>
+									<div class="col-sm-8">
+										<select name="payCardNum" id="payCardNum"
+											class="form-control">
+											<option th:each="card:${cards}" th:value="${card.id_card}"
+												th:text="${card.id_card}"></option>
+										</select>
+									</div>
+								</div>
 
 								<div class="form-group ">
 									<div class="col-sm-offset-8 col-sm-10 ">
@@ -198,7 +430,39 @@
 			</div>
 		</div>
 	</div>
+	<!-- 模态框 -->
+<div class="modal fade" id="inputPassword" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">输入密码</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="checkPasswordForm" method="post"
+						action="/checkPassword">
+						<div class="form-group">
+							<label for="email" class="col-sm-2 control-label">密码 </label>
+							<div class="col-sm-4">
+								<input type="password" class="form-control" id="password"
+									name="password" />
+							</div>
+						</div>
+					</form>
+				</div>
 
+				<div class="modal-footer">
+					<input type="hidden" value="0" id="codeTime" />
+					<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+					<button type="button" class="btn btn-primary" id="checkPassword">确认汇款</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!--复用尾部-->
 	<div id="footer"></div>
 

@@ -14,9 +14,21 @@ public class CardServiceImpl implements ICardService {
 	
 	@Autowired
 	private CardMapper cardMapper;
+	
+	@Override
+	public List<Card> queryCardByUserId(int user_id) {
+		return cardMapper.queryCardByUserId(user_id);
+	}
 	@Override
 	public List<Card> queryCardByUserIdAndMajorCard(String user_id, String major_card) {
 		return cardMapper.queryCardByUserIdAndMajorCard(user_id, major_card);
+	}
+	@Override
+	public boolean queryCard(String user_id, String major_card) {
+		if(cardMapper.queryCard(user_id, major_card)>0) {
+			return true;
+		}
+		return false;
 	}
 	@Override
 	public String queryUserName(Integer id) {
@@ -34,5 +46,6 @@ public class CardServiceImpl implements ICardService {
 		}
 		return false;
 	}
+	
 
 }

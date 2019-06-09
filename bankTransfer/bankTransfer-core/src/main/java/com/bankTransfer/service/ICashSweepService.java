@@ -34,15 +34,22 @@ public interface ICashSweepService {
 	List<CashSweep> queryCollectionList(String collection_accout);
 	
 	/**
-	 * 通过主卡查询一条资金列表
+	 * 通过主卡查询第一条资金列表
 	 * @param collection_accout
 	 * @return
 	 */
 	CashSweep queryOneCollection(String collection_accout);
+
 	
 	/**
 	 * 终止资金归集服务
 	 * @param collection_accout
 	 */
 	void shutDownService(String collection_accout);
+	
+	/**
+	 * 修改资金归集
+	 * @param cashSweep
+	 */
+	void saveUpdateCollection(CashSweep cashSweep);
 }

@@ -49,8 +49,21 @@ public class TransferServiceImpl implements ITransferService {
 		singleVO.setPaymentName(UserContext.getCurrent().getUsername());
 		singleVO.setPaymentDate(new Date());
 		singleVO.setResult(TransactionState.TRANSFER_STATE_SUCCESS);
-		System.out.println("=========singleVO:"+singleVO);
 		transferMapper.insertRecord(singleVO);
+	}
+
+	@Override
+	public BigDecimal getMaxPrice(String paymentAccount) {
+		Double price = transferMapper.getMaxPrice(paymentAccount);
+		return new BigDecimal(price);
+	}
+
+	@Override
+	public boolean judgeDocumentNum(String card, String name) {
+		if(transferMapper.judgeDocumentNum(card,name,UserContext.getCurrent().getId()) == 1){
+			return true;
+		}
+		return false;
 	}
 
 	
