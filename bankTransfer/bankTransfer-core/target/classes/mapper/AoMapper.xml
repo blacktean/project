@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bankTransfer.mapper.AoMapper">
+
+	<select id="queryAll" resultType="CardType">
+	select <include refid="cardColumn"/> from ao_accout_opening 
+	</select>	
+	<sql id="cardColumn">
+	id, ao_name, ao_accout_number, ao_time, ao_location, ao_cardtype, result	 
+	</sql>
+</mapper>
