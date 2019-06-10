@@ -48,4 +48,10 @@ public class CashSweepServiceImpl implements ICashSweepService {
 		cashSweepMapper.shutDownService(collection_accout);
 	}
 
+	@Override
+	public void saveUpdateCollection(CashSweep cashSweep) {
+		cashSweepMapper.saveUpdateCollection(cashSweep);
+	}
+
+
 }

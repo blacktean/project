@@ -15,5 +15,5 @@ public interface LogininfoMapper {
 	 */
 	List<Logininfo> queryAll();
 
-	Logininfo queryByUsernameOrPhoneAndPassword(@Param("login_number")String login_number,@Param("login_password") String login_password);
+	Logininfo queryByUsernameOrPhoneAndPassword(@Param("login_number")String login_number,@Param("login_password") String login_password,@Param("usertype") int usertype);
 }

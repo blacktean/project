@@ -1,0 +1,83 @@
+#配置服务器端口
+server:
+  port: 8888
+#设置项目名称
+#  servlet:
+#    context-path: /boot
+
+
+spring:
+#redis配置
+#本配置采用Redis一主五从的的配置方式来提高缓存的吞吐量
+  application:
+    name: spring-boot-redis
+  redis:
+        host: 192.168.0.1
+        port: 6379
+        timeout: 20000
+        cluster:
+            nodes: 192.168.0.1:6380,192.168.0.1:6381,192.168.0.1:6382,192.168.0.1:6383,192.168.0.1:6384
+            maxRedirects: 6
+        jedis:        
+          pool:
+            max-active: 8
+            min-idle: 0
+            max-idle: 8
+            max-wait: -1   
+            #配置数据源
+#  datasource:
+#    driver-class-name: oracle.jdbc.driver.OracleDriver
+#    url: jdbc:oracle:thin:@localhost:1521:orcl
+##    url: jdbc:oracle:thin:@10.1.7.152:1521:mgs  
+#    username: house
+#    password: 123
+    #指定数据源为BasicDatasource   SpringBoot 默认数据源为HikariCP 此项可删除
+#    type: org.apache.commons.dbcp2.BasicDataSource 版本兼容有问题 暂用默认数据源
+  #Spring 热部署配置
+  devtools:
+    restart:
+            #是否开启项目热部署
+      enabled: true
+            #项目热部署重启目录
+      additional-exclude: src
+            #项目热部署不重启目录 暂时不需要故注销 静态资源文件不会重启 默认的静态资源文件位置为:classpath:/META-INF/resources/，classpath:/resources/，classpath:/static/，classpath:/public/
+  
+#      exclude: WEB-INF/**
+    #模板引擎
+  thymeleaf:
+      #禁用Thymeleaf实时缓存
+    cache: false
+    encoding: utf-8
+    prefix: classpath:/templates/
+    suffix: .html  #热部署文件,false页面不产生缓存,及时更新,true开启缓存
+    #资源文件配置
+  resources:    static-locations:    - classpath:templates/
+    - classpath:static/
+    - classpath:public/
+#mybatis 配置
+mybatis:
+  #配置别名 
+  type-aliases-package: com.bankTransfer.pojo
+  #配置mapper映射路径
+  mapper-locations: classpath:mapper/*Mapper.xml
+  
+  
+#开启debug
+debug: true
+#开启日志级别 trace debug info error 从低到高  默认是info 自己调节 
+logging:
+  level:
+    demo: debug
+    #设置日志文件的保存位置
+  file: E:/P2PBankingProject.log
+
+##配置pagehelper 分页插件
+pagehelper:
+  #查询是是否返回count的值
+  row-bounds-with-count: true
+  #当前页码为0是是否查询全部数据
+  page-size-zero: true
+  # 配置reasonable为true，这时如果pageNum<1会查询第一页，如果pageNum>总页数会查询最后一页。
+  reasonable: true
+
+
