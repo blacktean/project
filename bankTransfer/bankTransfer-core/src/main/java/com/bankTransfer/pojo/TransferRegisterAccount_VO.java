@@ -1,7 +1,6 @@
 package com.bankTransfer.pojo;
 
 import java.io.Serializable;
-<<<<<<< HEAD
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -38,28 +37,4 @@ public class TransferRegisterAccount_VO implements Serializable {
 	private String result;
 	/**转账手续费*/
 	private BigDecimal serviceCharge = new BigDecimal(0);
-=======
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-@Getter
-@Setter
-@ToString
-public class TransferRegisterAccount_VO implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-	/**转出卡号*/
-	private String paymentAccount;
-	/**转入卡号*/
-	private String receivingAccount;
-	/**真实姓名*/
-	private String realName;
-	/**证件类型*/
-	private String documentType;
-	/**证件号*/
-	private String documentNum;
->>>>>>> branch 'master' of https://github.com/blacktean/project.git
-
 }
