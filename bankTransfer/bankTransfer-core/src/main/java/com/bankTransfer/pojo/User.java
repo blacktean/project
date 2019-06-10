@@ -65,4 +65,6 @@ public class User implements Serializable {
 	private String create_bank;	
 	/**关联logininfo id*/
 	private Integer user_id;
-}
+	/**申请时间*/
+	private Date applyTime;
+} 

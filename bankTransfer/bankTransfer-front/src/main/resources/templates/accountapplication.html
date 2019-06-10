@@ -7,16 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="" />
-    <script type="application/x-javascript">
-        addEventListener("load", function() {
-            setTimeout(hideURLbar, 0);
-        }, false);
-
-        function hideURLbar() {
-            window.scrollTo(0, 1);
-        }
-    </script>
-    <!--// Meta tag Keywords -->
     <!-- css files -->
     <link rel="stylesheet" href="css/bootstrap.css">
     <!-- Bootstrap-Core-CSS -->
@@ -31,8 +21,35 @@
     <link href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
     <!-- //web-fonts -->
+    <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script src="js/responsiveslides.min.js"></script>
 </head>
-
+<style>
+	#box1{
+		width:550px;
+		height:1000px;
+		float:left;
+		border:1px red solid;
+		
+	}
+	#box2{
+		width:550px;
+		height:1000px;
+		float:right;
+		border:1px black solid;
+		
+	}
+</style>
+<script>
+     $(function() {
+        
+         //复用头部JS
+         $("#header").load("common/header.html");
+         //复用尾部JS
+         $("#footer").load("common/footer.html");
+     });
+ </script>
 <body>
     <div id="header"></div>
     <!-- banner 2 -->
@@ -59,138 +76,159 @@
             <h3 class="tittle">
                 <span>账</span>户申<span>请</span>
             </h3>
-            <div class="gallery-w3lsrow">
-                <div class="col-sm-3 col-xs-4 gallery-grids">
-                    <div class="w3ls-hover">
-                        <a href="images/tab1.jpg" data-lightbox="example-set" data-title="Lorem Ipsum is simply dummy the when an unknown galley of type and scrambled it to make a type specimen.">
-                            <img src="images/tab1.jpg" class="img-responsive zoom-img" alt="" />
-                        </a>
-                    </div>
-                </div>
-                <div class="col-sm-3 col-xs-4 gallery-grids">
-                    <div class="w3ls-hover">
-                        <a href="images/tab2.jpg" data-lightbox="example-set" data-title="Lorem Ipsum is simply dummy the when an unknown galley of type and scrambled it to make a type specimen.">
-                            <img src="images/tab2.jpg" class="img-responsive zoom-img" alt="" />
-                        </a>
-                    </div>
-                </div>
-                <div class="col-sm-3 col-xs-4 gallery-grids">
-                    <div class="w3ls-hover">
-                        <a href="images/tab4.jpg" data-lightbox="example-set" data-title="Lorem Ipsum is simply dummy the when an unknown galley of type and scrambled it to make a type specimen.">
-                            <img src="images/tab4.jpg" class="img-responsive zoom-img" alt="" />
-                        </a>
-                    </div>
-                </div>
-                <div class="col-sm-3 col-xs-4 gallery-grids">
-                    <div class="w3ls-hover">
-                        <a href="images/tab3.jpg" data-lightbox="example-set" data-title="Lorem Ipsum is simply dummy the when an unknown galley of type and scrambled it to make a type specimen.">
-                            <img src="images/tab3.jpg" class="img-responsive zoom-img" alt="" />
-                        </a>
-                    </div>
-                </div>
-                <div class="col-sm-3 col-xs-4 gallery-grids">
-                    <div class="w3ls-hover">
-                        <a href="images/tab5.jpg" data-lightbox="example-set" data-title="Lorem Ipsum is simply dummy the when an unknown galley of type and scrambled it to make a type specimen.">
-                            <img src="images/tab5.jpg" class="img-responsive zoom-img" alt="" />
-                        </a>
-                    </div>
-                </div>
-                <div class="col-sm-3 col-xs-4 gallery-grids">
-                    <div class="w3ls-hover">
-                        <a href="images/tab6.jpg" data-lightbox="example-set" data-title="Lorem Ipsum is simply dummy the when an unknown galley of type and scrambled it to make a type specimen.">
-                            <img src="images/tab6.jpg" class="img-responsive zoom-img" alt="" />
-                        </a>
-                    </div>
-                </div>
-                <div class="col-sm-3 col-xs-4 gallery-grids">
-                    <div class="w3ls-hover">
-                        <a href="images/g7.jpg" data-lightbox="example-set" data-title="Lorem Ipsum is simply dummy the when an unknown galley of type and scrambled it to make a type specimen.">
-                            <img src="images/g7.jpg" class="img-responsive zoom-img" alt="" />
-                        </a>
-                    </div>
-                </div>
-                <div class="col-sm-3 col-xs-4 gallery-grids">
-                    <div class="w3ls-hover">
-                        <a href="images/g8.jpg" data-lightbox="example-set" data-title="Lorem Ipsum is simply dummy the when an unknown galley of type and scrambled it to make a type specimen.">
-                            <img src="images/g8.jpg" class="img-responsive zoom-img" alt="" />
-                        </a>
-                    </div>
-                </div>
-                <div class="col-sm-3 col-xs-4 gallery-grids">
-                    <div class="w3ls-hover">
-                        <a href="images/tab6.jpg" data-lightbox="example-set" data-title="Lorem Ipsum is simply dummy the when an unknown galley of type and scrambled it to make a type specimen.">
-                            <img src="images/tab6.jpg" class="img-responsive zoom-img" alt="" />
-                        </a>
-                    </div>
-                </div>
-                <div class="col-sm-3 col-xs-4 gallery-grids">
-                    <div class="w3ls-hover">
-                        <a href="images/g7.jpg" data-lightbox="example-set" data-title="Lorem Ipsum is simply dummy the when an unknown galley of type and scrambled it to make a type specimen.">
-                            <img src="images/g7.jpg" class="img-responsive zoom-img" alt="" />
-                        </a>
-                    </div>
-                </div>
-                <div class="col-sm-3 col-xs-4 gallery-grids">
-                    <div class="w3ls-hover">
-                        <a href="images/tab3.jpg" data-lightbox="example-set" data-title="Lorem Ipsum is simply dummy the when an unknown galley of type and scrambled it to make a type specimen.">
-                            <img src="images/tab3.jpg" class="img-responsive zoom-img" alt="" />
-                        </a>
-                    </div>
-                </div>
-                <div class="col-sm-3 col-xs-4 gallery-grids">
-                    <div class="w3ls-hover">
-                        <a href="images/tab2.jpg" data-lightbox="example-set" data-title="Lorem Ipsum is simply dummy the when an unknown galley of type and scrambled it to make a type specimen.">
-                            <img src="images/tab2.jpg" class="img-responsive zoom-img" alt="" />
-                        </a>
-                    </div>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-        </div>
+            <div class="gallery-w3lsrow">           
+            	<form class="form-horizontal" action="/accountApplication" method="POST" id="accountApplicationForm">
+						<div class="form-group">
+							<label for="real_name" class="col-sm-2 control-label">真实姓名</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="real_name" name="real_name">
+							</div>
+						</div>
+						<div class="form-group">
+                            <label for="card_type" class="col-sm-2 control-label">证件类型</label>
+                            <div class="col-sm-6">
+                                <select name=" card_type " id="card_type " class="form-control ">
+                                     <option value="01">居民身份证</option>
+                                     <option value="02">护照</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="card_number" class="col-sm-2 control-label">证件号码</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="card_number" name="card_number">
+                            </div>
+                        </div>                           
+						<div class="form-group">
+							<label for="xingming" class="col-sm-2 control-label">姓名拼音</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="xingming" name="xingming">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="english_name" class="col-sm-2 control-label">英文名</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="english_name" name="english_name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="sex" class="col-sm-2 control-label">性别</label>
+							<div class="col-sm-6">
+								<p class="col-sm-3">
+									<input type="radio" name="sex" id="man" value="1" checked>男
+								</p>
+								<p class="col-sm-3">
+									<input type="radio" name="sex" id="woman" value="0">女
+								</p>
+							</div>
+						</div>
+						<div class="form-group">
+                            <label for="nation" class="col-sm-2 control-label">民族</label>
+                            <div class="col-sm-6">
+                                <select name=" nation " id="nation " class="form-control ">
+                                     <option value="01">汉</option>
+                                     <option value="02">满</option>
+                                     <option value="02">壮</option>
+                                     <option value="02">苗</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nationality" class="col-sm-2 control-label">国籍</label>
+                            <div class="col-sm-6">
+                                <select name=" nationality " id="nationality " class="form-control ">
+                                     <option value="01">中国</option>
+                                     <option value="02">美国</option>
+                                     <option value="02">英国</option>
+                                     <option value="02">日本</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+							<label for="birthday" class="col-sm-2 control-label">出生年月</label>
+							<div class="col-sm-6">
+								<input type="date" class="form-control" id="birthday" name="birthday">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="marital_status" class="col-sm-2 control-label">婚姻状态</label>
+							<div class="col-sm-6">
+								<p class="col-sm-3">
+										<input type="radio" name="marital_status" id="isMarry" value="1" checked>是
+									</p>
+									<p class="col-sm-3">
+										<input type="radio" name="marital_status" id="notMarry" value="0">否
+									</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="edu_level" class="col-sm-2 control-label">教育程度</label>
+							<div class="col-sm-6">
+								<select name=" edu_level " id="edu_level " class="form-control ">
+									<option value="01">高中及以下</option>
+									<option value="02">大专</option>
+									<option value="03">本科</option>
+									<option value="03">研究生</option>
+									<option value="03">博士及以上</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="profession" class="col-sm-2 control-label">职业</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="profession" name="profession">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="industry" class="col-sm-2 control-label">所属行业</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="industry" name="industry">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="technical_title" class="col-sm-2 control-label">技术职称</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="technical_title" name="technical_title">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="adminstrative_level" class="col-sm-2 control-label">行政级别</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="adminstrative_level" name="adminstrative_level">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="supporting_population" class="col-sm-2 control-label">供养人口</label>
+							<div class="col-sm-6">
+								<input type="number" class="form-control" id="supporting_population" name="supporting_population">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="work_unit" class="col-sm-2 control-label">工作单位</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="work_unit" name="work_unit">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="work_time" class="col-sm-2 control-label">进入单位时间</label>
+							<div class="col-sm-6">
+								<input type="date" class="form-control" id="work_time" name="work_time">
+							</div>
+						</div>						
+						<div class="form-group ">
+							<div class="col-sm-offset-8 col-sm-10 ">
+								<button type="submit" class="btn btn-default ">确认提交</button>
+							</div>
+						</div>						
+					</form>
+            	</div>
+          </div>
     </div>
     <!-- //gallery -->
     <!--复用尾部-->
     <div id="footer"></div>
+    
 
-    <!-- js-scripts -->
-    <!-- js -->
-    <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
-    <!-- Necessary-JavaScript-File-For-Bootstrap -->
-    <!-- //js -->
-    <!-- Baneer-js -->
-    <script src="js/responsiveslides.min.js"></script>
-    <script>
-        $(function() {
-           
-            //复用头部JS
-            $("#header").load("common/header.html");
-            //复用尾部JS
-            $("#footer").load("common/footer.html");
-        });
-    </script>
-    <!-- //Baneer-js -->
-    <!-- start-smoth-scrolling -->
-    <script type="text/javascript" src="js/move-top.js"></script>
-    <script type="text/javascript" src="js/easing.js"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $(".scroll").click(function(event) {
-                event.preventDefault();
-                $('html,body').animate({
-                    scrollTop: $(this.hash).offset().top
-                }, 1000);
-            });
-        });
-    </script>
-    <!-- start-smoth-scrolling -->
-    <!-- Progressive-Effects-Animation-JavaScript -->
-    <script type="text/javascript" src="js/numscroller-1.0.js"></script>
-    <!-- //Progressive-Effects-Animation-JavaScript -->
-    <!--  light box js -->
-    <script src="js/lightbox-plus-jquery.min.js"></script>
-    <!-- //light box js-->
-    <!-- //js-scripts -->
 </body>
 
 </html>
