@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bankTransfer.pojo.JsonRate;
 import com.bankTransfer.pojo.TransferBatch_VO;
+import com.bankTransfer.pojo.TransferCrossBorder_VO;
 import com.bankTransfer.pojo.TransferRegisterAccount_VO;
 import com.bankTransfer.pojo.TransferSingle_VO;
 import com.bankTransfer.service.ITransferService;
@@ -31,7 +33,7 @@ public class TransferController {
 		String obj = APIUtils.checkCard(receiveName, receiveCardId);
 		if(obj == null) {//验证不通过
 			jsonResult.setSuccess(false);
-			jsonResult.setMsg("账号或用户名不存在!");
+			jsonResult.setMsg("账号或用户名不存在!"); 
 		}else {//验证通过
 			//汇款人账户余额减掉汇款金额
 			//汇款金额
@@ -65,8 +67,28 @@ public class TransferController {
 	@PostMapping("batchTranfer")
 	public JsonResult batchTransfer(TransferBatch_VO batch_VO) {
 		JsonResult jsonResult = new JsonResult();
-		System.err.println(batch_VO);
+		/*收款人信息都在对象.users里,对一个个遍历进行逻辑判断(姓名和卡号,从数据库查询),如果信息正确就插入表执行转账操作,
+		如果失败就也插入一条记录到表中,状态为失败*/
+		return jsonResult;
+	}
+	
+	
+	@PostMapping("crossBorderTransfer")
+	public JsonResult crossBorderTransfer(TransferCrossBorder_VO crossBorder_VO) {
+		System.out.println(crossBorder_VO);
+		JsonResult jsonResult = new JsonResult();
+		//验证卡号和姓名是否正确
+		boolean flag = APIUtils.checkNumberAndName(crossBorder_VO.getReciverCardNumber(), crossBorder_VO.getReciverName());
 		
+		//正确直接添加信息到数据库,状态为银行已受理
+		//调用api计算汇率,然后再运算
+				JsonRate rate = APIUtils.getRate(crossBorder_VO.getTransferAmount(), crossBorder_VO.getPayCurrency(), crossBorder_VO.getReciverCurrency());
+		
+				
+				//错误返回信息不正确
+		
+		
+				jsonResult.setSuccess(false);
 		
 		return jsonResult;
 	}

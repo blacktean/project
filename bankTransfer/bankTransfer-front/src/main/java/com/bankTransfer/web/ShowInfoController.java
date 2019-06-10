@@ -114,8 +114,12 @@ public class ShowInfoController {
 			jsonResult.setSuccess(false);
 			jsonResult.setMsg("系统繁忙,请稍后再试");
 		}
-		
 		return jsonResult;
+	}
+	
+	@PostMapping("checkCardNumber")
+	public boolean checkCardNumber(String reciverCardNumber) {
+		return baseService.queryCardByCardNumber(reciverCardNumber)!=null;
 	}
 		
 	

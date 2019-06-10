@@ -11,7 +11,9 @@ import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.CardType;
 import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.Document;
+import com.bankTransfer.pojo.JsonCountry;
 import com.bankTransfer.service.IBaseService;
+import com.bankTransfer.util.APIUtils;
 import com.bankTransfer.util.RequireLogin;
 import com.bankTransfer.util.UserContext;
 
@@ -41,6 +43,8 @@ public class PageController {
 		List<Card> cards = baseService.queryCardByUserId(UserContext.getCurrent().getId());
 		List<CardType> cardTypes = baseService.queryCardType();
 		List<Document> documents = baseService.queryDocument();
+		JsonCountry jsonCountry = APIUtils.getJsonCountry();
+		model.addAttribute("myCountry", jsonCountry);
 		model.addAttribute("currencys", currencys);
 		model.addAttribute("cards", cards);
 		model.addAttribute("cardTypes", cardTypes);
