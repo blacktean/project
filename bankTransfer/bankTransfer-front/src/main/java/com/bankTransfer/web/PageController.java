@@ -72,4 +72,11 @@ public class PageController {
 		return "singleTransfer";
 	}
 	
+	@GetMapping("toHeader")
+	public String toHeader(String value,Model model) {
+		model.addAttribute("name", value);
+		return "common/header";
+	}
+	
+	
 }

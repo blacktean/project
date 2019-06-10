@@ -109,11 +109,10 @@ public class ShowInfoController {
 			JsonResult jsonResult = new JsonResult();
 //			String code = APIUtils.sendMessage(phone);
 			String code = "9999";
-		if(code != null) {
-			session.setAttribute("code", code);
-			jsonResult.setSuccess(false);
-			jsonResult.setMsg("系统繁忙,请稍后再试");
-		}
+		/*
+		 * if(code == null) { session.setAttribute("code", code);
+		 * jsonResult.setSuccess(false); jsonResult.setMsg("系统繁忙,请稍后再试"); }
+		 */
 		return jsonResult;
 	}
 	
