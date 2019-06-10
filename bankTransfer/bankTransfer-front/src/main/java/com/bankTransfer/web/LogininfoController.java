@@ -34,6 +34,8 @@ public class LogininfoController {
 	 * @param login_password 密 码
 	 * @return
 	 */
+
+
 	@RequestMapping("/logininfo")
 	@ResponseBody
 	public JsonResult Logininfo(String login_number, String login_password) {
@@ -43,6 +45,7 @@ public class LogininfoController {
 		boolean isOk;
 		try {
 			isOk = logininfoService.queryByUsernameOrPhoneAndPassword(login_number, login_password, 0);
+
 			if (!isOk) {
 				js.setSuccess(false);
 				js.setMsg("用户名或密码错误");

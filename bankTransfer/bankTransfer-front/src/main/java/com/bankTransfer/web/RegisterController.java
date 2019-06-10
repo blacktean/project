@@ -47,7 +47,7 @@ public class RegisterController {
 		JsonResult js = new JsonResult();
 		try{
 			verifyCodeService.sendVerifyCode(regist_phone);
-			js.setMsg(UserContext.getCurrentVerifyCodeVo().getVerifyCode());;
+			//js.setMsg(UserContext.getCurrentVerifyCodeVo().getVerifyCode());;
 		}catch(RuntimeException e){
 			js.setSuccess(false);
 			js.setMsg(e.getMessage());
