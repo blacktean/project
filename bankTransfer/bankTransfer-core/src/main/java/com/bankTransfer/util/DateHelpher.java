@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * 给当前时间添加 一个月 三个月 六个月 十二个月
+ * 给当前时间添加 一个月 三个月 六个月 十二个月 10年
  * 
  * @author zsy
  *
@@ -46,4 +46,12 @@ public class DateHelpher {
 		return dt1;
 	}
 
+	public static Date subTenYear(Date date) {
+
+		Calendar rightNow = Calendar.getInstance();
+		rightNow.setTime(date);
+		rightNow.add(Calendar.YEAR, 10);
+		Date dt1 = rightNow.getTime();
+		return dt1;
+	}
 }
