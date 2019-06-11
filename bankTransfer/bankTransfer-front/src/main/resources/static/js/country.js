@@ -1,4 +1,10 @@
-var countrys = [ {
+var countrys = [ 
+	 {
+			"short" : "CN",
+			"name" : "中国",
+			"en" : "China",
+			"tel" : "86"
+		}, {
 	"short" : "AD",
 	"name" : "安道尔共和国",
 	"en" : "Andorra",
@@ -188,12 +194,7 @@ var countrys = [ {
 	"name" : "喀麦隆",
 	"en" : "Cameroon",
 	"tel" : "237"
-}, {
-	"short" : "CN",
-	"name" : "中国",
-	"en" : "China",
-	"tel" : "86"
-}, {
+},{
 	"short" : "CO",
 	"name" : "哥伦比亚",
 	"en" : "Colombia",

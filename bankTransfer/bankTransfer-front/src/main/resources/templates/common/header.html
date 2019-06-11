@@ -15,9 +15,16 @@
 		}
 		
 	</script> -->
+	<script type="text/javascript">
+	$(function(){
+		var name = $("#show").val();
+		$("#"+name).addClass("active");
+	});
+	</script>
 </head>
 
 <body>
+<input type="hidden" th:value="${name}" id="show"/>
  	<!--  th:fragment="header" -->
     <div class="main-agile" id="home">
         <!-- header -->
