@@ -100,21 +100,46 @@ public class TransferController {
 	
 	@PostMapping("crossBorderTransfer")
 	public JsonResult crossBorderTransfer(TransferCrossBorder_VO crossBorder_VO) {
-		System.out.println(crossBorder_VO);
 		JsonResult jsonResult = new JsonResult();
-		//验证卡号和姓名是否正确
-		boolean flag = APIUtils.checkNumberAndName(crossBorder_VO.getReciverCardNumber(), crossBorder_VO.getReciverName());
-		
+		//验证和姓名是否正确
+		String rs = APIUtils.checkCard( crossBorder_VO.getReciverName(),crossBorder_VO.getReciverCardNumber(),crossBorder_VO.getDocumentNumber());
+		if(rs == null) {
+			jsonResult.setSuccess(false);
+			jsonResult.setMsg("信息不正确,转账失败!!");
+		}else {
 		//正确直接添加信息到数据库,状态为银行已受理
+			//计算手续费
+			Float f =  null;
+			if("乔治银行".equals(crossBorder_VO.getAffiliatedBank())) {
+				f = (float) (crossBorder_VO.getTransferAmount()*0.05);
+			}else {
+				f = (float) (crossBorder_VO.getTransferAmount()*0.01);
+			}
+			
+			if(f < 50) {
+				f = 50f;
+			}else if(f > 260){
+				f = 260f;
+			}
+			
 		//调用api计算汇率,然后再运算
 				JsonRate rate = APIUtils.getRate(crossBorder_VO.getTransferAmount(), crossBorder_VO.getPayCurrency(), crossBorder_VO.getReciverCurrency());
-		
+				System.err.println(rate);
+				//转出账号减余额,转入账号加余额
+				transferService.subtractBalance(crossBorder_VO.getBalance().subtract(rate.getCamount()).subtract(new BigDecimal(f).negate()),crossBorder_VO.getPayCardNum());
+				transferService.subtractBalance(crossBorder_VO.getBalance(),crossBorder_VO.getReciverCardNumber());
+				//存日志(转入和转出)
+				TransferSingle_VO singleVO = new TransferSingle_VO();
+				singleVO.setPaymentAccount(crossBorder_VO.getPayCardNum());
+				singleVO.setReceivingAccount(crossBorder_VO.getReciverCardNumber());
+				singleVO.setTransferAmount(new BigDecimal(crossBorder_VO.getTransferAmount()));
+				singleVO.setReceivingName(UserContext.getCurrent().getUsername());
 				
+			
+				singleVO.setServiceCharge(new BigDecimal(f));
+				transferService.insertRecord(singleVO);
+		}		
 				//错误返回信息不正确
-		
-		
-				jsonResult.setSuccess(false);
-		
 		return jsonResult;
 	}
 	

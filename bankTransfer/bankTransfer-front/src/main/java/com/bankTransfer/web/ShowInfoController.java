@@ -40,10 +40,6 @@ public class ShowInfoController {
 		return baseService.queryCardByCardNumber(id_card);
 	}
 
-	@GetMapping("showRate")
-	public JsonRate showRate(JsonRate rate) {
-		return APIUtils.getRate(rate.getCamount(), rate.getFrom(), rate.getTo());
-	}
 	
 	@GetMapping("checkPassword")
 	public JsonResult checkPassowrd(String id_card,String password) {

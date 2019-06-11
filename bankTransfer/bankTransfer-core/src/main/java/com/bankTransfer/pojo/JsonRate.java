@@ -1,6 +1,7 @@
 package com.bankTransfer.pojo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import lombok.Getter;
@@ -22,7 +23,7 @@ public class JsonRate implements Serializable {
 	/** 转换后的金额名*/
 	private String toname;
 	/** 需要支付的税额*/
-	private Float camount;
+	private BigDecimal camount;
 	/** 要转换的金额代码*/
 	private String from;
 	/** 转换后的金额代码*/
