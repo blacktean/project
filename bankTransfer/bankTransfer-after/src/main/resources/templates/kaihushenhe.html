@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="bootstrap/bootstrap.css">
+<script type="text/javascript" src="scripts/jquery/jquery-1.7.1.js"></script>
+<link href="style/authority/basic_layout.css" rel="stylesheet"
+	type="text/css">
+<link href="style/authority/common_style.css" rel="stylesheet"
+	type="text/css">
+<script type="text/javascript" src="scripts/authority/commonAll.js"></script>
+<script type="text/javascript"
+	src="scripts/fancybox/jquery.fancybox-1.3.4.js"></script>
+<script type="text/javascript"
+	src="scripts/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="style/authority/jquery.fancybox-1.3.4.css" media="screen"></link>
+<script type="text/javascript"
+	src="scripts/artDialog/artDialog.js?skin=default"></script>
+	<link rel="stylesheet" href="bootstrap/bootstrap-datetimepicker.css"></link>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+ <script type="text/javascript" src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<title>信息管理系统</title>
+<script type="text/javascript">
+	$(document).ready(function() {
+		//显示日期      
+	       $("#start,#end").datetimepicker({
+	    	   format: 'yyyy-mm-dd',
+	    	   language:'zh-CN',
+	    	   minView:2,
+	       });
+		
+	       //给页码的超链接绑定点击事件
+	       $(".jump").click(function(){
+	      	 $("#pi").val($(this).attr("data"));
+	      	 $("#searchForm").submit();
+	       })
+	});
+</script>
+<style>
+.alt td {
+	background: black !important;
+}
+</style>
+</head>
+<body>
+			<form action="/AccountAudit" name="searchForm" id="searchForm" class="form-inline"
+				method="post">
+				<div class="form-group">
+					<label>证件号码</label> <input type="text" class="form-control card_number"
+						name="card_number" id="card_number" th:value="${session.condition.card_number}">
+				</div>
+				<div class="form-group">
+					<label>时间范围</label> <input type="text" class="form-control beginDate"
+						name="beginDate" id="start" readonly="readonly" th:value="${#dates.format(session.condition.startTime,'yyyy-MM-dd')}" />
+				</div>
+				<div class="form-group">
+					<label></label> <input type="text" class="form-control endDate"
+						id="end" readonly="readonly" name="endDate" th:value="${#dates.format(session.condition.endTime,'yyyy-MM-dd')}" />
+				</div>
+				<div class="form-group">
+					<label>状态</label> <select class="form-control" name="state"
+						id="state">
+						<option value="-1">全部</option>					
+						<option value="0" th:selected="${session.condition.state eq 0}">已审核</option>	
+						<option value="1" th:selected="${session.condition.state eq 1}">未审核</option>	
+						<option value="2" th:selected="${session.condition.state eq 2}">已注销</option>						
+					</select>
+				</div>
+				<div class="form-group">
+					<!-- 写一个隐藏域: -->
+					<input type="hidden" name="page" value="1" id="pi" />
+					<button type="submit" class="btn btn-success">查询</button>
+		
+				</div>
+			</form>
+		
+			<table class="table" cellspacing="0" cellpadding="0" width="100%"
+				align="center" border="0">
+				<tr>
+					<th>姓名</th>
+					<th>性别</th>
+					<th>出生日期</th>
+					<th>民族</th>
+					<th>国籍</th>
+					<th>证件号码</th>
+					<th>婚姻状况</th>
+					<th>教育程度</th>
+					<th>职业</th>
+					<th>供养人口</th>
+					<th>工作单位</th>
+					<th>开户行</th>
+					<th>申请时间</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+				<tr th:each="user:${session.AccountAuditlist}">
+					<td th:text="${user.real_name}"></td>
+					<td th:if="${user.sex} eq 0" th:text="男"></td>
+					<td th:if="${user.sex} eq 1" th:text="女"></td>
+					<td th:text="${#dates.format(user.birthday,'yyyy-MM-dd')}"></td>
+					<td th:text="${user.nation}"></td>
+					<td th:text="${user.nationality}"></td>
+					<td th:text="${user.card_number}"></td>
+					<td th:text="${user.marital_status}"></td>
+					<td th:text="${user.edu_level}"></td>
+					<td th:text="${user.technical_title}"></td>
+					<td th:text="${user.supporting_population}"></td>
+					<td th:text="${user.work_unit}"></td>
+					<td th:if="${user.create_bank} eq 41" th:text="乔治银行"></td>
+					<td th:text="${#dates.format(user.applyTime,'yyyy-MM-dd hh:mm:ss')}"></td>
+					<td th:if="${user.state} eq 0" th:text="已审核"></td>
+					<td th:if="${user.state} eq 1" th:text="未审核"></td>
+					<td th:if="${user.state} eq 2" th:text="已注销"></td>
+					<td><a href="/editAccount?id=${user.id}" class="edit">编辑</a> <a href="/delAccount?id=${user.id}">删除</a></td>
+				</tr>
+			</table>
+		<div style="text-align: center;">
+		<span style="font-size: 20px; position:absolute; left:400px; bottom:495px;">一共:<span th:text="${session.page.total}"></span>条记录</span>
+			<ul class="pagination">
+											
+				<li th:if="${session.page.pageNum eq 1}" th:class="disabled"><a href="#">首页</a></li>
+				<li th:if="${session.page.pageNum ne 1}"><a href="javascript:void(0);" class="jump" th:data="1">首页</a></li>
+				<li th:if="${session.page.pageNum eq 1}" th:class="disabled"><a href="#">上一页</a></li>
+				<li th:if="${session.page.pageNum ne 1}"><a href="javascript:void(0);" class="jump" th:data="${session.page.pageNum-1}">上一页</a></li>
+				
+					<!-- 这是页码 -->
+				<th:block th:each="nav : ${session.page.navigatepageNums}">
+				<li th:class="${nav==session.page.pageNum}?'active':''"><a th:text="${nav}" href="javascript:void(0);" class="jump" th:data="${nav}"></a></li>
+				</th:block>
+				<li th:if="${session.page.pageNum eq session.page.pages}" th:class="disabled"><a href="#">下一页</a></li>	
+				<li th:if="${session.page.pageNum ne session.page.pages}"><a href="javascript:void(0);" class="jump" th:data="${session.page.pageNum+1}">下一页</a></li>
+				<li th:if="${session.page.pageNum eq session.page.pages}" th:class="disabled"><a href="#">尾页</a></li>	
+				<li th:if="${session.page.pageNum ne session.page.pages}"	><a href="javascript:void(0);" class="jump" th:data="${session.page.pages }">尾页</a></li>
+			</ul>
+		</div>
+
+</body>
+</html>

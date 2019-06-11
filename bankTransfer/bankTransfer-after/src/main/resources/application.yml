@@ -1,6 +1,6 @@
 #配置服务器端口
 server:
-  port: 8888
+  port: 9999
 #设置项目名称
 #  servlet:
 #    context-path: /boot
@@ -73,6 +73,7 @@ logging:
 
 ##配置pagehelper 分页插件
 pagehelper:
+  helper-dialect: oracle
   #查询是是否返回count的值
   row-bounds-with-count: true
   #当前页码为0是是否查询全部数据
