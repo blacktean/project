@@ -103,6 +103,7 @@ public class TransferController {
 		JsonResult jsonResult = new JsonResult();
 		//验证和姓名是否正确
 		String rs = APIUtils.checkCard( crossBorder_VO.getReciverName(),crossBorder_VO.getReciverCardNumber(),crossBorder_VO.getDocumentNumber());
+//		String rs = "ss";
 		if(rs == null) {
 			jsonResult.setSuccess(false);
 			jsonResult.setMsg("信息不正确,转账失败!!");
@@ -121,23 +122,30 @@ public class TransferController {
 			}else if(f > 260){
 				f = 260f;
 			}
-			
+			try {
 		//调用api计算汇率,然后再运算
 				JsonRate rate = APIUtils.getRate(crossBorder_VO.getTransferAmount(), crossBorder_VO.getPayCurrency(), crossBorder_VO.getReciverCurrency());
 				System.err.println(rate);
 				//转出账号减余额,转入账号加余额
-				transferService.subtractBalance(crossBorder_VO.getBalance().subtract(rate.getCamount()).subtract(new BigDecimal(f).negate()),crossBorder_VO.getPayCardNum());
+				BigDecimal transferMoney =  crossBorder_VO.getBalance().add(rate.getCamount()).add(new BigDecimal(f));
+				System.err.println(transferMoney);
+				transferService.subtractBalance(transferMoney.negate(),crossBorder_VO.getPayCardNum());
 				transferService.subtractBalance(crossBorder_VO.getBalance(),crossBorder_VO.getReciverCardNumber());
 				//存日志(转入和转出)
 				TransferSingle_VO singleVO = new TransferSingle_VO();
 				singleVO.setPaymentAccount(crossBorder_VO.getPayCardNum());
-				singleVO.setReceivingAccount(crossBorder_VO.getReciverCardNumber());
+				singleVO.setReceivingAccount("6217994330006373628");
 				singleVO.setTransferAmount(new BigDecimal(crossBorder_VO.getTransferAmount()));
-				singleVO.setReceivingName(UserContext.getCurrent().getUsername());
+				singleVO.setReceivingName("方佳");
 				
 			
 				singleVO.setServiceCharge(new BigDecimal(f));
+				
 				transferService.insertRecord(singleVO);
+				}catch(Exception e) {
+					jsonResult.setSuccess(false);
+					jsonResult.setMsg(e.getMessage());
+				}
 		}		
 				//错误返回信息不正确
 		return jsonResult;

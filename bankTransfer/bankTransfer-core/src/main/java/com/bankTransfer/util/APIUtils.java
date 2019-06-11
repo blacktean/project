@@ -229,30 +229,30 @@ public class APIUtils {
 	 * @return
 	 */
 	public static String checkCard(String name,String cardNumber,String id_card) {
-		  String host = "https://ali-bankcard4.showapi.com";
-		    String path = "/bank3";
+		 String host = "https://yunyidata3.market.alicloudapi.com";
+		    String path = "/bankAuthenticate3";
 		    Map<String, String> headers = new HashMap<String, String>();
-		    headers.put("Authorization", "APPCODE " + APP_CODE);
+		    headers.put("Authorization", "APPCODE " + "3d166e9ea0704096be40b93135f7e12f");
+		    headers.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 		    Map<String, String> querys = new HashMap<String, String>();
-		    querys.put("acct_name", name);
-		    querys.put("acct_pan", cardNumber);
-		    querys.put("cert_id", id_card);
-		    querys.put("cert_type", "01");
-		    querys.put("needBelongArea", "false");
+		    Map<String, String> bodys = new HashMap<String, String>();
+		    bodys.put("cardNo", id_card);
+		    bodys.put("idNo", cardNumber);
+		    bodys.put("name", name);
 
 
 		    try {
 		    	HttpResponse response = HttpUtils.doGet(host, path, GET_METHOD, headers, querys);
-		    	String result = JSONObject.parseObject(EntityUtils.toString(response.getEntity())).get("showapi_res_body")
+		    	String result = JSONObject.parseObject(EntityUtils.toString(response.getEntity())).get("respCode")
 						.toString();
-		    	Object object = JSONObject.parseObject(result).get("belong");
-				if(object!=null) {
-					return "success";
-				}
+		    	if("0000".equals(result)) {
+		    		return "success";
+		    	}else {
+		    		return null;
+		    	}
 		    } catch (Exception e) {
-		    	e.printStackTrace();
+		    	return null;
 		    }
-		    return null;
 	}
 	
 	
