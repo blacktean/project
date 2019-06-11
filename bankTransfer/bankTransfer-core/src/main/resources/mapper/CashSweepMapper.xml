@@ -57,6 +57,7 @@
 	 update T_CASH_SWEEP set state=1 where collection_accout=#{collection_accout}
 	</update>
 	
+	<!-- 修改资金归集表 -->
 	<update id="saveUpdateCollection" parameterType="CashSweep">
 	update T_CASH_SWEEP set
 	start_time=#{start_time},end_time=#{end_time},collection_accout=#{collection_accout},
@@ -65,4 +66,40 @@
 	debit_tel=#{debit_tel} where debit_account=#{debit_account}
 	</update>
 	
+	<!-- 往资金归集表添加记录 -->
+	<insert id="insert_C_collection" parameterType="C_collection">
+	insert into C_collection(id,c_name,c_main_account,c_sub_account_a,c_main_amount,c_sub_amount_a,result
+	<include refid="TbField"></include>
+	)
+	 values(C_COLLECTION_ID.nextval,
+	 #{c_name},
+	 #{c_main_account},
+	 #{c_sub_account_a},
+	 #{c_main_amount},
+	 #{c_sub_amount_a},
+	 #{result}
+	 <include refid="TbValue"></include>
+	 )
+	
+	</insert>
+	<sql id="TbField">
+	 <trim prefix="," suffixOverrides=","> 
+	 	<if test="c_sub_account_b!=null and c_sub_account_b!=''">
+	 	c_sub_account_b,
+	 	</if>
+	 	<if test="c_sub_amount_b!=null and c_sub_amount_b!=''">
+	 	c_sub_amount_b
+	 	</if>
+	  </trim>	
+	</sql>
+	<sql id="TbValue">
+		<trim prefix="," suffixOverrides=","> 
+	 	<if test="c_sub_account_b!=null and c_sub_account_b!=''">
+	 	#{c_sub_account_b},
+	 	</if>
+	 	<if test="c_sub_amount_b!=null and c_sub_amount_b!=''">
+	 	#{c_sub_amount_b}
+	 	</if>
+	  </trim>
+	</sql>
 </mapper>

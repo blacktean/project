@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bankTransfer.mapper.CashSweepMapper;
+import com.bankTransfer.pojo.C_collection;
 import com.bankTransfer.pojo.CashSweep;
 import com.bankTransfer.service.ICashSweepService;
 @Service
@@ -51,6 +52,11 @@ public class CashSweepServiceImpl implements ICashSweepService {
 	@Override
 	public void saveUpdateCollection(CashSweep cashSweep) {
 		cashSweepMapper.saveUpdateCollection(cashSweep);
+	}
+
+	@Override
+	public void insert_C_collection(C_collection c_collection) {
+		cashSweepMapper.insert_C_collection(c_collection);
 	}
 
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bankTransfer.mapper.AccountAuditMapper">
+	<!-- 高级带条件分页查询所有用户申请 -->
+	<select id="queryAllByCondition" parameterType="UserCondition" resultType="User">
+		select * from t_user where 1=1
+		<if test="state!=null and state!='-1'">
+    	and State=#{state}
+    	</if>
+    	<if test="startTime!=null">
+    	and applytime &gt;=#{startTime}
+    	</if>
+    	<if test="endTime!=null">
+    	and applytime &lt;=#{endTime}
+    	</if>
+    	<if test="card_number!=null and card_number!=''">
+    	and card_number LIKE '%'||#{card_number}||'%'
+    	</if>
+	</select>
+	
+</mapper>

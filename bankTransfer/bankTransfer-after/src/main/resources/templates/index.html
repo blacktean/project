@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>乔治银行后台系统</title>
@@ -13,7 +13,7 @@
 		/**退出系统**/
 		function logout(){
 			if(confirm("您确定要退出本系统吗？")){
-				window.location.href = "login.html";
+				window.location.href = "/LoginOut";
 			}
 		}
 		
@@ -221,11 +221,10 @@
 				{"accessPath":"loupanchart.html","checked":false,"delFlag":0,"parentID":3,"resourceCode":"","resourceDesc":"","resourceGrade":3,"resourceID":8,"resourceName":"交易状态","resourceOrder":0,"resourceType":""},
 				{"accessPath":"Account_opening.html","checked":false,"delFlag":0,"parentID":3,"resourceCode":"","resourceDesc":"","resourceGrade":3,"resourceID":7,"resourceName":"交易明细","resourceOrder":0,"resourceType":""},
 				
-				{"accessPath":"","checked":false,"delFlag":0,"parentID":1,"resourceCode":"","resourceDesc":"","resourceGrade":2,"resourceID":2,"resourceName":"管理员","resourceOrder":0,"resourceType":""},
-				{"accessPath":"","checked":false,"delFlag":0,"parentID":2,"resourceCode":"","resourceDesc":"","resourceGrade":3,"resourceID":5,"resourceName":"管理员信息","resourceOrder":0,"resourceType":""},
 
-				{"accessPath":"","checked":false,"delFlag":0,"parentID":1,"resourceCode":"","resourceDesc":"","resourceGrade":2,"resourceID":16,"resourceName":"资金归集","resourceOrder":0,"resourceType":""},
-				{"accessPath":"","checked":false,"delFlag":0,"parentID":16,"resourceCode":"","resourceDesc":"","resourceGrade":3,"resourceID":18,"resourceName":"资金归集信息","resourceOrder":0,"resourceType":""},
+				 {"accessPath":"","checked":false,"delFlag":0,"parentID":2,"resourceCode":"","resourceDesc":"","resourceGrade":2,"resourceID":2,"resourceName":"后台管理","resourceOrder":0,"resourceType":""},
+				 {"accessPath":"/AccountAudit","checked":false,"delFlag":0,"parentID":2,"resourceCode":"","resourceDesc":"","resourceGrade":3,"resourceID":5,"resourceName":"开户审核","resourceOrder":0,"resourceType":""},
+				 {"accessPath":"kaguanli.html","checked":false,"delFlag":0,"parentID":2,"resourceCode":"","resourceDesc":"","resourceGrade":3,"resourceID":5,"resourceName":"用户卡管理","resourceOrder":0,"resourceType":""},
 				
 				{"accessPath":"","checked":false,"delFlag":0,"parentID":1,"resourceCode":"","resourceDesc":"","resourceGrade":2,"resourceID":24,"resourceName":"币种/汇率","resourceOrder":0,"resourceType":""},
 				{"accessPath":"","checked":false,"delFlag":0,"parentID":24,"resourceCode":"","resourceDesc":"","resourceGrade":3,"resourceID":26,"resourceName":"币种信息","resourceOrder":0,"resourceType":""},
@@ -283,7 +282,7 @@
 				<ul>
 					<li>
 						<img alt="当前用户" src="images/common/user.jpg">：
-						<span>admin</span>
+						<span th:text="${session.logininfo.username}"></span>
 					</li>
 					<li>
 						<img alt="事务月份" src="images/common/month.jpg">：
