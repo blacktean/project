@@ -66,5 +66,5 @@ public class User implements Serializable {
 	/**关联logininfo id*/
 	private Integer user_id;
 	/**申请时间*/
-	private Date applyTime;
+	private Date applyTime; 
 }
