@@ -142,6 +142,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
+		<!-- 添加session 共享依赖支持 -->
+		<!-- <dependency>  
+		        <groupId>org.springframework.session</groupId>  
+		        <artifactId>spring-session-data-redis</artifactId>  
+		</dependency> -->
 		<!-- pagehelper分页插件 -->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>

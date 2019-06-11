@@ -7,20 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
-<script type="application/x-javascript">
-	
-	
-        addEventListener("load", function() {
-            setTimeout(hideURLbar, 0);
-        }, false);
-
-        function hideURLbar() {
-            window.scrollTo(0, 1);
-        }
-    
-
-</script>
-
 <!--// Meta tag Keywords -->
 <!-- css files -->
 <link rel="stylesheet" href="css/bootstrap.css">
@@ -31,6 +17,20 @@
 	type='text/css' />
 <!-- For-tabs-CSS -->
 <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+<!-- js-scripts -->
+<!-- js -->
+<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script>  
+<script type="text/javascript" src="js/jquery.bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.css"></link>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript"
+	src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="js/messages_zh.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
+<script type="text/javascript" src="js/city.js"></script>
+<script type="text/javascript" src="js/country.js"></script>
 <!-- Style-CSS -->
 <style>
 #left-menu {
@@ -63,7 +63,7 @@
 }
 
 #unused{
-	height:100px;
+	height:200px;
 }
 </style>
 <!-- //css files -->
@@ -74,6 +74,184 @@
 <link
 	href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
 	rel="stylesheet">
+	<script type="text/javascript">
+	
+	$(function(){
+		//复用头部JS
+		$("#header").load("toHeader?value=transfer");
+		//复用尾部JS
+		$("#footer").load("common/footer.html");
+		//常驻国家下拉框
+		function country1(){
+			for(var i = 0;i < countrys.length;i++){
+				$("#reciverAlwaysCountry").append('<option value="'+countrys[i].name+'">'+countrys[i].name+'</option>');
+			}
+		}
+		//所在国家下拉框
+		function country2(){
+			for(var i = 0;i < countrys.length;i++){
+				$("#reciverContry").append('<option value="'+countrys[i].name+'">'+countrys[i].name+'</option>');
+			}
+		}
+		//设置省份
+		function setCity(){
+			for(var i = 0;i < citys.length;i++){
+				$("#place_1").append('<option value="'+citys[i].name+'">'+citys[i].name+'</option>');
+			}
+		}
+		setCity();
+		country1();
+		country2();
+		//设置城市
+		$(document).on("change","#place_1",function(){
+			var place_2 = $("#place_2");
+			 var cityArray = citys[this.selectedIndex - 1][citys[this.selectedIndex - 1].name];
+			 place_2.html('<option selected="selected" value="">请选择城市</option>');
+			 for(var i = 0;i < cityArray.length;i++){
+					$(place_2).append('<option value="'+cityArray[i]+'">'+cityArray[i]+'</option>');
+				}
+		});
+		//表单验证
+		 $("#crossBorderTransferForm").validate({
+				rules : {
+					reciverName:{
+						required : true,
+						rangelength:[2,14]
+					},
+					reciverCardNumber:{
+						required : true,
+						rangelength : [ 17, 19 ]
+					},
+					transferAmount:{
+						required : true,
+						min:500,
+						max:50000
+					},
+					reciverPlace:{
+						required : true
+					},
+					phone:{
+						required : true,
+					},
+					userOfFund:{
+						required : true
+					},
+					reciverCountry:{
+						required : true
+					},
+					reciverAlwaysCountry:{
+						required : true
+					},
+					documentNumber:{
+						required : true
+					}
+				},
+				messages : {
+					reciverName:{
+						required : "请输入姓名",
+						rangelength:"姓名必须为{0}或{1}位"
+					},
+					reciverCardNumber:{
+						required : "请输入卡号",
+						rangelength:"卡号必须为{0}或{1}位",
+					},
+					transferAmount:{
+						required : "请输入金额",
+						min:"金额不能小于500",
+						max:"金额不能大于50000"
+					},
+					reciverPlace:{
+						required : "请输入收款地址"
+					},
+					userOfFund:{
+						required : "请输入资金用途"
+					},reciverCountry:{
+						required : "请选择收款国家"
+					},
+					reciverAlwaysCountry:{
+						required : "请选择收款人常驻国家"
+					},
+					documentNumber:{
+						required : "请输入证件号码"
+					}
+				},
+				submitHandler : function(form) {
+					checkBalance();
+				},
+				errorClass : "text-danger",
+				highlight : function(element) {
+					$(element).closest("div.form-group").addClass("has-error");
+				},
+				unhighlight : function(element) {
+					$(element).closest("div.form-group").removeClass("has-error");
+				}
+			}); 
+		
+			//查询余额
+			$("#payCardNum").change(function(){
+				showBalance();
+			});
+			function showBalance(){
+				var cardNumber = $("#payCardNum").val();
+				$.ajax({
+					dataType : "json",
+					url : "/showBalance?id_card=" + cardNumber,
+					success : function(rs) {
+						$("#balance").val(rs.balance);
+					}
+				});
+			}
+			showBalance();
+			//检查余额
+			function checkBalance(){
+			
+					if (parseInt($("#balance").val()) < 
+						parseInt($("#transferAmount").val())){
+						alert("余额不足");
+						return false;
+					} else {
+						$("#inputPassword").modal();
+					}
+					return false;
+				}
+			
+			//验证密码
+			$("#checkPassword").click(
+					function() {
+						$.ajax({
+							dataType : "json",
+							url : "/checkPassword?password=" + $("#password").val()
+									+ "&id_card=" + $("#payCardNum").val(),
+							success : function(rs) {
+								if (rs.success) {
+									$("#crossBorderTransferForm").ajaxSubmit({
+										dataType : "json",
+										success : function(rs) {
+											if (rs.success) {
+												alert("处理成功!!");
+												location.href = "index.html";
+											} else {
+												$.messager.alert("友情提示", rs.msg);
+											}
+										}
+									});
+								} else {
+									alert("密码错误!!请重新输入密码");
+									$("#codeTime").val(
+											parseInt($("#codeTime").val()) + 1);
+									if ($("#codeTime").val() == "3") {
+										alert("银行卡已冻结,请联系管理员");
+									}
+								}
+							}
+
+						});
+
+					});
+
+
+	});
+	</script>
 <!-- //web-fonts -->
 </head>
 
@@ -115,85 +293,82 @@
 					</h3>
 					<div id="account">
 						<div id="form">
-							<form class="form-horizontal" action="#" method="POST"
-								id="transferForm">
+							<form class="form-horizontal" action="crossBorderTransfer" method="POST"
+								id="crossBorderTransferForm">
 								<div class="form-group">
 									<label for="affiliatedBank" class="col-sm-2 control-label">所属银行</label>
 									<div class="col-sm-8">
-										<select name=" affiliatedBank " id="input "
+										<select name="affiliatedBank" id="input "
 											class="form-control ">
-											<option th:each="cardType:${cardTypes}" th:value="${cardType.id}" th:text="${cardType.type_name}"></option>
+											<option th:each="cardType:${cardTypes}" th:value="${cardType.id}" th:text="${cardType.type_name}" th:selected="${cardType.type_name eq '乔治银行'}"></option>
 										</select>
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="payeeName" class="col-sm-2 control-label">收款人姓名</label>
+									<label for="reciverName" class="col-sm-2 control-label">收款人姓名</label>
 									<div class="col-sm-6">
-										<input type="text" class="form-control" id="payeeName"
-											name="payeeName">
+										<input type="text" class="form-control" id="reciverName"
+											name="reciverName">
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="payCardNum" class="col-sm-2 control-label">收款人所在国家</label>
+									<label for="reciverContry" class="col-sm-2 control-label">收款人所在国家</label>
 									<div class="col-sm-8">
-										<select name=" payCardNum " id="payCardNum "
-											class="form-control ">
-											<option value="中国">中国</option>
-											<option value="美国">美国</option>
+										<select name="reciverContry" id="reciverContry"
+											class="form-control">
+											<option value="">请选择国家</option>
 										</select>
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="payCardNum" class="col-sm-2 control-label">收款币种</label>
+									<label for="reciverCurrency" class="col-sm-2 control-label">收款币种</label>
 									<div class="col-sm-8">
-										<select name=" payCardNum " id="payCardNum "
+										<select name="reciverCurrency" id="reciverCurrency"
 											class="form-control ">
 											 <option th:each="currency:${currencys}" th:value="${currency.money_number}" th:text="${currency.money_name}"></option>
 										</select>
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="balance" class="col-sm-2 control-label">收款卡号</label>
+									<label for="reciverCardNumber" class="col-sm-2 control-label">收款卡号</label>
 									<div class="col-sm-6">
-										<input type="text" class="form-control" id="balance"
-											name="balance">
+										<input type="text" class="form-control" id="reciverCardNumber"
+											name="reciverCardNumber">
+											
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label for="payCardNum" class="col-sm-2 control-label">收款人常驻国家</label>
+									<label for="reciverAlwaysCountry" class="col-sm-2 control-label">收款人常驻国家</label>
 									<div class="col-sm-8">
-										<select name=" payCardNum " id="payCardNum "
+										<select name="reciverAlwaysCountry" id="reciverAlwaysCountry"
 											class="form-control ">
-											<option value="中国">中国</option>
-											<option value="美国">美国</option>
+											<option value="">请选择常驻国家</option>
 										</select>
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="receivingAccount" class="col-sm-2 control-label">收款人地址</label>
-									<div class="col-sm-8">
-										<select name=" payCardNum " id="payCardNum "
-											class="form-control ">
-											<option value="中国">中国</option>
-											<option value="美国">美国</option>
-										</select>
+									<label for="reciverPlace" class="col-sm-2 control-label">收款人地址</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" name="reciverPlace" id="reciverPlace"/>
 									</div>
+									
 								</div>
 								<div class="form-group">
 									<label for="payCardNum" class="col-sm-2 control-label">汇款人卡号</label>
 									<div class="col-sm-8">
-										<select name=" payCardNum " id="payCardNum "
-											class="form-control ">
-											 <option th:each="card:${cards}" th:value="${card.id}" th:text="${card.id_card}"></option>
+										<select name=" payCardNum" id="payCardNum"
+											class="form-control">
+											 <option th:each="card:${cards}" th:value="${card.id_card}" th:text="${card.id_card}"></option>
 											 </select>
+											 <input type="hidden"  id="balance" name="balance"/>
 									</div>
 								</div>
 								
 								<div class="form-group">
 									<label for="payCardNum" class="col-sm-2 control-label">收款方标识</label>
 									<div class="col-sm-8">
-										<select name=" payCardNum " id="payCardNum "
+										<select name="userOfFund" id="userOfFund"
 											class="form-control ">
 											<option value="3asdas">asda</option>
 											<option value="sadas">dasda</option>
@@ -208,46 +383,47 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="transferAmount" class="col-sm-2 control-label">资金用途</label>
+									<label for="msg" class="col-sm-2 control-label">资金用途</label>
 									<div class="col-sm-6">
-										<input type="text" class="form-control" id="transferAmount"
-											name="transferAmount">
+										<input type="text" class="form-control" id="userOfFund"
+											name="userOfFund">
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="transferAmount" class="col-sm-2 control-label">汇款人地址</label>
-									<div class="col-sm-6">
-										<input type="text" class="form-control" id="transferAmount"
-											name="transferAmount">
+										<div class="col-sm-6">
+										<!-- <input type="text" readonly class="form-control" th:value="${myCountry.regison+myCountry.city}"/> -->
+										<input type="text" readonly class="form-control" value="广东省深圳市"/>
 									</div>
+									
 								</div>
 								 <div class="form-group">
-                                <label for="payCardNum" class="col-sm-2 control-label">证件类型</label>
+                                <label for="cardType" class="col-sm-2 control-label">证件类型</label>
                                 <div class="col-sm-8">
-                                    <select name=" payCardNum " id="payCardNum " class="form-control ">
+                                    <select name="documnetType" id="documnetType" class="form-control ">
                                          <option th:each="document:${documents}" th:value="${document.id}" th:text="${document.document_name}"></option>
                                     </select>
                                 </div>
                             </div>
                              <div class="form-group">
-                                <label for="payeeName" class="col-sm-2 control-label">证件号码</label>
+                                <label for="documentNumber" class="col-sm-2 control-label">证件号码</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="payeeName" name="payeeName">
+                                    <input type="text" class="form-control" id="documentNumber" name="documentNumber">
                                 </div>
                             </div>
 								<div class="form-group">
 									<label for="input" class="col-sm-2 control-label">附言</label>
 									<div class="col-sm-8">
-										<textarea name="postscript" id="input" class="form-control"
-											rows="3" required="required">                           
+										<textarea name="msg" id="msg" class="form-control"
+											rows="3" >                           
                                     </textarea>
-
+<!-- required="required" -->
 									</div>
 								</div>
 
 								<div class="form-group ">
 									<div class="col-sm-offset-8 col-sm-10 ">
-										<button type="submit " class="btn btn-default ">确认转账</button>
+										<button type="submit" class="btn btn-default ">确认转账</button>
 									</div>
 								</div>
 							</form>
@@ -258,83 +434,41 @@
 		</div>
 	</div>
 	<div id="unused"></div>
+	<!-- 模态框 -->
+	<div class="modal fade" id="inputPassword" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">输入密码</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="checkPasswordForm" method="post"
+						action="/checkPassword">
+						<div class="form-group">
+							<label for="email" class="col-sm-2 control-label">密码 </label>
+							<div class="col-sm-4">
+								<input type="password" class="form-control" id="password"
+									name="password" />
+							</div>
+						</div>
+					</form>
+				</div>
 
+				<div class="modal-footer">
+					<input type="hidden" value="0" id="codeTime" />
+					<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+					<button type="button" class="btn btn-primary" id="checkPassword">确认汇款</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!--复用尾部-->
 	<div id="footer"></div>
-
-	<!-- js-scripts -->
-	<!-- js -->
-	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.js"></script>
-	<!-- Necessary-JavaScript-File-For-Bootstrap -->
-	<!-- //js -->
-	<!-- Baneer-js -->
-	<script src="js/responsiveslides.min.js"></script>
-	<script>
-		$(function() {
-			$("#slider").responsiveSlides({
-				auto : true,
-				pager : false,
-				nav : true,
-				speed : 1000,
-				namespace : "callbacks",
-				before : function() {
-					$('.events').append("<li>before event fired.</li>");
-				},
-				after : function() {
-					$('.events').append("<li>after event fired.</li>");
-				}
-			});
-			//复用头部JS
-			$("#header").load("common/header.html");
-			//复用尾部JS
-			$("#footer").load("common/footer.html");
-		});
-	</script>
-	<!-- //Baneer-js -->
-	<!-- start-smoth-scrolling -->
-	<script type="text/javascript" src="js/move-top.js"></script>
-	<script type="text/javascript" src="js/easing.js"></script>
-	<script type="text/javascript">
-		jQuery(document).ready(function($) {
-			$(".scroll").click(function(event) {
-				event.preventDefault();
-				$('html,body').animate({
-					scrollTop : $(this.hash).offset().top
-				}, 1000);
-			});
-		});
-	</script>
-	<!-- start-smoth-scrolling -->
-	<!-- Progressive-Effects-Animation-JavaScript -->
-	<script type="text/javascript" src="js/numscroller-1.0.js"></script>
-	<!-- //Progressive-Effects-Animation-JavaScript -->
-	<!--responsive-tabs-script-->
-	<script src="js/easy-responsive-tabs.js"></script>
-	<script>
-		$(document).ready(function() {
-			$('#horizontalTab').easyResponsiveTabs({
-				type : 'default', //Types: default, vertical, accordion           
-				width : 'auto', //auto or any width like 600px
-				fit : true, // 100% fit in a container
-				closed : 'accordion', // Start closed if in accordion view
-				activate : function(event) { // Callback function if tab is switched
-					var $tab = $(this);
-					var $info = $('#tabInfo');
-					var $name = $('span', $info);
-					$name.text($tab.text());
-					$info.show();
-				}
-			});
-			$('#verticalTab').easyResponsiveTabs({
-				type : 'vertical',
-				width : 'auto',
-				fit : true
-			});
-		});
-	</script>
-	<!--//responsive-tabs-script-->
-	<!-- //js-scripts -->
 </body>
 
 </html>

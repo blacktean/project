@@ -1,14 +1,17 @@
 package com.bankTransfer.web;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.bankTransfer.pojo.JsonRate;
 import com.bankTransfer.pojo.TransferBatch_VO;
+import com.bankTransfer.pojo.TransferCrossBorder_VO;
 import com.bankTransfer.pojo.TransferRegisterAccount_VO;
 import com.bankTransfer.pojo.TransferSingle_VO;
+import com.bankTransfer.pojo.UserVo;
 import com.bankTransfer.service.ITransferService;
 import com.bankTransfer.util.APIUtils;
 import com.bankTransfer.util.JsonResult;
@@ -33,7 +36,7 @@ public class TransferController {
 		String obj = APIUtils.checkCard(receiveName, receiveCardId);
 		if(obj == null) {//验证不通过
 			jsonResult.setSuccess(false);
-			jsonResult.setMsg("账号或用户名不存在!");
+			jsonResult.setMsg("账号或用户名不存在!"); 
 		}else {//验证通过
 			//判断转账金额是否超过转账限额
 			BigDecimal transferMoney = singleVO.getTransferAmount();
@@ -68,8 +71,8 @@ public class TransferController {
 		String name = transferRgister_VO.getRealName();
 		if(transferService.judgeDocumentNum(card,name)){//身份证验证成功
 			//转出账号减余额,转入账号加余额
-			transferService.subtractBalance(transferRgister_VO.getBalance().negate(),transferRgister_VO.getPaymentAccount());
-			transferService.subtractBalance(transferRgister_VO.getBalance(),transferRgister_VO.getReceivingAccount());
+			transferService.subtractBalance(transferRgister_VO.getBalance(),transferRgister_VO.getPaymentAccount());
+			transferService.subtractBalance(transferRgister_VO.getBalance().negate(),transferRgister_VO.getReceivingAccount());
 			//存日志(转入和转出)
 			TransferSingle_VO singleVO = new TransferSingle_VO();
 			singleVO.setPaymentAccount(transferRgister_VO.getPaymentAccount());
@@ -82,28 +85,45 @@ public class TransferController {
 			jsonResult.setMsg("身份信息输入有误!");
 		}
 		return jsonResult;
-	}
-	
-//	@PostMapping("registerAccountTransfer")
-//	public JsonResult registerAccountTransfer2(TransferRegisterAccount_VO transferRgister_VO) {
-//		JsonResult jsonResult = new JsonResult();
-//		
-//		return jsonResult;
-//	}
-	
+	}	
 	
 	@PostMapping("batchTranfer")
 	public JsonResult batchTransfer(TransferBatch_VO batch_VO) {
 		JsonResult jsonResult = new JsonResult();
-		System.err.println(batch_VO);
-		
-		
+		/*收款人信息都在对象.users里,对一个个遍历进行逻辑判断(姓名和卡号,从数据库查询),如果信息正确就插入表执行转账操作,
+		如果失败就也插入一条记录到表中,状态为失败*/
+		List<UserVo> users = batch_VO.getUsers();
+		String payCardNum = batch_VO.getPayCardNum();
+		BigDecimal allMoney = batch_VO.getAllMoney();
+		//将所有收款人传入service层然后进行判断
+		try {
+			transferService.judgeReceiving(users,payCardNum,allMoney);
+		} catch (Exception e) {
+			jsonResult.setMsg(e.getMessage());
+			jsonResult.setSuccess(false);
+		}
 		return jsonResult;
 	}
 	
-//	@GetMapping("aaa")
-//	public String test() {
-//		DynamicScheduleTaskSecond timing = new DynamicScheduleTaskSecond();
-//		return "asdasd";
-//	}
+	
+	@PostMapping("crossBorderTransfer")
+	public JsonResult crossBorderTransfer(TransferCrossBorder_VO crossBorder_VO) {
+		System.out.println(crossBorder_VO);
+		JsonResult jsonResult = new JsonResult();
+		//验证卡号和姓名是否正确
+		boolean flag = APIUtils.checkNumberAndName(crossBorder_VO.getReciverCardNumber(), crossBorder_VO.getReciverName());
+		
+		//正确直接添加信息到数据库,状态为银行已受理
+			//调用api计算汇率,然后再运算
+				JsonRate rate = APIUtils.getRate(crossBorder_VO.getTransferAmount(), crossBorder_VO.getPayCurrency(), crossBorder_VO.getReciverCurrency());
+		
+
+		//错误返回信息不正确
+		
+		
+				jsonResult.setSuccess(false);
+		
+		return jsonResult;
+	}
+
 }
