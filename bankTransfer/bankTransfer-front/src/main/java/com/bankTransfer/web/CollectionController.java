@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bankTransfer.pojo.C_collection;
 import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.CashSweep;
 import com.bankTransfer.service.ICardService;
@@ -79,6 +80,14 @@ public class CollectionController {
 	@ResponseBody
 	public JsonResult addCollection(CashSweep cashSweep, String debit_account2) {
 		JsonResult json = new JsonResult();
+		//资金归集记录表
+		C_collection c = new C_collection();
+		c.setC_name(cashSweep.getReceiver_name());
+		c.setC_main_account(cashSweep.getCollection_accout());
+		c.setC_sub_account_a(cashSweep.getDebit_account());
+		c.setC_main_amount(cashSweepService.queryCardBalance(cashSweep.getCollection_accout()));
+		c.setC_sub_amount_a(cashSweepService.queryCardBalance(cashSweep.getDebit_account()));
+		c.setResult("成功");
 		try {
 			if (debit_account2 != null && debit_account2.equals(cashSweep.getDebit_account())) {
 				throw new RuntimeException("归集账号不能相同!");
@@ -116,9 +125,14 @@ public class CollectionController {
 				cashSweep.setDebit_account(debit_account2);
 				// 设置副卡2余额
 				cashSweep.setBalance2(cashSweepService.queryCardBalance(debit_account2));
+				//设置资金归集记录表参数
+				c.setC_sub_account_b(debit_account2);
+				c.setC_sub_amount_b(cashSweepService.queryCardBalance(debit_account2));
 				cashSweepService.addCollection(cashSweep);
 				System.err.println("两个账户时 " + cashSweep);
 			}
+			//调用添加资金归集记录方法
+			cashSweepService.insert_C_collection(c);
 			json.setSuccess(true);
 		} catch (RuntimeException e) {
 			json.setSuccess(false);

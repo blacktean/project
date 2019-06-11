@@ -1,5 +1,7 @@
 package com.bankTransfer.pojo;
 
+import java.math.BigDecimal;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -49,11 +51,13 @@ public class TransferCrossBorder_VO {
 	private String payCardNum;
 
 	/** 证件类型 */
-	private String document;
+	private String document_type;
 
 	/** 附言 */
 	private String msg;
 
 	/** 汇款人币种 */
 	private String payCurrency = "CNY";
+	/** 余额*/
+	private BigDecimal balance;
 }
