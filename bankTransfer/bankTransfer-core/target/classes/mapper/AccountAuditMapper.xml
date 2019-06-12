@@ -19,4 +19,33 @@
     	</if>
 	</select>
 	
+	<!-- 通过id查询当前审核的用户信息 -->	
+	<select id="queryCurrentUserById" resultType="User">
+		select * from t_user where id=#{id}
+	</select>
+	<!-- 开户审核 -->
+	<update id="CheckeditAccount">
+		update t_user set state=#{updateState} where id=#{id} and user_id=#{user_id}
+	
+	</update>
+	
+	<!-- 开户成功 -->
+	<insert id="addId_Card" parameterType="Card">
+		insert into t_card values(SEQ_CARD_ID.nextval,#{id_card},#{start_place},
+		#{currency},
+		#{balance},
+		#{available_balance},
+		#{start_place_id},
+		#{password},
+		#{card_type},
+		#{user_id},
+		#{card_state},
+		#{major_card},
+		#{create_time},
+		#{effective_time},
+		#{register_type},
+		#{max_price},
+		#{bank_type}	
+		)
+	</insert>
 </mapper>

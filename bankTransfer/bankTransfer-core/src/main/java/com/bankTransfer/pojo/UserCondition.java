@@ -14,7 +14,7 @@ import lombok.Data;
 public class UserCondition implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	/**银行卡状态 0已审核 2未审核 */
+	/**银行卡状态 0已审核 1未审核 2已注销 */
 	private Integer state;
 	/**证件号码*/
 	private String card_number;

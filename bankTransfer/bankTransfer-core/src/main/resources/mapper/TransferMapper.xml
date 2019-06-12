@@ -13,7 +13,7 @@
 	</insert>
 	<insert id="insertRecord" parameterType="TransferSingle_VO">
 		INSERT INTO t_transfer VALUES(seq_transferLog.nextval,#{paymentName},#{paymentAccount},#{paymentDate}
-			,#{transferAmount},#{receivingName},#{receivingAccount},#{serviceCharge},#{result},#{paymentId})
+			,#{transferAmount},#{receivingName},#{receivingAccount},#{serviceCharge},#{result},#{paymentId},#{transfer_type},#{transaction_type},#{msg},#{transfer_mode})
 	</insert>
 	<select id="getMaxPrice" resultType="Double">
 		select max_price from t_card where id_card=#{paymentAccount}
@@ -28,4 +28,32 @@
 	<select id="getBalance" resultType="Double">
 		select balance from t_card where id_card = #{payCardNum}
 	</select>
+	<select id="queryTranferInfoByTransferMode" resultMap="TransferSingleMap">
+	select * from t_transfer where (transfer_mode = '普通到账' or transfer_mode = '次日到账')  and RESULT = '1'
+	</select>
+	<update id="changeTransferInfo">
+	update t_transfer set result = '2' where id = #{id}
+	</update>
+	
+	
+	<resultMap type="TransferSingle_VO" id="TransferSingleMap">
+	<id column="id" property="id"/>
+	<result column="t_name" property="paymentName"/>
+	<result column="T_ACCOUT_NUMBER" property="paymentAccount"/>
+	<result column="T_TIME" property="paymentDate"/>
+	<result column="T_AMOUNT" property="transferAmount"/>
+	<result column="P_NAME" property="receivingName"/>
+	<result column="P_ACCOUT_NUMBER" property="receivingAccount"/>
+	<result column="T_HANDFEE" property="serviceCharge"/>
+	<result column="RESULT" property="result"/>
+	<result column="T_ID" property="paymentId"/>
+	<result column="TRANFER_TYPE" property="transfer_type"/>
+	<result column="TRANSACTION_TYPE" property="transaction_type"/>
+	<result column="MSG" property="msg"/>
+	<result column="TRANSFER_MODE" property="transfer_mode"/>
+	
+	
+
+	</resultMap>
+	
 </mapper>
