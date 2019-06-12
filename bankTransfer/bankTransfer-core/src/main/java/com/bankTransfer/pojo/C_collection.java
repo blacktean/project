@@ -8,7 +8,7 @@ import lombok.ToString;
 
 /**
  * 资金归集记录表
- * @author Administrator
+ * @author BLACKTEA
  *
  */
 @Setter
