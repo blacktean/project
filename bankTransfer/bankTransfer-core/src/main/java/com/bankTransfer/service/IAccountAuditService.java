@@ -3,6 +3,8 @@ package com.bankTransfer.service;
 import java.util.List;
 
 import com.bankTransfer.pojo.Card;
+import com.bankTransfer.pojo.CardCondition;
+import com.bankTransfer.pojo.Card_VO;
 import com.bankTransfer.pojo.User;
 import com.bankTransfer.pojo.UserCondition;
 
@@ -35,4 +37,18 @@ public interface IAccountAuditService {
 	 * @param card
 	 */
 	void addId_Card(Card card);
+	
+	/**
+	 * 带条件分页查询所有银行卡
+	 * @param condition
+	 * @return
+	 */
+	List<Card_VO> queryAllCardByCondition(CardCondition condition);
+	
+	/**
+	 *  修改银行卡状态
+	 * @param id
+	 * @param card_state
+	 */
+	void updateCardState(Integer id,String card_state);
 }
