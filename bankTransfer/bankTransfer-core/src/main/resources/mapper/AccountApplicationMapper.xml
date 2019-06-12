@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bankTransfer.mapper.AccountApplicationMapper">
+	<insert id="addUser" parameterType="User">
+		insert into t_user (id,REAL_NAME,CARD_TYPE,CARD_NUMBER,XINGMING,REG_TYPE,GRADE,SEX,
+		NATION,NATIONALITY,BIRTHDAY,MARITAL_STATUS,EDU_LEVEL,PROFESSION,INDUSTRY,STATE,CREATE_BANK,
+		USER_NAME,USER_ID,APPLYTIME<include refid="TbField"></include>) values 
+       (seq_user.nextval,#{real_name},#{card_type},#{card_number},#{xingming},#{reg_type},#{grade},
+       #{sex},#{nation},#{nationality},#{birthday},#{marital_status},#{edu_level},#{profession},
+       #{industry},#{state},#{create_bank},#{user_name},#{user_id},#{applyTime}
+       <include refid="TbValue"></include>)
+	</insert>
+	<sql id="TbField">
+	 	<trim prefix="," suffixOverrides=","> 
+		 	<if test="english_name!=null and english_name!=''">
+		 	ENGILISH_NAME,
+		 	</if>
+		 	<if test="technical_title!=null and technical_title!=''">
+		 	TECHNICAL_TITLE,
+		 	</if>
+		 	<if test="adminstrative_level!=null and adminstrative_level!=''">
+		 	ADMINISTRATIVE_LEVEL,
+		 	</if>
+		 	<if test="supporting_population!=null and supporting_population!=''">
+		 	SUPPORTING_POPULATION,
+		 	</if>
+		 	<if test="work_unit!=null and work_unit!=''">
+		 	 WORK_UNIT,
+		 	</if>
+		 	<if test="work_time!=null">
+		 	WORK_TIME
+		 	</if>
+	  	</trim>	
+	</sql>
+	<sql id="TbValue">
+	 	<trim prefix="," suffixOverrides=","> 
+		 	<if test="english_name!=null and english_name!=''">
+		 	#{english_name},
+		 	</if>
+		 	<if test="technical_title!=null and technical_title!=''">
+		 	#{technical_title},
+		 	</if>
+		 	<if test="adminstrative_level!=null and adminstrative_level!=''">
+		 	#{adminstrative_level},
+		 	</if>
+		 	<if test="supporting_population!=null and supporting_population!=''">
+		 	#{supporting_population},
+		 	</if>
+		 	<if test="work_unit!=null and work_unit!=''">
+		 	#{work_unit},
+		 	</if>
+		 	<if test="work_time!=null">
+		 	#{work_time}
+		 	</if>
+	  	</trim>	
+	</sql>
+</mapper>

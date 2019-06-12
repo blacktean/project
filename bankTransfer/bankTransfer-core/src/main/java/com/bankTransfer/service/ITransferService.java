@@ -21,6 +21,8 @@ public interface ITransferService {
 	boolean judgeDocumentNum(String card, String name);
 	/**判断所有收款人信息是否正确并转账,添加日志信息*/
 	void judgeReceiving(List<UserVo> users,String payCardNum,BigDecimal allMoney);
+	/**处理定时任务*/
+	void handleTransfer();
 	
 
 }

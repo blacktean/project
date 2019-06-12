@@ -3,6 +3,8 @@ package com.bankTransfer.pojo;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -38,6 +40,7 @@ public class User implements Serializable {
 	/**客户国籍*/
 	private String nationality;
 	/**出生年月*/
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
 	/**婚姻状况*/
 	private String marital_status;
@@ -56,6 +59,7 @@ public class User implements Serializable {
 	/**工作单位*/
 	private String work_unit;
 	/**进入单位时间*/
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date work_time;
 	/**用户状态*/
 	private Integer state;
@@ -64,5 +68,6 @@ public class User implements Serializable {
 	/**关联logininfo id*/
 	private Integer user_id;
 	/**申请时间*/
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date applyTime; 
 }
