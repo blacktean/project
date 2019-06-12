@@ -1,10 +1,12 @@
 package com.bankTransfer.web;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bankTransfer.pojo.C_collection;
 import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.CashSweep;
 import com.bankTransfer.service.ICardService;
@@ -36,20 +39,34 @@ public class CollectionController {
 	// 跳转到新建归集
 	@RequestMapping("/newcollection")
 	@RequireLogin
-	public String NewCollection(HttpSession session) {
-		// System.err.println(session.getAttribute("logininfo"));
+	public String NewCollection(HttpSession session,HttpServletResponse response) throws IOException {
+	    response.setCharacterEncoding("UTF-8"); 
 		String username = cardService.queryUserName(UserContext.getCurrent().getId());
-		String Id_card = null;
+		String Id_card = null;//主卡
+		String url="/accountapplication.html";
+		//查询是否有主卡和副卡
+		if(!cardService.queryCard(String.valueOf(UserContext.getCurrent().getId()), "0")) {			
+			response.getWriter().print("<script>alert('您还有没账号 请先开户！');window.location.href='"
+					+ url + "';</script>");
+		}
+		if(!cardService.queryCard(String.valueOf(UserContext.getCurrent().getId()), "1")) {			
+			response.getWriter().print("<script>alert('您还没有副卡 不能进行资金归集业务！');window.location.href='"
+					+ url + "';</script>");
+		}
+		//查询主卡信息
 		List<Card> CardList1 = cardService
 				.queryCardByUserIdAndMajorCard(String.valueOf(UserContext.getCurrent().getId()), "0");
 		for (Card card : CardList1) {
 			Id_card = card.getId_card();
 		}
+		//查询副卡信息
 		List<Card> CardList2 = cardService
 				.queryCardByUserIdAndMajorCard(String.valueOf(UserContext.getCurrent().getId()), "1");
-		// 查询是否有归集
-		boolean isHaveCard = cashSweepService.queryCollection(Id_card);
-		session.setAttribute("isHaveCard", isHaveCard);
+		// 通过主卡查询是否有归集
+		if(Id_card!=null) {
+			boolean isHaveCard = cashSweepService.queryCollection(Id_card);
+			session.setAttribute("isHaveCard", isHaveCard);
+		}
 		session.setAttribute("CardList1", CardList1);
 		session.setAttribute("CardList2", CardList2);
 		session.setAttribute("collectionname", username);
@@ -63,6 +80,14 @@ public class CollectionController {
 	@ResponseBody
 	public JsonResult addCollection(CashSweep cashSweep, String debit_account2) {
 		JsonResult json = new JsonResult();
+		//资金归集记录表
+		C_collection c = new C_collection();
+		c.setC_name(cashSweep.getReceiver_name());
+		c.setC_main_account(cashSweep.getCollection_accout());
+		c.setC_sub_account_a(cashSweep.getDebit_account());
+		c.setC_main_amount(cashSweepService.queryCardBalance(cashSweep.getCollection_accout()));
+		c.setC_sub_amount_a(cashSweepService.queryCardBalance(cashSweep.getDebit_account()));
+		c.setResult("成功");
 		try {
 			if (debit_account2 != null && debit_account2.equals(cashSweep.getDebit_account())) {
 				throw new RuntimeException("归集账号不能相同!");
@@ -100,9 +125,14 @@ public class CollectionController {
 				cashSweep.setDebit_account(debit_account2);
 				// 设置副卡2余额
 				cashSweep.setBalance2(cashSweepService.queryCardBalance(debit_account2));
+				//设置资金归集记录表参数
+				c.setC_sub_account_b(debit_account2);
+				c.setC_sub_amount_b(cashSweepService.queryCardBalance(debit_account2));
 				cashSweepService.addCollection(cashSweep);
 				System.err.println("两个账户时 " + cashSweep);
 			}
+			//调用添加资金归集记录方法
+			cashSweepService.insert_C_collection(c);
 			json.setSuccess(true);
 		} catch (RuntimeException e) {
 			json.setSuccess(false);
@@ -116,24 +146,38 @@ public class CollectionController {
 	// 跳转到我的归集
 	@RequestMapping("/mycollection")
 	@RequireLogin
-	public String MyCollection(HttpSession session) {
+	public String MyCollection(HttpSession session,HttpServletResponse response) throws IOException {
+		  response.setCharacterEncoding("UTF-8"); 
 		// 查询当前用户的主账户卡号
 		String Id_card = null;
+		String url="/accountapplication.html";
+		//查询是否有主卡和副卡 没有则返回开户页面
+		if(!cardService.queryCard(String.valueOf(UserContext.getCurrent().getId()), "0")) {			
+			response.getWriter().print("<script>alert('您还有没账号 请先开户！');window.location.href='"
+					+ url + "';</script>");
+		}
+		if(!cardService.queryCard(String.valueOf(UserContext.getCurrent().getId()), "1")) {			
+			response.getWriter().print("<script>alert('您还没有副卡 不能进行资金归集业务！');window.location.href='"
+					+ url + "';</script>");
+		}
+		//查询主卡信息
 		List<Card> CardList1 = cardService
 				.queryCardByUserIdAndMajorCard(String.valueOf(UserContext.getCurrent().getId()), "0");
 		for (Card card : CardList1) {
 			Id_card = card.getId_card();
 		}
-		// 查询是否有归集
-		boolean isHaveCard = cashSweepService.queryCollection(Id_card);
-		session.setAttribute("isHaveCard", isHaveCard);
-		// 查询资金归集明细
-		List<CashSweep> collectionList = cashSweepService.queryCollectionList(Id_card);
-		session.setAttribute("collectionList", collectionList);
-		// 查询一条资金归集明细
-		CashSweep cashSweep = cashSweepService.queryOneCollection(Id_card);
-		System.err.println(cashSweep);
-		session.setAttribute("cashSweep", cashSweep);
+		//当主卡卡号不为空时
+		if(Id_card!=null) {
+			// 通过主卡查询是否有归集
+			boolean isHaveCard = cashSweepService.queryCollection(Id_card);
+			session.setAttribute("isHaveCard", isHaveCard);
+			// 查询资金归集明细
+			List<CashSweep> collectionList = cashSweepService.queryCollectionList(Id_card);
+			session.setAttribute("collectionList", collectionList);
+			// 查询第一条资金归集明细
+			CashSweep cashSweep = cashSweepService.queryOneCollection(Id_card);
+			session.setAttribute("cashSweep", cashSweep);
+		}		
 		return "mycollection";
 
 	}
@@ -141,24 +185,39 @@ public class CollectionController {
 	// 跳转到我的归集明细
 	@RequestMapping("/collectiondetails")
 	@RequireLogin
-	public String CollectionDetails(HttpSession session) {
+	public String CollectionDetails(HttpSession session,HttpServletResponse response) throws IOException {
+		 response.setCharacterEncoding("UTF-8"); 
 		// 查询当前用户的主账户卡号
-		String Id_card = null;
+		String Id_card = null;//主卡
+		String url="/accountapplication.html";
+		//查询是否有主卡和副卡 没有则返回开户页面
+		if(!cardService.queryCard(String.valueOf(UserContext.getCurrent().getId()), "0")) {			
+			response.getWriter().print("<script>alert('您还有没账号 请先开户！');window.location.href='"
+					+ url + "';</script>");
+		}
+		if(!cardService.queryCard(String.valueOf(UserContext.getCurrent().getId()), "1")) {			
+			response.getWriter().print("<script>alert('您还没有副卡 不能进行资金归集业务！');window.location.href='"
+					+ url + "';</script>");
+		}
+		//查询主卡信息拿到主卡
 		List<Card> CardList1 = cardService
 				.queryCardByUserIdAndMajorCard(String.valueOf(UserContext.getCurrent().getId()), "0");
 		for (Card card : CardList1) {
 			Id_card = card.getId_card();
-		}
-		// 查询是否有归集
-		boolean isHaveCard = cashSweepService.queryCollection(Id_card);
-		session.setAttribute("isHaveCard", isHaveCard);
-		// 查询资金归集明细
-		List<CashSweep> collectionList = cashSweepService.queryCollectionList(Id_card);
-		session.setAttribute("collectionList", collectionList);
-		// 查询一条资金归集明细
-		CashSweep cashSweep = cashSweepService.queryOneCollection(Id_card);
-		System.err.println(cashSweep);
-		session.setAttribute("cashSweep", cashSweep);
+		}		
+		//当主卡卡号不为空时
+		if(Id_card!=null) {
+			// 通过主卡查询是否有归集
+			boolean isHaveCard = cashSweepService.queryCollection(Id_card);
+			session.setAttribute("isHaveCard", isHaveCard);
+			// 查询资金归集明细
+			List<CashSweep> collectionList = cashSweepService.queryCollectionList(Id_card);
+			session.setAttribute("collectionList", collectionList);
+			// 查询第一条资金归集明细
+			CashSweep cashSweep = cashSweepService.queryOneCollection(Id_card);
+			session.setAttribute("cashSweep", cashSweep);
+		}	
+		
 		return "collectiondetails";
 
 	}
@@ -176,20 +235,36 @@ public class CollectionController {
 	@RequestMapping("/saveUpdateCollection")
 	@RequireLogin
 	@ResponseBody
-	public JsonResult saveUpdateCollection(CashSweep cashSweep) {
-		System.err.println("要修改的信息 "+cashSweep);
+	public JsonResult saveUpdateCollection(CashSweep cashSweep,HttpSession session) {
 		JsonResult json = new JsonResult();
-		try {
-			
-			//throw new RuntimeException("修改失败");
+		try {		
+		//初始副卡卡号
+		String startDebit_account = cashSweep.getDebit_account();
+		//截取第一张卡 设置第一张副卡卡号
+		String debit_account1 = cashSweep.getDebit_account().substring(0,19);
+		if(cashSweep.getCollection_accout().equals(debit_account1)) {
+			throw new RuntimeException("收款账户和归集账户不能相同");
+		}
+		cashSweep.setDebit_account(debit_account1);
+		System.err.println(cashSweep);
+		//调用修改方法
+		cashSweepService.saveUpdateCollection(cashSweep);
+		//如果存在第二张卡
+		if(startDebit_account.length()>19) {
+			String debit_account2 = startDebit_account.substring(20);
+			if(cashSweep.getCollection_accout().equals(debit_account2)) {
+				throw new RuntimeException("收款账户和归集账户不能相同");
+			}
+			cashSweep.setDebit_account(debit_account2);
+			System.err.println(cashSweep);
+			cashSweepService.saveUpdateCollection(cashSweep);
+		}
+		
 		}catch(RuntimeException e) {
 			json.setSuccess(false);
 			json.setMsg(e.getMessage());
-		}
-		
-		
+		}				
 		return json;
-
 	}
 	
 	// 验证短信是否发送成功
@@ -271,10 +346,16 @@ public class CollectionController {
 				cashSweepService.shutDownService(cashSweep.getCollection_accout());
 				json.setMsg("终止服务成功");
 				json.setSuccess(true);
-			}
-						
+			}						
 			return json;
 		}
+		
+//		@RequestMapping("/myaccount")
+//		@RequireRealauth
+//		public String MyAccount() {
+//			return "myaccount";
+//			
+//		}
 	// 自定义类型转换器
 	@InitBinder
 	public void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {

@@ -7,26 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
-<script type="application/x-javascript">
-	
-	
-	
-	
-	
-        addEventListener("load", function() {
-            setTimeout(hideURLbar, 0);
-        }, false);
-
-        function hideURLbar() {
-            window.scrollTo(0, 1);
-        }
-    
-
-
-
-
-</script>
-
 <!--// Meta tag Keywords -->
 <!-- css files -->
 <link rel="stylesheet" href="css/bootstrap.css">
@@ -90,11 +70,11 @@
 </head>
 <script type="text/javascript">
 	$(function() {
-
 		//复用头部JS
-		$("#header").load("common/header.html");
+		$("#header").load("toHeader?value=transfer");
 		//复用尾部JS
 		$("#footer").load("common/footer.html");
+		//激活导航条
 		//验证表单
 		$("#registerAccountTransferForm").validate({
 			rules : {
@@ -139,7 +119,7 @@
 				},
 				code : {
 					required : "手机验证码不能为空",
-						remote : "手机验证码错误,请重新输入"
+					remote : "手机验证码错误,请重新输入"
 				},
 				imgCode : {
 					required : "图片验证码不能为空",
@@ -159,14 +139,7 @@
 		});
 		//检查余额是否足够
 		function checkBalance() {
-			if (parseInt($("#balance").val()) < parseInt($("#paymentAccount")
-					.val())) {
-				alert("余额不足");
-				return false;
-			} else {
 				$("#inputPassword").modal();
-			}
-			return false;
 		}
 		//显示余额
 		$("#paymentAccount").change(function() {
@@ -210,46 +183,55 @@
 					});
 
 				});
-		
-		
+
 		//发送手机验证码
-		$("#sendCode").click(function(){
-			 var _this = $(this);
-			var phone =  $("#phone").val();
+		$("#sendCode").click(function() {
+			var _this = $(this);
+			var phone = $("#phone").val();
 			$.ajax({
 				dataType : "json",
-				type:"POST",
+				type : "POST",
 				url : "/checkPhone?phone=" + phone,
 				success : function(rs) {
-					if(rs){
+					if (rs) {
 						$.ajax({
-							dataType : "json",	
-							type:"POST",
+							dataType : "json",
+							type : "POST",
 							url : "/sendMssage?phone=" + phone,
 							success : function(rs) {
-								if(rs.success){
-									 var sec = 90;
-	                       			 var timer = setInterval(function(){
-	                         	  	 	sec--;
-	                           			 if(sec > 0){
-	                          	    	 	 _this.text(sec+"秒后重新发送验证码");
-	                           			 }else{
-	                               			 clearInterval(timer);
-	                               			 _this.attr("disabled",false);
-	                               			 _this.text("重新发送验证码");
-	                           			 }
-	                        		 },1000);
+
+								if (rs.success) {
+									alert("验证码已成功发送到你的手机上,请注意查收!!");
+									var sec = 90;
+									var timer = setInterval(function() {
+										sec--;
+										if (sec > 0) {
+											_this.text(sec + "秒后重新发送验证码");
+										} else {
+											clearInterval(timer);
+											_this.attr("disabled", false);
+											_this.text("重新发送验证码");
+										}
+									}, 1000);
 								}
 							}
 						});
-					}else{
-						alert("请正确填写手机号!!");	
-					
+					} else {
+						alert("请正确填写手机号!!");
+
 					}
 				}
 			});
 		});
 
+		$("#registerAccountTransferForm").submit(function() {
+			if ($("#receivingAccount").val() == $("#paymentAccount").val()) {
+				alert("转入卡号与转出卡号不能一样!!");
+				return false;
+			}
+
+		});
+		
 		
 	});
 </script>
@@ -293,18 +275,9 @@
 						<div id="form">
 							<form class="form-horizontal" action="/registerAccountTransfer"
 								method="POST" id="registerAccountTransferForm">
+								<input type="hidden" id="test"/>
 								<div class="form-group">
-									<label for="payCardNum" class="col-sm-2 control-label">转入卡号</label>
-									<div class="col-sm-8">
-										<select name="receivingAccount" id="receivingAccount"
-											class="form-control ">
-											<option th:each="card:${cards}" th:value="${card.id}"
-												th:text="${card.id_card}"></option>
-										</select>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="payCardNum" class="col-sm-2 control-label">转出卡号</label>
+									<label for="paymentAccount" class="col-sm-2 control-label">转出卡号</label>
 									<div class="col-sm-8">
 										<select name="paymentAccount" id="paymentAccount"
 											class="form-control ">
@@ -314,22 +287,32 @@
 									</div>
 								</div>
 								<div class="form-group">
+									<label for="receivingAccount" class="col-sm-2 control-label">转入卡号</label>
+									<div class="col-sm-8">
+										<select name="receivingAccount" id="receivingAccount"
+											class="form-control ">
+											<option th:each="card:${cards}" th:value="${card.id_card}"
+												th:text="${card.id_card}"></option>
+										</select>
+									</div>									
+								</div>
+								<div class="form-group">
 									<label for="balance" class="col-sm-2 control-label">余额</label>
 									<div class="col-sm-6">
 
 										<input type="text" class="form-control" id="balance"
-											name="balance" th:value="${cards[1].balance}">
+											name="balance" th:value="${cards[0].balance}">
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="payeeName" class="col-sm-2 control-label">真实姓名</label>
+									<label for="realName" class="col-sm-2 control-label">真实姓名</label>
 									<div class="col-sm-6">
 										<input type="text" class="form-control" id="realName"
 											name="realName">
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="payCardNum" class="col-sm-2 control-label">证件类型</label>
+									<label for="documentType" class="col-sm-2 control-label">证件类型</label>
 									<div class="col-sm-8">
 										<select name="documentType" id="documentType"
 											class="form-control ">
@@ -340,25 +323,25 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="payeeName" class="col-sm-2 control-label">证件号码</label>
+									<label for="documentNum" class="col-sm-2 control-label">证件号码</label>
 									<div class="col-sm-6">
 										<input type="text" class="form-control" id="documentNum"
 											name="documentNum">
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="payeeName" class="col-sm-2 control-label">绑定的手机号</label>
+									<label for="phone" class="col-sm-2 control-label">绑定的手机号</label>
 									<div class="col-sm-6">
 										<input type="text" class="form-control" id="phone"
 											name="phone">
 									</div>
 									<div class="col-sm-2">
-										<button class="btn btn-info form-group" id="sendCode">点击发送验证码</button>
+										<a href="javascript::" class="btn btn-info form-group" id="sendCode">点击发送验证码</a>
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label for="paymentDate" class="col-sm-2 control-label">验证码</label>
+									<label for="code" class="col-sm-2 control-label">验证码</label>
 									<div class="col-sm-6">
 										<input type="text" class="form-control" name="code" />
 									</div>
@@ -367,7 +350,7 @@
 
 
 								<div class="form-group">
-									<label for="input" class="col-sm-2 control-label">请输入图片中的验证码</label>
+									<label for="imgCode" class="col-sm-2 control-label">请输入图片中的验证码</label>
 									<div class="col-sm-6">
 										<input type="text" class="form-control" name="imgCode"
 											id="imgCode">

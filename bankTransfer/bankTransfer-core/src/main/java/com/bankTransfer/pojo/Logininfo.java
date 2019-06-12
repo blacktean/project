@@ -22,6 +22,8 @@ public class Logininfo implements Serializable {
 	public static  final int  STATE_LOCK = 1;
 	/**已删除状态*/
 	public static  final int  STATE_DELETE = -1;
+	/**未审核状态*/
+	public static final int   STATE_EXAMINE = 2;
 	
 	/**前台用户*/
 	public static  final int  USERTYPE_NORMAL = 0;
@@ -40,5 +42,6 @@ public class Logininfo implements Serializable {
 	private Integer usertype;
 	/**手机号*/
 	private String telphone;
-	
+	/**剩余登陆次数*/
+	private Integer times;
 }	

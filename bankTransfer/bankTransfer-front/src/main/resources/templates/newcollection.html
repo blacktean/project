@@ -173,7 +173,7 @@
 				debit_account2:{
 					required:true,
 					rangelength:[19,19],
-					remote:{    		//验证用户名是否存在
+					remote:{    		//验证卡号是否存在
 						url:"/checkDebit_account2",    //servlet
 						type:"post",
 						 data:{
@@ -703,7 +703,7 @@ input.btn, input.btn_add, input.btn_disabled {
 												<div class="form-group">
 													<label for="financial_number" class="col-sm-4 control-label">协议期限</label>
 													<div class="col-sm-6">								
-															<select name="financial_number" id="financial_number"
+														<select name="financial_number" id="financial_number"
 															class="form-control ">
 															<option value="1">一个月</option>
 															<option value="2">三个月</option>
@@ -825,7 +825,7 @@ input.btn, input.btn_add, input.btn_disabled {
 						<div class="form-group">
 							<label for="email" class="col-sm-2 control-label">支付密码:</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="pailPWD" name="pailPWD" />							
+								<input type="password" class="form-control" id="pailPWD" name="pailPWD" />							
 							</div>
 							
 						</div>					

@@ -85,4 +85,5 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/io/projectreactor/reactor-core/3.2.8.RELEASE/reactor-core-3.2.8.RELEASE.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/reactivestreams/reactive-streams/1.0.2/reactive-streams-1.0.2.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/projectlombok/lombok/1.16.10/lombok-1.16.10.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/com/google/code/kaptcha/kaptcha/2.3.2/kaptcha-2.3.2.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>
