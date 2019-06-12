@@ -2,13 +2,14 @@
 <!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.bankTransfer.mapper.CardMapper">
+	<!-- 通过user_id查到对应用户的银行卡 -->
 	<select id="queryCardByUserId" resultType="Card">
-		select * from T_CARD WHERE user_id=#{user_id}
+		select <include refid="cardColumn"/> from T_CARD WHERE user_id=#{user_id}
 	</select>
+	<!-- 通过id_card找到对应的银行卡 -->
 	<select id="queryCardByIdCard" resultType="Card">
-		select * from T_CARD WHERE id_card=#{id_card}
+		select <include refid="cardColumn"/> from T_CARD WHERE id_card=#{id_card}
 	</select>
-
 	<!-- 通过登录id查询当前用户名 -->
 	<select id="queryUserName" resultType="String">
 	select distinct real_name from t_user where user_id=#{id}
@@ -22,18 +23,18 @@
 	select <include refid="cardColumn"/> from t_card where user_id = #{user_id} and card_state = '1' and major_card=#{major_card}
 	</select>
 	
-<<<<<<< HEAD
-=======
 	<!-- 验证交易密码 -->
 	<select id="checkPailPWD" resultType="int">
 	select count(0) from t_card where  user_id=#{user_id} and password=#{pailPWD}
-	
 	</select>
 	
->>>>>>> branch 'master' of https://github.com/blacktean/project.git
 	<sql id="cardColumn">
 		id,id_card,start_place,currency,balance,available_balance,start_place_id,
 		password,card_type,user_id,card_state,major_card,create_time,
 		effective_time,register_type,max_price,bank_type
 	</sql>
+	<!-- 新增银行卡 -->
+	<insert id="addCard" parameterType="Card">
+		INSERT INTO T_CARD VALUES(seq_card_id.nextval,#{id_card},#{start_place},#{currency},10000,10000,'1',#{password},'乔治银行',#{user_id},'1','0',to_char(to_date(sysdate,'yyyy-mm-dd hh24:mi:ss')),sysdate + interval '2' year,NULL,50000,NULL)
+	</insert>
 </mapper>

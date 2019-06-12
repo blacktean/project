@@ -25,8 +25,6 @@ public class User implements Serializable {
 	private String card_number;
 	/**姓名拼音*/
 	private String xingming;
-	/**手机号*/
-	private String phone;
 	/**注册方式*/
 	private String reg_type;
 	/**客户级别*/

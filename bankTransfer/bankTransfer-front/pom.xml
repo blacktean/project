@@ -18,7 +18,6 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-
 	</properties>
 
 	<dependencies>
@@ -26,7 +25,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
@@ -52,8 +50,7 @@
 			<artifactId>thymeleaf-spring4</artifactId>
 			<version>3.0.6.RELEASE</version>
 		</dependency>
-
-
+		
 		<!-- 热加载依赖 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -77,5 +74,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

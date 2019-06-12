@@ -27,12 +27,12 @@
 	
 	<!-- 查询卡余额 -->
 	<select id="queryCardBalance" resultType="Double">
-	select balance from t_card where id_card=#{id_card}
+		select balance from t_card where id_card=#{id_card}
 	</select>
 			
 	<!-- 查询是否有资金归集 -->
 	<select id="queryCollection" resultType="int">
-	select count(0) from T_CASH_SWEEP where collection_accout=#{collection_accout} and state=0
+		select count(0) from T_CASH_SWEEP where collection_accout=#{collection_accout} and state=0
 	</select>
 	
 	<!-- 通过主卡号查询资金归集列表 -->
@@ -49,12 +49,11 @@
 		state,collection_accout,receiver_name,collecting_type,debit_name,debit_account,
 		bank_id,transferred_money,debit_tel,balance1,balance2,ROWNUM rn
 	from  T_CASH_SWEEP where collection_accout=#{collection_accout})s WHERE s.rn=1 and s.state=0
-	
 	</select>
 	
 	<!-- 终止资金归集服务 -->
 	<update id="shutDownService">
-	 update T_CASH_SWEEP set state=1 where collection_accout=#{collection_accout}
+	 	update T_CASH_SWEEP set state=1 where collection_accout=#{collection_accout}
 	</update>
 	
 </mapper>
