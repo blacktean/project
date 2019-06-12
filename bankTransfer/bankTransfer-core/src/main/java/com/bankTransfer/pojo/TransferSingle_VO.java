@@ -16,6 +16,8 @@ import lombok.ToString;
 public class TransferSingle_VO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	/** id*/
+	private Integer id;
 	/**付款人id*/
 	private Integer paymentId;
 	/**付款人姓名*/
@@ -39,5 +41,14 @@ public class TransferSingle_VO implements Serializable {
 	private String result;
 	/**转账手续费*/
 	private BigDecimal serviceCharge = new BigDecimal(0);
+	
+	/**转账类型*/
+	private String transfer_type;
+	/**交易类型*/
+	private String transaction_type;
+	/**备注*/
+	private String msg = "无";
+	/**转账模式*/
+	private String transfer_mode;
 
 }

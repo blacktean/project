@@ -7,16 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
-<script type="application/x-javascript">
-	
-        addEventListener("load", function() {
-            setTimeout(hideURLbar, 0);
-        }, false);
-        function hideURLbar() {
-            window.scrollTo(0, 1);
-        }
-
-</script>
 <!--// Meta tag Keywords -->
 <!-- css files -->
 <link rel="stylesheet" href="css/bootstrap.css">
@@ -149,14 +139,7 @@
 		});
 		//检查余额是否足够
 		function checkBalance() {
-			if (parseInt($("#balance").val()) < parseInt($("#paymentAccount")
-					.val())) {
-				alert("余额不足");
-				return false;
-			} else {
 				$("#inputPassword").modal();
-			}
-			return false;
 		}
 		//显示余额
 		$("#paymentAccount").change(function() {
@@ -242,7 +225,7 @@
 		});
 
 		$("#registerAccountTransferForm").submit(function() {
-			if (("#receivingAccount").val() == $("#paymentAccount").val()) {
+			if ($("#receivingAccount").val() == $("#paymentAccount").val()) {
 				alert("转入卡号与转出卡号不能一样!!");
 				return false;
 			}
@@ -294,17 +277,7 @@
 								method="POST" id="registerAccountTransferForm">
 								<input type="hidden" id="test"/>
 								<div class="form-group">
-									<label for="payCardNum" class="col-sm-2 control-label">转入卡号</label>
-									<div class="col-sm-8">
-										<select name="receivingAccount" id="receivingAccount"
-											class="form-control ">
-											<option th:each="card:${cards}" th:value="${card.id}"
-												th:text="${card.id_card}"></option>
-										</select>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="payCardNum" class="col-sm-2 control-label">转出卡号</label>
+									<label for="paymentAccount" class="col-sm-2 control-label">转出卡号</label>
 									<div class="col-sm-8">
 										<select name="paymentAccount" id="paymentAccount"
 											class="form-control ">
@@ -314,22 +287,32 @@
 									</div>
 								</div>
 								<div class="form-group">
+									<label for="receivingAccount" class="col-sm-2 control-label">转入卡号</label>
+									<div class="col-sm-8">
+										<select name="receivingAccount" id="receivingAccount"
+											class="form-control ">
+											<option th:each="card:${cards}" th:value="${card.id_card}"
+												th:text="${card.id_card}"></option>
+										</select>
+									</div>									
+								</div>
+								<div class="form-group">
 									<label for="balance" class="col-sm-2 control-label">余额</label>
 									<div class="col-sm-6">
 
 										<input type="text" class="form-control" id="balance"
-											name="balance" th:value="${cards[1].balance}">
+											name="balance" th:value="${cards[0].balance}">
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="payeeName" class="col-sm-2 control-label">真实姓名</label>
+									<label for="realName" class="col-sm-2 control-label">真实姓名</label>
 									<div class="col-sm-6">
 										<input type="text" class="form-control" id="realName"
 											name="realName">
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="payCardNum" class="col-sm-2 control-label">证件类型</label>
+									<label for="documentType" class="col-sm-2 control-label">证件类型</label>
 									<div class="col-sm-8">
 										<select name="documentType" id="documentType"
 											class="form-control ">
@@ -340,25 +323,25 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="payeeName" class="col-sm-2 control-label">证件号码</label>
+									<label for="documentNum" class="col-sm-2 control-label">证件号码</label>
 									<div class="col-sm-6">
 										<input type="text" class="form-control" id="documentNum"
 											name="documentNum">
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="payeeName" class="col-sm-2 control-label">绑定的手机号</label>
+									<label for="phone" class="col-sm-2 control-label">绑定的手机号</label>
 									<div class="col-sm-6">
 										<input type="text" class="form-control" id="phone"
 											name="phone">
 									</div>
 									<div class="col-sm-2">
-										<button class="btn btn-info form-group" id="sendCode">点击发送验证码</button>
+										<a href="javascript::" class="btn btn-info form-group" id="sendCode">点击发送验证码</a>
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label for="paymentDate" class="col-sm-2 control-label">验证码</label>
+									<label for="code" class="col-sm-2 control-label">验证码</label>
 									<div class="col-sm-6">
 										<input type="text" class="form-control" name="code" />
 									</div>
@@ -367,7 +350,7 @@
 
 
 								<div class="form-group">
-									<label for="input" class="col-sm-2 control-label">请输入图片中的验证码</label>
+									<label for="imgCode" class="col-sm-2 control-label">请输入图片中的验证码</label>
 									<div class="col-sm-6">
 										<input type="text" class="form-control" name="imgCode"
 											id="imgCode">

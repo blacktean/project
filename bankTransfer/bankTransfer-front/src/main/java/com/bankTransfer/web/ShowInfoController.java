@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -95,8 +96,8 @@ public class ShowInfoController {
     }  
 	
 	@PostMapping("checkCode")
-	public boolean checkCode(String code,HttpSession session){  
-        return code.equals(session.getAttribute("code"));  
+	public boolean checkCode(String code,HttpSession session){
+		  return code.equals(session.getAttribute("code"));
     }  
 	
 	
@@ -105,6 +106,7 @@ public class ShowInfoController {
 			JsonResult jsonResult = new JsonResult();
 //			String code = APIUtils.sendMessage(phone);
 			String code = "9999";
+			session.setAttribute("code", code);
 		/*
 		 * if(code == null) { session.setAttribute("code", code);
 		 * jsonResult.setSuccess(false); jsonResult.setMsg("系统繁忙,请稍后再试"); }
