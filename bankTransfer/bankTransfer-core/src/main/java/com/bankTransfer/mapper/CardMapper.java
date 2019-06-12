@@ -54,4 +54,17 @@ public interface CardMapper {
 	 * @return
 	 */
 	int checkPailPWD(@Param("user_id")String user_id,@Param("pailPWD")String pailPWD);
+	/**
+	 * 更改最大额度
+	 * @param max_price
+	 * @param user_id
+	 * @return
+	 */
+	int setUpMax_price(@Param("max_price")Double max_price,@Param("user_id") Integer user_id);
+	/**
+	 * 查询最大额度
+	 * @param user_id
+	 * @return
+	 */
+	int queryMax_price(@Param("user_id")Integer user_id);
 }

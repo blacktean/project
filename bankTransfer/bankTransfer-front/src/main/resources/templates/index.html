@@ -154,7 +154,44 @@
  -->                    <h4>
                         <span>有什么问题都可以告诉我们哦!</span>
                     </h4>
- 				<a href="about.html" class="link-w3l1 color-2">我要反馈</a>
+ 				<!-- <a href="about.html" class="link-w3l1 color-2">我要反馈</a> -->
+ 				
+ 				
+ 				<button type="button" class="btn btn-primary btn-lg"
+				data-toggle="modal" data-target="#Modal">我要反馈</button>
+			<!-- Modal -->
+			<div class="modal fade" id="Modal" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">反馈问题</h4>
+						</div>
+						<div class="modal-body">
+							<form>
+								<div class="form-group">
+									<label for="recipient-name" class="control-label">你的问题</label>
+									<input type="password" class="form-control" id="recipient-name">
+								</div>
+								
+							</form>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary">提交问题</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			
                 </div>
                 <div class="inner-sub-2">
 

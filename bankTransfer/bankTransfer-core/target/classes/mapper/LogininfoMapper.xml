@@ -18,9 +18,17 @@
 	<!-- 查询所有数据 -->
 	<select id="queryAll" resultType="Logininfo">
 	select <include refid="key"/> from logininfo
-		
+	<!-- 登陆 -->	
 	</select>
 	 <select id="queryByUsernameOrPhoneAndPassword" resultType="Logininfo" >
 		select <include refid="key"/> from Logininfo where usertype=#{usertype} and password=#{login_password} and username=#{login_number} or telphone=#{login_number}  
+	</select>
+	<!-- 更改登陆密码 -->
+	<update id="setUpPassword">
+	update logininfo set password=#{password} where id=#{id}	
+	</update>
+	
+	<select id="checkPassword" resultType="Logininfo">
+	select <include refid="key"/> from logininfo where password=#{password} and id=#{id}	
 	</select>
 </mapper>
