@@ -48,4 +48,73 @@
 		#{bank_type}	
 		)
 	</insert>
+	
+	<!-- 带条件分页查询所有银行卡 -->
+	<resultMap type="Card_VO" id="cardMap">
+	<!-- id标签：配置唯一字段，一般是主键
+				property：与实体类属性名一致
+				column：与数据表字段名一致 -->
+		<id property="id" column="id"/>
+		<result column="id_card" property="id_card"></result>
+		<result column="start_place" property="start_place"></result>
+		<result column="currency" property="currency"></result>
+		<result column="balance" property="balance"></result>
+		<result column="available_balance" property="available_balance"></result>
+		<result column="card_type" property="card_type"></result>
+		<result column="c_user_id" property="c_user_id"></result>
+		<result column="card_state" property="card_state"></result>
+		<result column="major_card" property="major_card"></result>
+		<result column="create_time" property="create_time"></result>
+		<result column="effective_time" property="effective_time"></result>
+		<result column="max_price" property="max_price"></result>
+		<result column="real_name" property="real_name"></result>
+		<result column="card_number" property="card_number"></result>
+		<result column="u_user_id" property="u_user_id"></result>
+	</resultMap>
+	
+	<select id="queryAllCardByCondition" resultMap="cardMap" parameterType="CardCondition">
+		SELECT C.ID id,
+       C.ID_CARD id_card,
+       C.START_PLACE start_place,
+       C.CURRENCY currency,
+       C.BALANCE balance,
+       C.AVAILABLE_BALANCE available_balance,
+       C.CARD_TYPE card_type,
+       C.USER_ID c_user_id,
+       C.CARD_STATE card_state,
+       C.MAJOR_CARD major_card,
+       C.CREATE_TIME create_time,
+       C.EFFECTIVE_TIME effective_time,
+       C.MAX_PRICE max_price,
+       U.REAL_NAME real_name,
+       U.CARD_NUMBER card_number,
+       U.USER_ID u_user_id
+ 	   FROM T_CARD C,T_USER U
+   	   where C.USER_ID = U.USER_ID
+		<if test="card_state!=null and card_state!='-1'">
+    	and card_state=#{card_state}
+    	</if>
+    	<if test="startTime!=null">
+    	and CREATE_TIME &gt;=#{startTime}
+    	</if>
+    	<if test="endTime!=null">
+    	and CREATE_TIME &lt;=#{endTime}
+    	</if>
+    	<if test="id_card!=null and id_card!=''">
+    	and id_card LIKE '%'||#{id_card}||'%'
+    	</if>
+    	<if test="real_name!=null and real_name!=''">
+    	and real_name LIKE '%'||#{real_name}||'%'
+    	</if>
+    	<if test="card_number!=null and card_number!=''">
+    	and card_number LIKE '%'||#{card_number}||'%'
+    	</if>
+	</select>
+	
+	<!-- 修改银行卡状态 -->
+	<update id="updateCardState">
+	update t_card set card_state=#{card_state} where id=#{id}
+	
+	</update>
+	
 </mapper>
