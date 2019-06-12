@@ -15,6 +15,7 @@ import com.bankTransfer.pojo.TransferSingle_VO;
 import com.bankTransfer.pojo.UserVo;
 import com.bankTransfer.service.ITransferService;
 import com.bankTransfer.util.APIUtils;
+import com.bankTransfer.util.CalculationRate;
 import com.bankTransfer.util.JsonResult;
 import com.bankTransfer.util.UserContext;
 
@@ -33,24 +34,28 @@ public class TransferController {
 		String receiveName = singleVO.getReceivingName();
 		// 扣款账号
 		String paymentAccount = singleVO.getPaymentAccount();
+		//转账金额
+		BigDecimal transferMoney = singleVO.getTransferAmount();
+		//收款账户的银行id
+		int bank_id = singleVO.getBankName();
+		BigDecimal rate = new BigDecimal(0);
+		if(bank_id != 41){//跨行转账,计算手续费
+			rate = CalculationRate.getRateDisBank(transferMoney);
+		}
 		// 对收款人的卡号和姓名进行验证
 		String obj = APIUtils.checkCard(receiveName, receiveCardId);
 		if (obj == null) {// 验证不通过
 			jsonResult.setSuccess(false);
 			jsonResult.setMsg("账号或用户名不存在!");
-		} else {// 验证通过
-				// 判断转账金额是否超过转账限额
-			BigDecimal transferMoney = singleVO.getTransferAmount();
+		} else {// 验证通过				
 			// 获取该用户的转账最大限额
 			BigDecimal maxPrice = transferService.getMaxPrice(paymentAccount);
-			if (transferMoney.compareTo(maxPrice) == 1) {
+			if ((transferMoney.add(rate)).compareTo(maxPrice) == 1) {// 判断转账金额是否超过转账限额
 				jsonResult.setSuccess(false);
 				jsonResult.setMsg("转账金额超过限额!!");
 			} else {
 				// 汇款人账户余额减掉汇款金额
-				// 汇款金额
-				BigDecimal transferAmount = singleVO.getTransferAmount();
-				transferService.subtractBalance(transferAmount.negate(), paymentAccount);
+				transferService.subtractBalance((transferMoney.add(rate)).negate(), paymentAccount);
 				// 判断收款账户是否为常用联系账户,不是则添加
 				if (!transferService.judgeContact(receiveCardId)) {
 					// 将收款人添加进汇款人的常用联系人表中(先判断该收款人是否已存在)
