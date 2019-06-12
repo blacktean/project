@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bankTransfer.pojo.Card;
+import com.bankTransfer.pojo.CardCondition;
+import com.bankTransfer.pojo.Card_VO;
 import com.bankTransfer.pojo.User;
 import com.bankTransfer.pojo.UserCondition;
 import com.bankTransfer.service.IAccountAuditService;
@@ -105,7 +107,7 @@ public class AccountAuditController {
 			card.setCard_type("乔治银行");
 			card.setUser_id(String.valueOf(user_id));
 			card.setCard_state("1");
-			card.setMajor_card("1");
+			card.setMajor_card("0");
 			card.setCreate_time(new Date());
 			card.setEffective_time("10");
 			card.setRegister_type("个人");
@@ -140,12 +142,65 @@ public class AccountAuditController {
 
 	//取消审核
 	@RequestMapping("/CloseeditAccount")
-	public String CloseeditAccount() {
+	public String CloseeditAccount() {	
 		
 		return "kaihushenhe";
-
 	}
-
+	
+	/**
+	 * 带条件分页查询所有卡
+	 * @param page
+	 * @param session
+	 * @param beginDate
+	 * @param endDate
+	 * @param card_state
+	 * @param card_number
+	 * @param id_card
+	 * @param real_name
+	 * @return
+	 */
+	@RequestMapping("/CardListAccount")
+	public String CardList(@RequestParam(required = true, defaultValue = "1") Integer page, HttpSession session,
+			Date beginDate, Date endDate, String card_state, String card_number,String id_card,String real_name) {
+		// 在查询调用方法前声明分页信息（当前页，每页记录数）
+		// PageHelper.startPage(page, pageSize);这段代码表示，程序开始分页了，
+		// page默认值是1，pageSize默认是10，意思是从第1页开始，每页显示10条记录。
+		PageHelper.startPage(page, 5);
+		// 创建条件类
+		CardCondition condition = new CardCondition();
+		condition.setCard_number(card_number);
+		condition.setStartTime(DateUtil.beginForDate(beginDate));
+		condition.setEndTime(DateUtil.endForDate(endDate));
+		condition.setCard_state(card_state);
+		condition.setReal_name(real_name);
+		condition.setId_card(id_card);
+		System.err.println("传过来的条件" + condition);
+		// 查询数据
+		List<Card_VO> AllCardList = accountAuditService.queryAllCardByCondition(condition);
+		// 在查询调用方法对查询结果进行包装成PageInfo对象
+		// 创建PageInfo对象，保存查询出的结果，PageInfo是pageHelper中的对象
+		PageInfo<Card_VO> p = new PageInfo<Card_VO>(AllCardList);
+		// 将数据存放到session域中
+		session.setAttribute("cardpage", p);
+		session.setAttribute("cardcondition", condition);
+		session.setAttribute("AllCardList", AllCardList);
+		// 返回页面
+		return "kaguanli";
+	}
+	
+	/**
+	 * 冻结账户
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/shutDownCardAccount")
+	public String shutDownCardAccount(Integer id,String card_state) {
+		System.err.println("id为"+id+"状态值为"+card_state);
+		accountAuditService.updateCardState(id, card_state);
+		return "redirect:/CardListAccount";
+	}
+	
+	
 	// 自定义类型转换器
 	@InitBinder
 	public void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {

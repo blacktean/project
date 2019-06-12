@@ -3,12 +3,14 @@ package com.bankTransfer.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.bankTransfer.util.RequireLogin;
 import com.bankTransfer.util.UserContext;
 
+import io.lettuce.core.dynamic.annotation.CommandNaming;
 
 public class LoginCheckInterceptor extends  HandlerInterceptorAdapter {
 
@@ -46,7 +48,7 @@ public class LoginCheckInterceptor extends  HandlerInterceptorAdapter {
 			//RequireRealauth rr = handlerMethod.getMethodAnnotation(RequireRealauth.class);
 			//判断是否有该注解
 			if(rl != null && UserContext.getCurrent() == null ){ //说明该方法需要访问控制, 如果未登录, 跳转到login.html
-				response.sendRedirect("/login.html");
+				response.sendRedirect("/login");
 				return false;
 			}
 //			//判断是否开户

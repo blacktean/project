@@ -9,7 +9,6 @@ import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
-
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
@@ -20,7 +19,7 @@ import com.bankTransfer.pojo.JsonUserInfo;
 
 public class APIUtils {
 	/**
-	 * 验证码数组 
+	 * 验证码数组
 	 */
 	private static int[] seeds = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	/**
@@ -36,7 +35,7 @@ public class APIUtils {
 	 * 根据ip获取城市
 	 * 
 	 * @param ip
-	 * @return 
+	 * @return
 	 */
 	public static JsonCountry getJsonCountry() {
 		String host = "https://ipro.market.alicloudapi.com";
@@ -137,31 +136,32 @@ public class APIUtils {
 		}
 		return jsonUserInfo;
 	}
+
 	/**
 	 * 验证身份证号和姓名
+	 * 
 	 * @param number
 	 * @param name
 	 * @return
 	 */
-	public static boolean checkNumberAndName(String number,String name) {
-		 String host = "https://eid.shumaidata.com";
-		    String path = "/eid/check";
-		    Map<String, String> headers = new HashMap<String, String>();
-		    headers.put("Authorization", "APPCODE " + APP_CODE);
-		    Map<String, String> querys = new HashMap<String, String>();
-		    querys.put("idcard", number);
-		    querys.put("name", name);
-		    Map<String, String> bodys = new HashMap<String, String>();
-		    try {
-		    	HttpResponse response = HttpUtils.doPost(host, path, GET_METHOD, headers, querys, bodys);
-		    	String result = JSONObject.parseObject(EntityUtils.toString(response.getEntity())).get("code").toString();
-		    	return "0".equals(result);
-		    } catch (Exception e) {
-		    	e.printStackTrace();
-		    }
-		    return false;
+	public static boolean checkNumberAndName(String number, String name) {
+		String host = "https://eid.shumaidata.com";
+		String path = "/eid/check";
+		Map<String, String> headers = new HashMap<String, String>();
+		headers.put("Authorization", "APPCODE " + APP_CODE);
+		Map<String, String> querys = new HashMap<String, String>();
+		querys.put("idcard", number);
+		querys.put("name", name);
+		Map<String, String> bodys = new HashMap<String, String>();
+		try {
+			HttpResponse response = HttpUtils.doPost(host, path, GET_METHOD, headers, querys, bodys);
+			String result = JSONObject.parseObject(EntityUtils.toString(response.getEntity())).get("code").toString();
+			return "0".equals(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
-	
 
 	/**
 	 * 发送验证码
@@ -177,11 +177,12 @@ public class APIUtils {
 		headers.put("Authorization", "APPCODE " + APP_CODE);
 		Map<String, String> querys = new HashMap<String, String>();
 		querys.put("mobile", phone);
-		querys.put("content", "{\"userName\":\"用户\",\"code\":\"" + code + "\",\"minute\":\"5\",\"comName\":\",祝您生活愉快\"}");
+		querys.put("content",
+				"{\"userName\":\"用户\",\"code\":\"" + code + "\",\"minute\":\"5\",\"comName\":\",祝您生活愉快\"}");
 		querys.put("tNum", "T150606060602");
 		try {
 			HttpResponse response = HttpUtils.doGet(host, path, GET_METHOD, headers, querys);
-			if(response.getEntity() != null) {
+			if (response.getEntity() != null) {
 				return code;
 			}
 		} catch (Exception e) {
@@ -198,64 +199,63 @@ public class APIUtils {
 	 * @return
 	 */
 	public static String checkCard(String name, String id_card) {
-		String host = "https://ali-bankcard4.showapi.com";
-		String path = "/bank2";
-		Map<String, String> headers = new HashMap<String, String>();
-		headers.put("Authorization", "APPCODE " + APP_CODE);
-		Map<String, String> querys = new HashMap<String, String>();
-		querys.put("acct_name", name);
-		querys.put("acct_pan", id_card);
-		querys.put("needBelongArea", "true");
-		try {
-			HttpResponse response = HttpUtils.doGet(host, path, GET_METHOD, headers, querys);
-			String result = JSONObject.parseObject(EntityUtils.toString(response.getEntity())).get("showapi_res_body")
-					.toString();
-			Object object = JSONObject.parseObject(result).get("belong");
-			if(object!=null) {
-				return "success";
-			}
-			
-		} catch (Exception e) {
-		}
-		return null;
-	}
-	
-	
-	/**
-	 * 银行卡三要素认证
-	 * @param name	 姓名
-	 * @param cardNumber 身份证号
-	 * @param id_card  卡号
-	 * @return
-	 */
-	public static String checkCard(String name,String cardNumber,String id_card) {
-		  String host = "https://ali-bankcard4.showapi.com";
-		    String path = "/bank3";
+		 String host = "http://lundroid.market.alicloudapi.com";
+		    String path = "/lianzhuo/verifi";
+		    String appcode = "3d166e9ea0704096be40b93135f7e12f";
 		    Map<String, String> headers = new HashMap<String, String>();
-		    headers.put("Authorization", "APPCODE " + APP_CODE);
+		    headers.put("Authorization", "APPCODE " + appcode);
 		    Map<String, String> querys = new HashMap<String, String>();
 		    querys.put("acct_name", name);
-		    querys.put("acct_pan", cardNumber);
-		    querys.put("cert_id", id_card);
-		    querys.put("cert_type", "01");
-		    querys.put("needBelongArea", "false");
-
-
+		    querys.put("acct_pan", id_card);
 		    try {
 		    	HttpResponse response = HttpUtils.doGet(host, path, GET_METHOD, headers, querys);
-		    	String result = JSONObject.parseObject(EntityUtils.toString(response.getEntity())).get("showapi_res_body")
+				String result = JSONObject.parseObject(EntityUtils.toString(response.getEntity())).get("resp")
 						.toString();
-		    	Object object = JSONObject.parseObject(result).get("belong");
-				if(object!=null) {
+				String rs = JSONObject.parseObject(result).get("code").toString();
+				if ("0".equals(rs)) {
 					return "success";
 				}
 		    } catch (Exception e) {
 		    	e.printStackTrace();
 		    }
-		    return null;
+		return null;
 	}
 	
-	
+	/**
+	 * 银行卡三要素认证
+	 * 
+	 * @param name       姓名
+	 * @param cardNumber 身份证号
+	 * @param id_card    卡号
+	 * @return
+	 */
+	public static String checkCard(String name, String cardNumber, String id_card) {
+		String host = "https://yunyidata3.market.alicloudapi.com";
+		String path = "/bankAuthenticate3";
+		Map<String, String> headers = new HashMap<String, String>();
+		headers.put("Authorization", "APPCODE " + "3d166e9ea0704096be40b93135f7e12f");
+		headers.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+		Map<String, String> querys = new HashMap<String, String>();
+		Map<String, String> bodys = new HashMap<String, String>();
+		bodys.put("cardNo", id_card);
+		bodys.put("idNo", cardNumber);
+		bodys.put("name", name);
+		try {
+			HttpResponse response = HttpUtils.doPost(host, path, GET_METHOD, headers, querys, bodys);
+			String result = JSONObject.parseObject(EntityUtils.toString(response.getEntity())).get("respCode")
+					.toString();
+			if ("0000".equals(result)) {
+				return "success";
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+
 	/**
 	 * 随机生成验证码
 	 * 
@@ -273,46 +273,42 @@ public class APIUtils {
 		}
 		return sb.toString();
 	}
-	
-	
-	
-	
-	
+
 	/**
 	 * 获取我的ip
+	 * 
 	 * @return
 	 */
-	public static String getMyIP()  {
-        InputStream ins = null;
-        try {
-            String l = "http://www.ip138.com/ips1388.asp";
-            URL url = new URL(l);
-            URLConnection con = url.openConnection();
-            ins = con.getInputStream();
-            InputStreamReader isReader = new InputStreamReader(ins, "gb2312");
-            BufferedReader bReader = new BufferedReader(isReader);
-            StringBuffer webContent = new StringBuffer();
-            String str = null;
-            while ((str = bReader.readLine()) != null) {
-                webContent.append(str);
-            }
-            int start = webContent.indexOf("您的IP地址是：[") + 9;
-            int end = webContent.indexOf("] 来自：");
-            return webContent.substring(start, end);
-        } catch (IOException e) {
+	public static String getMyIP() {
+		InputStream ins = null;
+		try {
+			String l = "http://www.ip138.com/ips1388.asp";
+			URL url = new URL(l);
+			URLConnection con = url.openConnection();
+			ins = con.getInputStream();
+			InputStreamReader isReader = new InputStreamReader(ins, "gb2312");
+			BufferedReader bReader = new BufferedReader(isReader);
+			StringBuffer webContent = new StringBuffer();
+			String str = null;
+			while ((str = bReader.readLine()) != null) {
+				webContent.append(str);
+			}
+			int start = webContent.indexOf("您的IP地址是：[") + 9;
+			int end = webContent.indexOf("] 来自：");
+			return webContent.substring(start, end);
+		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-                try {
-                	 if (ins != null) {
+			try {
+				if (ins != null) {
 					ins.close();
-                	 }
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
-            
-        }
-        return null;
-    }
-	
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return null;
+	}
 
 }

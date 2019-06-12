@@ -45,13 +45,12 @@ public class LogininfoController {
 
 			if (!isOk) {
 				js.setSuccess(false);
-				System.err.println(isOk);
+				js.setMsg("用户名或密码错误");
 			}
 		} catch (LogininfoException e) {
 			js.setSuccess(false);
 			js.setMsg(e.getMessage());
 		}
-		System.err.println("当前用户"+session.getAttribute("logininfo"));
 		return js;
 	}
 	

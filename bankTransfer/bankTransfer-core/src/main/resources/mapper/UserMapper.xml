@@ -3,6 +3,22 @@
 
 <mapper namespace="com.bankTransfer.mapper.UserMapper">
 	<select id="queryUserByUser_name" resultType="User">
-		select * from T_USER WHERE user_name=#{user_name}
+		select <include refid="all"></include> from T_USER WHERE user_id=#{user_id}
 	</select>
+	
+	<sql id="all">ID,USER_NAME,REAL_NAME,CARD_TYPE,CARD_NUMBER,XINGMING,REG_TYPE,
+	GRADE,ENGILISH_NAME,SEX,NATION,NATIONALITY,BIRTHDAY,MARITAL_STATUS,
+	EDU_LEVEL,PROFESSION,INDUSTRY,TECHNICAL_TITLE,ADMINISTRATIVE_LEVEL,
+	SUPPORTING_POPULATION,WORK_UNIT,WORK_TIME,STATE,CREATE_BANK,USER_ID</sql>
+	
+	<update id="updateUserByUser_id" parameterType="User">
+		UPDATE T_USER set 
+		SEX=#{user.sex},NATION=#{user.nation},NATIONALITY=#{user.nationality},
+		BIRTHDAY=#{user.birthday},MARITAL_STATUS#{user.marital_status},
+		EDU_LEVEL=#{user.edu_level},PROFESSION=#{user.profession},INDUSTRY=#{user.industry},
+		TECHNICAL_TITLE=#{user.technical_title},ADMINISTRATIVE_LEVEL=#{user.adminstrative_level},
+		SUPPORTING_POPULATION=#{user.supporting_population},WORK_UNIT=#{user.work_unit},
+		WORK_TIME=#{user.work_time},USER_NAME=#{user.user_name} 
+		WHERE user_id=#{user.user_id}
+	</update>
 </mapper>

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>测试</title>
+<title>明细</title>
 </head>
 <link rel="stylesheet" href="localhost:8888/static/bootstrap/bootstrap.css" type="text/css" />
 <body>
@@ -22,14 +22,26 @@
 						value='<fmt:formatDate value="${condition.end }"  pattern="yyyy-MM-dd"/>'>
 				</div>
 				<div class="form-group">
-					<label for="job">范围</label> <select id="job" name="job"
+					<label for="registered_accounts">按时期段进行查询</label> <select id="registered_accounts" name="registered_accounts"
+						class="form-control">
+						<option value="all">全部</option>
+						<!-- th:each -->
+						<option value="today">当日</option>
+						<option value="oneweek">近一周</option>
+						<option value="onemonth">近一月</option>
+						<option value="theremonth">近三月</option>
+						<option value="sixmonth">当六月</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="registered_accounts">请选择注册账户</label> <select id="registered_accounts" name="registered_accounts"
 						class="form-control">
 						<option value="全部">全部</option>
 						<!-- th:each -->
 					</select>
 				</div>
 				<div class="form-group">
-					<label for="dept">资金流向</label> <select id="dept" name="dept"
+					<label for="money_flow">资金流向</label> <select id="money_flow" name="money_flow"
 						class="form-control">
 						<option value="-1">全部</option>
 						<!-- th:each -->

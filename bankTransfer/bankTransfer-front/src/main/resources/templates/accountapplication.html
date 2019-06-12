@@ -7,23 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="" />
-    <!-- css files -->
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <!-- Bootstrap-Core-CSS -->
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
-    <!-- Style-CSS -->
-    <link rel="stylesheet" href="css/font-awesome.css">
-    <!-- Font-Awesome-Icons-CSS -->
-    <!-- lightbox -->
-    <link rel="stylesheet" href="css/lightbox.css" type="text/css" media="all">
-    <!-- //css files -->
-    <!-- web-fonts -->
-    <link href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900" rel="stylesheet">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
-    <!-- //web-fonts -->
-    <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
-    <script src="js/responsiveslides.min.js"></script>
+	<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<script type="text/javascript" src="js/jquery.validate.js"></script>
+	<script type="text/javascript" src="js/jquery.bootstrap.min.js"></script>
+	<link rel="stylesheet" href="css/bootstrap-datetimepicker.css"></link>
+	<script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+	<script type="text/javascript" src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script type="text/javascript" src="js/messages_zh.js"></script>
+	<script type="text/javascript" src="js/jquery.form.js"></script>
+	<!--// Meta tag Keywords -->
+	<!-- css files -->
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<!-- Bootstrap-Core-CSS -->
+	<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+	<!-- Style-CSS -->
+	<link rel="stylesheet" href="css/font-awesome.css">
 </head>
 <style>
 	#box1{
@@ -42,12 +41,83 @@
 	}
 </style>
 <script>
-     $(function() {
-        
+     $(function() {       
          //复用头部JS
-         $("#header").load("common/header.html");
+       $("#header").load("toHeader?value=accountapplication");
          //复用尾部JS
          $("#footer").load("common/footer.html");
+	       //表单验证
+	 		$("#accountApplicationForm").validate({
+	 			rules : {
+	 				real_name : {
+	 					required : true
+	 				},
+	 				card_number : {
+	 					required : true
+	 				},
+	 				xingming : {
+	 					required : true
+	 				},
+	 				birthday : {
+	 					required : true
+	 				},
+	 				profession : {
+	 					required : true
+	 				},
+	 				industry : {
+	 					required : true
+	 				}
+	 			},
+	 			messages : {
+	 				real_name : {
+	 					required : "请填写真实姓名"
+	 				},
+	 				card_number : {
+	 					required : "证件号不能为空"
+	 				},
+	 				xingming : {
+	 					required : "非空"
+	 				},
+	 				birthday : {
+	 					required : "非空"
+	 				},
+	 				profession : {
+	 					required : "非空"
+	 				},
+	 				industry : {
+	 					required : "非空"
+	 				}
+	 			},
+	 			submitHandler:function(form){
+					$("#accountApplicationForm").ajaxSubmit({
+						dataType:"json",
+						success:function(data){
+							if(data.success){
+								$.messager.model = {
+											ok:{ text: "关闭", classed: 'btn­default' },
+											cancel: { text: "取消", classed: 'btn­error' }
+								};
+								$.messager.confirm("提示","开户申请提交成功,请等待审核!",function(){
+									//跳转到我的归集页面
+									location.href="/index.html";
+								});
+								
+							}else{
+								alert(data.msg)
+								 $.messager.popup(data.msg);
+							}
+						},
+						resetForm:true
+					});
+				},
+	 			errorClass : "text-danger",
+	 			highlight : function(element) {
+	 				$(element).closest("div.form-group").addClass("has-error");
+	 			},
+	 			unhighlight : function(element) {
+	 				$(element).closest("div.form-group").removeClass("has-error");
+	 			}
+	 		})
      });
  </script>
 <body>
@@ -62,7 +132,6 @@
             <ul class="w3_short">
                 <li>
                     <a href="index.html">主页</a>
-                    <i>>></i>
                 </li>
                 <li>账户申请</li>
             </ul>
@@ -76,7 +145,7 @@
             <h3 class="tittle">
                 <span>账</span>户申<span>请</span>
             </h3>
-            <div class="gallery-w3lsrow">           
+            <div class="gallery-w3lsrow"> 
             	<form class="form-horizontal" action="/accountApplication" method="POST" id="accountApplicationForm">
 						<div class="form-group">
 							<label for="real_name" class="col-sm-2 control-label">真实姓名</label>
@@ -87,9 +156,9 @@
 						<div class="form-group">
                             <label for="card_type" class="col-sm-2 control-label">证件类型</label>
                             <div class="col-sm-6">
-                                <select name=" card_type " id="card_type " class="form-control ">
-                                     <option value="01">居民身份证</option>
-                                     <option value="02">护照</option>
+                                <select name="card_type" id="card_type " class="form-control ">
+                                     <option value="1">居民身份证</option>
+                                     <option value="2">护照</option>
                                 </select>
                             </div>
                         </div>
@@ -125,22 +194,25 @@
 						<div class="form-group">
                             <label for="nation" class="col-sm-2 control-label">民族</label>
                             <div class="col-sm-6">
-                                <select name=" nation " id="nation " class="form-control ">
-                                     <option value="01">汉</option>
-                                     <option value="02">满</option>
-                                     <option value="02">壮</option>
-                                     <option value="02">苗</option>
+                                <select name="nation" id="nation" class="form-control ">
+                                     <option value="汉族">汉族</option>
+                                     <option value="满族">满族</option>
+                                     <option value="壮族">壮族</option>
+                                     <option value="苗族">苗族</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="nationality" class="col-sm-2 control-label">国籍</label>
                             <div class="col-sm-6">
-                                <select name=" nationality " id="nationality " class="form-control ">
-                                     <option value="01">中国</option>
-                                     <option value="02">美国</option>
-                                     <option value="02">英国</option>
-                                     <option value="02">日本</option>
+                                <select name="nationality" id="nationality" class="form-control ">
+                                     <option value="中国">中国</option>
+                                     <option value="美国">美国</option>
+                                     <option value="英国">英国</option>
+                                     <option value="日本">日本</option>
+                                     <option value="韩国">韩国</option>
+                                     <option value="德国">德国</option>
+                                     <option value="意大利">意大利</option>
                                 </select>
                             </div>
                         </div>
@@ -164,12 +236,12 @@
 						<div class="form-group">
 							<label for="edu_level" class="col-sm-2 control-label">教育程度</label>
 							<div class="col-sm-6">
-								<select name=" edu_level " id="edu_level " class="form-control ">
-									<option value="01">高中及以下</option>
-									<option value="02">大专</option>
-									<option value="03">本科</option>
-									<option value="03">研究生</option>
-									<option value="03">博士及以上</option>
+								<select name="edu_level" id="edu_level" class="form-control ">
+									<option value="高中及以下">高中及以下</option>
+									<option value="大专">大专</option>
+									<option value="本科">本科</option>
+									<option value="研究生">研究生</option>
+									<option value="博士及以上">博士及以上</option>
 								</select>
 							</div>
 						</div>
