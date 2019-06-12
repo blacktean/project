@@ -33,8 +33,8 @@ public class TransferSingle_VO implements Serializable {
 	/**到账时间*/
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date paymentDate;
-	/**所属银行*/
-	private String bankName;
+	/**所属银行编号*/
+	private int bankName;
 	/**转账金额*/
 	private BigDecimal transferAmount;
 	/**转账结果*/
