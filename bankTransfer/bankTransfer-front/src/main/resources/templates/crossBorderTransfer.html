@@ -7,9 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
-<script type="application/x-javascript">
-	
-	
+<script type="application/x-javascript">	
         addEventListener("load", function() {
             setTimeout(hideURLbar, 0);
         }, false);
@@ -17,8 +15,6 @@
         function hideURLbar() {
             window.scrollTo(0, 1);
         }
-    
-
 </script>
 
 <!--// Meta tag Keywords -->
@@ -35,7 +31,7 @@
 <!-- js -->
 <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
-<script type="text/javascript" src="js/jquery.validate.js"></script>  
+<script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript" src="js/jquery.bootstrap.min.js"></script>
 <link rel="stylesheet" href="css/bootstrap-datetimepicker.css"></link>
 <script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
@@ -77,7 +73,7 @@
 }
 
 #unused{
-	height:100px;
+	height:200px;
 }
 </style>
 <!-- //css files -->
@@ -88,7 +84,7 @@
 <link
 	href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
 	rel="stylesheet">
-	<script type="text/javascript">
+<script type="text/javascript">
 	
 	$(function(){
 		//复用头部JS
@@ -98,7 +94,7 @@
 		//常驻国家下拉框
 		function country1(){
 			for(var i = 0;i < countrys.length;i++){
-				$("#reciverAlwaysCountry").append('<option value="'+countrys[i].name+'">'+countrys[i].name+'</option>');
+				$("#reciverAlwayCountry").append('<option value="'+countrys[i].name+'">'+countrys[i].name+'</option>');
 			}
 		}
 		//所在国家下拉框
@@ -158,7 +154,9 @@
 					},
 					documentNumber:{
 						required : true
-					}
+					},documentType:{
+						equalTo:checkDocumentType
+						}
 				},
 				messages : {
 					reciverName:{
@@ -187,7 +185,9 @@
 					},
 					documentNumber:{
 						required : "请输入证件号码"
-					}
+					}, documentType:{
+						equalTo:"暂时只支持身份证的验证"
+						}
 				},
 				submitHandler : function(form) {
 					checkBalance();
@@ -262,6 +262,7 @@
 						});
 
 					});
+			
 
 
 	});
@@ -307,14 +308,16 @@
 					</h3>
 					<div id="account">
 						<div id="form">
-							<form class="form-horizontal" action="crossBorderTransfer" method="POST"
-								id="crossBorderTransferForm">
+							<form class="form-horizontal" action="crossBorderTransfer"
+								method="POST" id="crossBorderTransferForm">
 								<div class="form-group">
 									<label for="affiliatedBank" class="col-sm-2 control-label">所属银行</label>
 									<div class="col-sm-8">
 										<select name="affiliatedBank" id="input "
 											class="form-control ">
-											<option th:each="cardType:${cardTypes}" th:value="${cardType.id}" th:text="${cardType.type_name}" th:selected="${cardType.type_name eq '乔治银行'}"></option>
+											<option th:each="cardType:${cardTypes}"
+												th:value="${cardType.id}" th:text="${cardType.type_name}"
+												th:selected="${cardType.type_name eq '乔治银行'}"></option>
 										</select>
 									</div>
 								</div>
@@ -339,7 +342,9 @@
 									<div class="col-sm-8">
 										<select name="reciverCurrency" id="reciverCurrency"
 											class="form-control ">
-											 <option th:each="currency:${currencys}" th:value="${currency.money_number}" th:text="${currency.money_name}"></option>
+											<option th:each="currency:${currencys}"
+												th:value="${currency.money_number}"
+												th:text="${currency.money_name}"></option>
 										</select>
 									</div>
 								</div>
@@ -348,14 +353,15 @@
 									<div class="col-sm-6">
 										<input type="text" class="form-control" id="reciverCardNumber"
 											name="reciverCardNumber">
-											
+
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label for="reciverAlwaysCountry" class="col-sm-2 control-label">收款人常驻国家</label>
+									<label for="reciverAlwaysCountry"
+										class="col-sm-2 control-label">收款人常驻国家</label>
 									<div class="col-sm-8">
-										<select name="reciverAlwaysCountry" id="reciverAlwaysCountry"
+										<select name="reciverAlwayCountry" id="reciverAlwayCountry"
 											class="form-control ">
 											<option value="">请选择常驻国家</option>
 										</select>
@@ -364,22 +370,23 @@
 								<div class="form-group">
 									<label for="reciverPlace" class="col-sm-2 control-label">收款人地址</label>
 									<div class="col-sm-6">
-										<input type="text" class="form-control" name="reciverPlace" id="reciverPlace"/>
+										<input type="text" class="form-control" name="reciverPlace"
+											id="reciverPlace" />
 									</div>
-									
+
 								</div>
 								<div class="form-group">
 									<label for="payCardNum" class="col-sm-2 control-label">汇款人卡号</label>
 									<div class="col-sm-8">
-										<select name=" payCardNum" id="payCardNum"
+										<select name="payCardNum" id="payCardNum"
 											class="form-control">
-											 <option th:each="card:${cards}" th:value="${card.id_card}" th:text="${card.id_card}"></option>
-											 </select>
-											 <input type="hidden"  id="balance" name="balance"/>
+											<option th:each="card:${cards}" th:value="${card.id_card}"
+												th:text="${card.id_card}"></option>
+										</select> <input type="hidden" id="balance" name="balance" />
 									</div>
 								</div>
-								
-								<div class="form-group">
+
+								<!-- 	<div class="form-group">
 									<label for="payCardNum" class="col-sm-2 control-label">收款方标识</label>
 									<div class="col-sm-8">
 										<select name="userOfFund" id="userOfFund"
@@ -388,7 +395,7 @@
 											<option value="sadas">dasda</option>
 										</select>
 									</div>
-								</div>
+								</div> -->
 								<div class="form-group">
 									<label for="transferAmount" class="col-sm-2 control-label">汇款金额</label>
 									<div class="col-sm-6">
@@ -405,33 +412,38 @@
 								</div>
 								<div class="form-group">
 									<label for="transferAmount" class="col-sm-2 control-label">汇款人地址</label>
-										<div class="col-sm-6">
+									<div class="col-sm-6">
 										<!-- <input type="text" readonly class="form-control" th:value="${myCountry.regison+myCountry.city}"/> -->
-										<input type="text" readonly class="form-control" value="广东省深圳市"/>
+										<input type="text" readonly class="form-control"
+											value="广东省深圳市" />
 									</div>
-									
+
 								</div>
-								 <div class="form-group">
-                                <label for="cardType" class="col-sm-2 control-label">证件类型</label>
-                                <div class="col-sm-8">
-                                    <select name="documnetType" id="documnetType" class="form-control ">
-                                         <option th:each="document:${documents}" th:value="${document.id}" th:text="${document.document_name}"></option>
-                                    </select>
-                                </div>
-                            </div>
-                             <div class="form-group">
-                                <label for="documentNumber" class="col-sm-2 control-label">证件号码</label>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="documentNumber" name="documentNumber">
-                                </div>
-                            </div>
+								<div class="form-group">
+									<label for="cardType" class="col-sm-2 control-label">证件类型</label>
+									<div class="col-sm-8">
+										<select name="documentType" id="documentType"
+											class="form-control ">
+											<option th:each="document:${documents}"
+												th:value="${document.document_name}"
+												th:text="${document.document_name}"></option>
+										</select>
+										<input type="hidden" id="checkDocumentType" name="checkDocumentType" value="身份证"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="documentNumber" class="col-sm-2 control-label">证件号码</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" id="documentNumber"
+											name="documentNumber">
+									</div>
+								</div>
 								<div class="form-group">
 									<label for="input" class="col-sm-2 control-label">附言</label>
 									<div class="col-sm-8">
-										<textarea name="msg" id="msg" class="form-control"
-											rows="3" >                           
+										<textarea name="msg" id="msg" class="form-control" rows="3">                           
                                     </textarea>
-<!-- required="required" -->
+										<!-- required="required" -->
 									</div>
 								</div>
 

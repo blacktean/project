@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.bankTransfer.pojo.C_collection;
 import com.bankTransfer.pojo.CashSweep;
 
 import io.lettuce.core.dynamic.annotation.Param;
@@ -54,4 +55,10 @@ public interface CashSweepMapper {
 	 * @param cashSweep
 	 */
 	void saveUpdateCollection(CashSweep cashSweep);
+	
+	/**
+	 * 往资金归集记录表添加记录
+	 * @param c_collection
+	 */
+	void insert_C_collection(C_collection c_collection);
 }

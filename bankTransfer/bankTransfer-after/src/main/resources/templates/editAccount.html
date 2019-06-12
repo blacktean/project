@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="bootstrap/bootstrap.css">
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<link href="style/authority/basic_layout.css" rel="stylesheet"
+	type="text/css">
+<link href="style/authority/common_style.css" rel="stylesheet"
+	type="text/css">
+
+<link rel="stylesheet" type="text/css"
+	href="style/authority/jquery.fancybox-1.3.4.css" media="screen"></link>
+
+	
+   <script src="js/bootstrap.js"></script>
+   <script type="text/javascript" src="js/jquery.validate.js"></script>
+	<script type="text/javascript" src="js/jquery.form.js"></script>
+	<script type="text/javascript" src="js/jquery.bootstrap.min.js"></script>	
+<link rel="stylesheet" href="bootstrap/bootstrap-datetimepicker.css"></link>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<title>开户审核</title>
+<script type="text/javascript">
+	$(document).ready(function() {
+		//取消审核
+		$("#closeCheck").click(function(){
+			location.href="/AccountAudit"
+		})
+		
+		//表单验证
+		$("#CheckeditAccount").validate({ 
+						
+			submitHandler:function(form){
+				$("#CheckeditAccount").ajaxSubmit({
+					dataType:"json",
+					success:function(data){
+						if(data.success){
+							$.messager.model = {
+										ok:{ text: "关闭", classed: 'btn­default' },
+										cancel: { text: "取消", classed: 'btn­error' }
+							};
+							$.messager.confirm("提示","开户审核成功",function(){
+								//跳转到我的归集页面
+								location.href="/AccountAudit";
+							});
+							
+						}else{
+							 $.messager.popup(data.msg);
+						}
+					},
+					resetForm:true
+				});
+			}
+			
+		})
+	});
+</script>
+<style>
+.alt td {
+	background: black !important;
+}
+
+#center {
+	height: 800px;
+	width: 70%;
+	float: right;
+}
+
+#account {
+	height: 700px;
+}
+
+#form {
+	margin-left: 10px;
+	width: 700px;
+	height: 700px;
+}
+</style>
+</head>
+<body>
+
+
+	<div id="center" style="padding-top: 20px;">
+
+		<div id="account">
+			<div id="form">
+				<form class="form-horizontal" action="/CheckeditAccount" method="POST"
+					id="CheckeditAccount">
+
+					<!-- 姓名 -->
+					<div class="form-group">
+						<label for="user_name" class="col-sm-4 control-label">姓名</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="user_name"
+								name="user_name" th:value="${currentUser.user_name}" readonly="readonly">
+						</div>
+					</div>
+
+					<!-- 性别 -->
+					<div class="form-group">
+						<label for="sex" class="col-sm-4 control-label">性别</label>
+						<div class="col-sm-6">
+							<select name="sex" id="sex"
+								class="form-control ">
+								<option value="0" th:selected="${currentUser.sex eq 0}">男</option>
+								<option value="1" th:selected="${currentUser.sex eq 1}">女</option>								
+							</select>
+						</div>
+					</div>
+					
+					<!-- 出生日期-->
+					<div class="form-group">
+						<label for="birthday" class="col-sm-4 control-label">出生日期</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="birthday"
+								name="birthday" th:value="${#dates.format(currentUser.birthday,'yyyy-MM-dd')}" readonly="readonly">
+
+						</div>
+					</div>
+					
+					<!-- 国籍 -->
+					<div class="form-group">
+						<label for="nationality" class="col-sm-4 control-label">国籍</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="nationality"
+								name="nationality" th:value="${currentUser.nationality}" readonly="readonly">
+
+						</div>
+					</div>
+					
+					<!-- 民族 -->
+					<div class="form-group">
+						<label for="nation" class="col-sm-4 control-label">民族</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="nation"
+								name="nation" th:value="${currentUser.nation}" readonly="readonly">
+
+						</div>
+					</div>
+					
+					<!-- 证件号码-->
+					<div class="form-group">
+						<label for="card_number" class="col-sm-4 control-label">证件号码</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="card_number"
+								name="card_number" th:value="${currentUser.card_number}" readonly="readonly">
+
+						</div>
+					</div>
+					
+					<!-- 婚姻状况 -->
+					<div class="form-group">
+						<label for="marital_status" class="col-sm-4 control-label">婚姻状况</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="marital_status"
+								name="marital_status" th:value="${currentUser.marital_status}" readonly="readonly">
+
+						</div>
+					</div>
+					
+					<!-- 教育程度 -->
+					<div class="form-group">
+						<label for="edu_level" class="col-sm-4 control-label">教育程度 </label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="edu_level"
+								name="edu_level" th:value="${currentUser.edu_level}" readonly="readonly">
+
+						</div>
+					</div>
+					
+					<!-- 职业-->
+					<div class="form-group">
+						<label for="profession" class="col-sm-4 control-label">职业</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="profession"
+								name="profession" th:value="${currentUser.profession}" readonly="readonly">
+
+						</div>
+					</div>
+					
+					<!-- 供养人口-->
+					<div class="form-group">
+						<label for="supporting_population" class="col-sm-4 control-label">供养人口</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="supporting_population"
+								name="supporting_population" th:value="${currentUser.supporting_population}" readonly="readonly">
+
+						</div>
+					</div>
+					
+					<!-- 工作单位-->
+					<div class="form-group">
+						<label for="work_unit" class="col-sm-4 control-label">工作单位</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="work_unit"
+								name="work_unit" th:value="${currentUser.work_unit}" readonly="readonly">
+
+						</div>
+					</div>
+					
+					<!-- 开户行-->
+					<div class="form-group">
+						<label for="create_bank" class="col-sm-4 control-label">开户行</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="create_bank"
+								name="create_bank" th:if="${currentUser.create_bank} eq 41" th:value="乔治银行" readonly="readonly">
+
+						</div>
+					</div>
+					
+					<!-- 申请时间-->
+					<div class="form-group">
+						<label for="applyTime" class="col-sm-4 control-label">申请时间</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="applyTime"
+								name="applyTime" th:value="${#dates.format(currentUser.applyTime,'yyyy-MM-dd HH:mm:ss')}" readonly="readonly">
+
+						</div>
+					</div>
+					
+					<!-- 状态-->
+					<div class="form-group">
+						<label for="state" class="col-sm-4 control-label">状态</label>
+						<div class="col-sm-6">  
+						  <select class="form-control" name="state"
+							id="state">											
+							<option value="0" th:selected="${currentUser.state eq 0}">审核通过</option>	
+							<option value="1" th:selected="${currentUser.state eq 1}">未审核</option>	
+							<option value="2" th:selected="${currentUser.state eq 2}">已注销</option>		
+							<option value="3" th:selected="${currentUser.state eq 3}">审核失败</option>					
+						  </select>
+
+						</div>
+					</div>
+					
+					<!-- 关联的用户id 隐藏-->
+					<div class="form-group" style="display: none;">
+						<label for="user_id" class="col-sm-4 control-label">关联的用户id</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="user_id"
+								name="user_id" th:value="${currentUser.user_id}" readonly="readonly">
+
+						</div>
+					</div>
+					
+					<!-- 当前id 隐藏-->
+					<div class="form-group" style="display: none;">
+						<label for="id" class="col-sm-4 control-label">当前id</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="id"
+								name="id" th:value="${currentUser.id}" readonly="readonly">
+
+						</div>
+					</div>
+					
+					<div class="form-group ">
+						<div class="col-sm-offset-4 col-sm-10 ">
+							<!-- 已审核的和已注销的和审核失败的不可以继续审核 -->
+							<!-- <button type="submit" th:class="${currentUser.state != 1}?'disabled btn btn-default btn-success':'btn btn-default btn-success'" >审核通过</button> -->
+							<button type="submit" class="btn btn-default btn-success" >保存修改</button>
+							<!-- <a style="color:white;" th:href="@{'/FaileditAccount?id='+${currentUser.id}+'&user_id='+${currentUser.user_id}}" class="btn btn-default btn-success" id="failCheck">审核失败</a> -->
+							<a style="color:white;" th:href="@{'/CloseeditAccount'}"class="btn btn-default btn-success" id="closeCheck">取消审核</a>
+						</div>						
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

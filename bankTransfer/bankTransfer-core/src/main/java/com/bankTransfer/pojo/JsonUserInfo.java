@@ -33,7 +33,7 @@ public class JsonUserInfo {
 	private Integer length;
 	/** 出生年月*/
 	private Date birth;
-	/** 性别*/
+	/** 年龄*/
 	private String age;
 	
 	
