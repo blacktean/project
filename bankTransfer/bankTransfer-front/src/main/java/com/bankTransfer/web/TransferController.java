@@ -36,7 +36,7 @@ public class TransferController {
 		String paymentAccount = singleVO.getPaymentAccount();
 		// 对收款人的卡号和姓名进行验证
 		String obj = APIUtils.checkCard(receiveName, receiveCardId);
-		if (singleVO.getTransfer_mode() == null) {// 验证不通过
+		if (obj == null) {// 验证不通过
 			jsonResult.setSuccess(false);
 			jsonResult.setMsg("账号或用户名不存在!");
 		} else {// 验证通过

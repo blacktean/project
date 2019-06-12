@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.User;
 import com.bankTransfer.pojo.UserCondition;
 @Mapper
@@ -21,4 +22,24 @@ public interface AccountAuditMapper {
 	 */
 	List<User> queryAllByCondition(UserCondition condition);
 	
+	/**
+	 * 查询当前审核用户信息
+	 * @param id
+	 * @return
+	 */
+	User queryCurrentUserById(Integer id);
+	
+	/**
+	 * 审核开户信息
+	 * @param id
+	 * @param user_id
+	 * @param updateState
+	 */
+	void CheckeditAccount(Integer id,Integer user_id,Integer updateState);
+	
+	/**
+	 * 开户成功
+	 * @param card
+	 */
+	void addId_Card(Card card);
 }

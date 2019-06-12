@@ -1,26 +1,52 @@
 package com.bankTransfer.web;
 
-import javax.servlet.http.HttpSession;
-
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.bankTransfer.pojo.Logininfo;
+import com.bankTransfer.pojo.Card;
+import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.User;
+import com.bankTransfer.service.IBaseService;
+import com.bankTransfer.service.ICardService;
 import com.bankTransfer.service.IUserService;
+import com.bankTransfer.util.JsonResult;
+import com.bankTransfer.util.UserContext;
 
 
 @Controller
 public class UserController {
 	@Autowired
 	private IUserService iUserService;
+	@Autowired
+	private ICardService iCardService;
+	@Autowired
+	private IBaseService baseService;
 	
 	@RequestMapping("/queryUserOne")
-	public String queryUserOne(String user_name,HttpSession session) {
-		Logininfo logini = (Logininfo) session.getAttribute("logininfo");
-		User user = iUserService.queryUserByUser_name(logini.getUsername());
-		session.setAttribute("user", user);
-		return "test";
+	public ModelAndView queryUserOne() {
+		ModelAndView model = new ModelAndView();
+		int user_id = UserContext.getCurrent().getId();
+		User user = iUserService.queryUserByUser_name(user_id);
+		List<Currency> currencys = baseService.queryCurrency();
+		//System.out.println(user);
+		Integer userid = UserContext.getCurrent().getId();
+		List<Card> cards = iCardService.queryCardByUserId(userid);
+		//System.out.println(cards);
+		model.addObject("user", user);
+		model.addObject("cards", cards);
+		model.addObject("currencys", currencys);
+		model.setViewName("myaccount");		
+		return model;
 	}
+	
+	@RequestMapping("/updateUserOne")
+	public JsonResult updateUserOne(Card card) {
+		JsonResult json = new JsonResult();
+		
+		return json;
+	}
+	
 }

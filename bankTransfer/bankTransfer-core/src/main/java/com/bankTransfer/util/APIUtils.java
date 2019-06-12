@@ -199,28 +199,28 @@ public class APIUtils {
 	 * @return
 	 */
 	public static String checkCard(String name, String id_card) {
-		String host = "https://ali-bankcard4.showapi.com";
-		String path = "/bank2";
-		Map<String, String> headers = new HashMap<String, String>();
-		headers.put("Authorization", "APPCODE " + APP_CODE);
-		Map<String, String> querys = new HashMap<String, String>();
-		querys.put("acct_name", name);
-		querys.put("acct_pan", id_card);
-		querys.put("needBelongArea", "true");
-		try {
-			HttpResponse response = HttpUtils.doGet(host, path, GET_METHOD, headers, querys);
-			String result = JSONObject.parseObject(EntityUtils.toString(response.getEntity())).get("showapi_res_body")
-					.toString();
-			Object object = JSONObject.parseObject(result).get("belong");
-			if (object != null) {
-				return "success";
-			}
-
-		} catch (Exception e) {
-		}
+		 String host = "http://lundroid.market.alicloudapi.com";
+		    String path = "/lianzhuo/verifi";
+		    String appcode = "3d166e9ea0704096be40b93135f7e12f";
+		    Map<String, String> headers = new HashMap<String, String>();
+		    headers.put("Authorization", "APPCODE " + appcode);
+		    Map<String, String> querys = new HashMap<String, String>();
+		    querys.put("acct_name", name);
+		    querys.put("acct_pan", id_card);
+		    try {
+		    	HttpResponse response = HttpUtils.doGet(host, path, GET_METHOD, headers, querys);
+				String result = JSONObject.parseObject(EntityUtils.toString(response.getEntity())).get("resp")
+						.toString();
+				String rs = JSONObject.parseObject(result).get("code").toString();
+				if ("0".equals(rs)) {
+					return "success";
+				}
+		    } catch (Exception e) {
+		    	e.printStackTrace();
+		    }
 		return null;
 	}
-
+	
 	/**
 	 * 银行卡三要素认证
 	 * 
