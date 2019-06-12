@@ -273,7 +273,7 @@
 	<script src="js/responsiveslides.min.js"></script>
 	<script>
         $(function() {
-            $("#slider").responsiveSlides({
+            /* $("#slider").responsiveSlides({
                 auto: true,
                 pager: false,
                 nav: true,
@@ -285,9 +285,9 @@
                 after: function() {
                     $('.events').append("<li>after event fired.</li>");
                 }
-            });
+            }); */
             //复用头部JS
-            $("#header").load("common/header.html");
+            $("#header").load("/toHeader?value=myaccount");
             //复用尾部JS
             $("#footer").load("common/footer.html");
             
@@ -314,7 +314,7 @@
     				},
     				password:{
     					required:"请填写密码!",
-    					rangelength:"密码长度必须是6-12位数字!				
+    					rangelength:"密码长度必须是6-12位数字!"			
     				}
     			},
     			submitHandler:function(form){

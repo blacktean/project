@@ -71,7 +71,7 @@
                                     <a id="transfer" href="/toSingleTransfer">转账汇款</a>
                                 </li>
                                 <li class="">
-                                    <a href="javaScript:void(0);" class="dropdown-toggle hvr-bounce-to-bottom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">资金归集
+                                    <a href="javaScript:void(0);" id="collection" class="dropdown-toggle hvr-bounce-to-bottom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">资金归集
                                                     <span class="caret"></span>
                                                 </a>
                                     <ul class="dropdown-menu">
@@ -92,15 +92,15 @@
                                 <li>
                                     <a id="setup" href="setup.html">设置</a>
                                 </li>
-                                <li>
+                               <!--  <li>
+                                    <a id="login" href="login.html">登录/注册</a>
+                                </li>  -->
+                              <li th:if="${session.logininfo} eq null">
                                     <a id="login" href="login.html">登录/注册</a>
                                 </li>
-                                <!-- <li th:if="${session.logininfo} eq null">
-                                    <a id="login" href="login.html">登录/注册</a>
-                                </li>
-                                <li th:if="${session.logininfo} nq null" >
-                                    <a id="loginOut" href="/LoginOut" onClick="return confirm('确定要退出吗？');">注销</a>
-                                </li> -->
+                                <li th:if="${session.logininfo} ne null" >
+                                    <a id="login" href="/LoginOut" onClick="return confirm('确定要退出吗？');">注销</a>
+                                </li>  
                             </ul>
                             <div class="clearfix"> </div>
                         </div>
