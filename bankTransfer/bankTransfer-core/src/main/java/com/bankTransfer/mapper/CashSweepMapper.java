@@ -3,11 +3,10 @@ package com.bankTransfer.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.bankTransfer.pojo.C_collection;
 import com.bankTransfer.pojo.CashSweep;
-
-import io.lettuce.core.dynamic.annotation.Param;
 @Mapper
 public interface CashSweepMapper {
 	/**

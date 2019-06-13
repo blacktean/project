@@ -12,7 +12,18 @@ public interface ICardService {
 	 * @return 
 	 */
 	List<Card> queryCardByUserId(int user_id);
-	
+	/**
+	  * 增加银行卡
+	 * @param user_id
+	 * @return 
+	 */
+	public void addCard(String id_card,String start_place,String currency,String password,String user_id);
+	/**
+	 * 通过id_card查到对应的银行卡卡号的card
+	 * @param user_id
+	 * @return 
+	 */
+	Card queryCardByIdCard(String id_card);
 	/**
 	 * 通过登录id查询当前用户名
 	 * @param id

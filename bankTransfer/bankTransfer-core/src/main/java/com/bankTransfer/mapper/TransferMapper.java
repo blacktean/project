@@ -1,12 +1,12 @@
 package com.bankTransfer.mapper;
 
 import java.math.BigDecimal;
+import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.bankTransfer.pojo.TransferSingle_VO;
-
-import io.lettuce.core.dynamic.annotation.Param;
 
 @Repository
 public interface TransferMapper {
@@ -26,5 +26,9 @@ public interface TransferMapper {
 	int judgeUserMsg(@Param("name")String name, @Param("cardNum")String cardNum);
 
 	Double getBalance(@Param("payCardNum")String payCardNum);
+
+	List<TransferSingle_VO> queryTranferInfoByTransferMode();
+	
+	void changeTransferInfo(@Param("id") Integer id);
 
 }

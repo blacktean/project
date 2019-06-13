@@ -3,10 +3,10 @@
 
 <mapper namespace="com.bankTransfer.mapper.CardMapper">
 	<select id="queryCardByUserId" resultType="Card">
-		select * from T_CARD WHERE user_id=#{user_id}
+		select <include refid="cardColumn"/> from T_CARD WHERE user_id=#{user_id}
 	</select>
 	<select id="queryCardByIdCard" resultType="Card">
-		select * from T_CARD WHERE id_card=#{id_card}
+		select <include refid="cardColumn"/> from T_CARD WHERE id_card=#{id_card}
 	</select>
 
 	<!-- 通过登录id查询当前用户名 -->
@@ -52,4 +52,8 @@
 	<update id="update">
 		update t_card set max_price=#{max_price} where id_card=#{id_card}
 	</update>
+	<!-- 新增银行卡 -->
+	<insert id="addCard" parameterType="Card">
+		INSERT INTO T_CARD VALUES(seq_card_id.nextval,#{id_card},#{start_place},#{currency},10000,10000,'1',#{password},'乔治银行',#{user_id},'1','0',to_char(to_date(sysdate,'yyyy-mm-dd hh24:mi:ss')),sysdate + interval '2' year,NULL,50000,NULL)
+	</insert>
 </mapper>

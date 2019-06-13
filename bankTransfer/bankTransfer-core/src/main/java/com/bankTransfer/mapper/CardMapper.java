@@ -4,11 +4,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.bankTransfer.pojo.Card;
-
-import io.lettuce.core.dynamic.annotation.Param;
 @Mapper
 @Repository
 public interface CardMapper {
@@ -19,6 +18,18 @@ public interface CardMapper {
 	 * @return 
 	 */
 	List<Card> queryCardByUserId(int user_id);
+	/**
+	  * 增加银行卡
+	 * @param user_id
+	 * @return 
+	 */
+	void addCard(@Param("id_card")String id_card,@Param("start_place")String start_place,@Param("currency")String currency,@Param("password")String password,@Param("user_id")String user_id);
+	/**
+	 * 通过id_card查到对应的银行卡卡号的card
+	 * @param user_id
+	 * @return 
+	 */
+	Card queryCardByIdCard(String id_card);
 	/**
 	 * 通过登录id查询当前资金归集用户名
 	 * @param id

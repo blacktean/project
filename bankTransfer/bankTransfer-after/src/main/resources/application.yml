@@ -1,6 +1,6 @@
 #配置服务器端口
 server:
-  port: 9999
+  port: 8888
 #设置项目名称
 #  servlet:
 #    context-path: /boot

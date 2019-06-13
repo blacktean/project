@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 <title>我的账户</title>
@@ -7,32 +7,95 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
+<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript" src="js/jquery.bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.css"></link>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript"
+	src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="js/messages_zh.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
+<script type="text/javascript" src="js/city.js"></script>
+<!-- Necessary-JavaScript-File-For-Bootstrap -->
 <script type="application/x-javascript">
-        addEventListener("load", function() {
-            setTimeout(hideURLbar, 0);
-        }, false);
-
-        function hideURLbar() {
-            window.scrollTo(0, 1);
-        }
         //控制按钮跳转
         function jump1(){
-       	 window.location.href="https://www.baidu.com";
+       	 window.location.href="http://localhost:8888/toSingleTransfer";
        	}
         function jump2(){
-          	 window.location.href="https://www.baidu.com";
+          	 window.location.href="http://localhost:8888/kaihuwangdian.html";
           	}
         function jump3(){
-         	 window.location.href="https://www.baidu.com";
+         	 window.location.href="http://localhost:8888/mingxi.html";
          	}
-        function jump4(){
-         	 window.location.href="https://www.baidu.com";
-         	}
-        function jump5(){
-        	 window.location.href="https://www.baidu.com";
-        	}
+        
+        $(function(){
+        	  //复用头部JS
+            $("#header").load("/toHeader?value=myaccount");
+            //复用尾部JS
+            $("#footer").load("common/footer.html");
+            
+            
+        	//表单验证
+    		$("#myForm").validate({ 
+    			rules:{
+    				start_place:{
+    					required:true					
+    				},	
+    				currency:{
+    					required:true
+    				},
+    				password:{
+    					required:true,
+    					rangelength:[6,12]
+    				}
+    			},
+    			messages:{
+    				start_place:{
+    					required:"请填写开户地!"
+    				},
+    				currency:{
+    					required:"请选择货币种类!"					
+    				},
+    				password:{
+    					required:"请填写密码!",
+    					rangelength:"密码长度必须是6-12位数字!"				
+    				}
+    			},
+    			submitHandler:function(form){
+    				$(form).ajaxSubmit({
+    					dataType:"json",
+    					success:function(data){
+    						if(data.success){
+    							$.messager.model = {
+    										ok:{ text: "关闭", classed: 'btn-default' },
+    										cancel: { text: "取消", classed: 'btn-error' }
+    							};
+    							$.messager.confirm("提示","新增银行卡成功",function(){
+    								//跳转到我的账户页面
+    								location.href="http://localhost:8888/templates/myaccount.html";
+    							});
+    							
+    						}else{
+    							 $.messager.popup(data.msg);
+    						}
+    					},
+    					resetForm:true
+    				});
+    			},
+    			errorClass:"text-danger",
+    			highlight:function(element){
+    				$(element).closest("div.form-group").addClass("has-error");
+    			},
+    			unhighlight:function(element){
+    				$(element).closest("div.form-group").removeClass("has-error");
+    			}
+    		});
+        });
 </script>
-
+ 
 <!--// Meta tag Keywords -->
 <!-- css files -->
 <link rel="stylesheet" href="css/bootstrap.css">
@@ -50,6 +113,8 @@
 	href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
 	rel="stylesheet">
 <!-- //web-fonts -->
+<link rel="stylesheet"
+	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" />
 </head>
 
 <body>
@@ -86,7 +151,6 @@
 					<td>证件类型</td>
 					<td>证件号码</td>
 					<td>姓名拼音</td>
-					<td>手机号</td>
 					<td>注册方式</td>
 					<td>客户级别</td>
 					<td>英文名</td>
@@ -104,34 +168,31 @@
 					<td>工作单位</td>
 					<td>进入单位时间</td>
 					<td>用户状态</td>
-					<td>开户行</td>
 				</tr>
 				<tr>
-					<td th:text="${session.user.id}"></td>
-					<td th:text="${session.user.user_name}"></td>
-					<td th:text="${session.user.real_name}"></td>
-					<td th:text="${session.user.card_type}"></td>
-					<td th:text="${session.user.card_number}"></td>
-					<td th:text="${session.user.xingming}"></td>
-					<td th:text="${session.user.phone}"></td>
-					<td th:text="${session.user.reg_type}"></td>
-					<td th:text="${session.user.grade}"></td>
-					<td th:text="${session.user.english_name}"></td>
-					<td th:text="${session.user.sex}"></td>
-					<td th:text="${session.user.nation}"></td>
-					<td th:text="${session.user.nationality}"></td>
-					<td th:text="${session.user.birthday}"></td>
-					<td th:text="${session.user.marital_status}"></td>
-					<td th:text="${session.user.edu_level}"></td>
-					<td th:text="${session.user.profession}"></td>
-					<td th:text="${session.user.industry}"></td>
-					<td th:text="${session.user.technical_title}"></td>
-					<td th:text="${session.user.adminstrative_level}"></td>
-					<td th:text="${session.user.supporting_population}"></td>
-					<td th:text="${session.user.work_unit}"></td>
-					<td th:text="${session.user.work_time}"></td>
-					<td th:text="${session.user.state}"></td>
-					<td th:text="${session.user.create_bank}"></td>
+					<td th:text="${user.id}"></td>
+					<td th:text="${user.user_name}"></td>
+					<td th:text="${user.real_name}"></td>
+					<td th:text="${user.card_type}"></td>
+					<td th:text="${user.card_number}"></td>
+					<td th:text="${user.xingming}"></td>
+					<td th:text="${user.reg_type}"></td>
+					<td th:text="${user.grade}"></td>
+					<td th:text="${user.english_name}"></td>
+					<td th:text="${user.sex}"></td>
+					<td th:text="${user.nation}"></td>
+					<td th:text="${user.nationality}"></td>
+					<td th:text="${user.birthday}"></td>
+					<td th:text="${user.marital_status}"></td>
+					<td th:text="${user.edu_level}"></td>
+					<td th:text="${user.profession}"></td>
+					<td th:text="${user.industry}"></td>
+					<td th:text="${user.technical_title}"></td>
+					<td th:text="${user.adminstrative_level}"></td>
+					<td th:text="${user.supporting_population}"></td>
+					<td th:text="${user.work_unit}"></td>
+					<td th:text="${user.work_time}"></td>
+					<td th:text="${user.state}"></td>
 				</tr>
 			</table>
 		</div>
@@ -176,14 +237,14 @@
 			<table class="table table-striped">
 				<tr>
 					<td>id</td>
-					<td>用户名</td>
-					<td>用户真实姓名</td>
-					<td>证件类型</td>
-					<td>证件号码</td>
-					<td>姓名拼音</td>
-					<td>手机号</td>
+					<td>银行卡号</td>
+					<td>开户地点</td>
+					<td>币种</td>
+					<td>余额</td>
+					<td>可用余额</td>
+					<td>开户网点</td>
 				</tr>
-				<tr th:each="card:${session.cards}">
+				<tr th:each="card:${cards}">
 					<td th:text="${card.id}"></td>
 					<td th:text="${card.id_card}"></td>
 					<td th:text="${card.start_place}"></td>
@@ -191,75 +252,90 @@
 					<td th:text="${card.balance}"></td>
 					<td th:text="${card.available_balance}"></td>
 					<td th:text="${card.start_place_id}"></td>
+					 <td><a href="javascript::void(0)" id="kaihuwangdian" title="${id_card}">开户网点</a>
+					&nbsp;&nbsp;
+					 <a href="javascript::void(0)" id="gengduo" title="${id_card}">更多</a></td>
+					<!--  <a href="javascript::void(0)" id="xx" title="${id_card}">xx</a>  -->
+					 <!--location.href="/queryCardByIdCard?id_card=" +  title-->
+					<!--  /queryCardByIdCard?id_card=${card.id_card} -->
 				</tr>
 			</table>
-			<br /> <input type="button" value="明细" onclick=javascrtpt:jump1()>
-			<input type="button" value="汇款" onclick=javascrtpt:jump2()>
-			<input type="button" value="开户网点" onclick=javascrtpt:jump3()>
-			<input type="button" value="更多" onclick=javascrtpt:jump4()>
+			<br /> <input type="button" value="汇款" onclick=javascrtpt:jump1()>
+			<!-- <input type="button" value="开户网点" onclick=javascrtpt:jump2()> -->
+			<input type="button" value="明细" onclick=javascrtpt:jump3()>
 		</div>
 	</div>
 	<!-- //what we do -->
-	<!-- team -->
-	<div class="team">
-		<div class="container">
-			<span class="w3l-head">银行卡操作-></span>
-			<input type="button" value="添加银行卡" onclick=javascrtpt:jump5()>
-		</div>
+	<!-- 模带框 -->
+	<div class="container">
+		<button class="btn btn-primary" data-toggle="modal"
+			data-target="#myModal">新增银行卡</button>
+		<!--  定义模态框触发器，此处为按钮触发  -->
+
+		<form method="post" action="#" class="form-horizontal" role="form"
+			id="myForm" onsubmit="return ">
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<!--  定义模态框，过渡效果为淡入，id为myModal,tabindex=-1可以禁用使用tab切换，aria-labelledby用于引用模态框的标题，aria-hidden=true保持模态框在触发前窗口不可见  -->
+				<div class="modal-dialog">
+					<!--  显示模态框对话框模型（若不写下一个div则没有颜色）  -->
+					<div class="modal-content">
+						<!--  显示模态框白色背景，所有内容都写在这个div里面  -->
+
+						<div class="btn-info modal-header">
+							<!--  模态框标题  -->
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<!--  关闭按钮  -->
+							<h4>请输入需要添加的信息</h4>
+							<!--  标题内容  -->
+						</div>
+
+						<div class="modal-body">
+							<!--  模态框内容，我在此处添加一个表单 -->
+							<form class="form-horizontal" role="form" action="http://localhost:8888/addCard">				
+								<div class="form-group">
+									<label for="start_place" class="col-sm-2 control-label">开户地</label>
+									<div class="col-sm-9">
+										<input type="text" id="start_place" name="start_place"
+											class="form-control well" placeholder="请输入开户地" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="currency" class="col-sm-2 control-label">货币</label>
+									<div class="col-sm-9">
+										<select name="currency" id="currency" class="form-control ">
+											<option th:each="currency:${currencys}"
+												th:value="${currency.money_name}"
+												th:text="${currency.money_name}" th:select="人民币"></option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="password" class="col-sm-2 control-label">密码</label>
+									<div class="col-sm-9">
+										<input type="text" id="password" name="password"
+											class="form-control well" placeholder="请输入密码" />
+									</div>
+								</div>
+							</form>
+						</div>
+
+						<div class="modal-footer">
+							<!--  模态框底部样式，一般是提交或者确定按钮 -->
+							<button type="submit" class="btn btn-info">确定</button>
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">取消</button>
+						</div>
+
+					</div>
+					<!-- /.modal-content -->
+				</div>
+			</div>
+			<!-- /.modal -->
+		</form>
 	</div>
-	<!-- //team -->
 	<!--复用尾部-->
 	<div id="footer"></div>
-
-	<!-- js-scripts -->
-	<!-- js -->
-	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.js"></script>
-	<!-- Necessary-JavaScript-File-For-Bootstrap -->
-	<!-- //js -->
-	<!-- Baneer-js -->
-	<script src="js/responsiveslides.min.js"></script>
-	<script>
-        $(function() {
-            $("#slider").responsiveSlides({
-                auto: true,
-                pager: false,
-                nav: true,
-                speed: 1000,
-                namespace: "callbacks",
-                before: function() {
-                    $('.events').append("<li>before event fired.</li>");
-                },
-                after: function() {
-                    $('.events').append("<li>after event fired.</li>");
-                }
-            });
-            //复用头部JS
-            $("#header").load("common/header.html");
-            //复用尾部JS
-            $("#footer").load("common/footer.html");
-        });
-    </script>
-	<!-- //Baneer-js -->
-	<!-- start-smoth-scrolling -->
-	<script type="text/javascript" src="js/move-top.js"></script>
-	<script type="text/javascript" src="js/easing.js"></script>
-	<script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $(".scroll").click(function(event) {
-                event.preventDefault();
-                $('html,body').animate({
-                    scrollTop: $(this.hash).offset().top
-                }, 1000);
-            });
-        });
-    </script>
-	<!-- start-smoth-scrolling -->
-	<!-- Progressive-Effects-Animation-JavaScript -->
-	<script type="text/javascript" src="js/numscroller-1.0.js"></script>
-	<!-- //Progressive-Effects-Animation-JavaScript -->
-
-	<!-- //js-scripts -->
 </body>
 
 </html>

@@ -21,4 +21,16 @@ public class CalculationRate {
 		}
 		return rate;
 	}
+	/**异行转账手续费计算*/
+	public static BigDecimal getRateDisBank(BigDecimal transferMoney){
+		if(transferMoney.compareTo(new BigDecimal(5000)) == -1) {
+			return new BigDecimal(0);
+		}else if(transferMoney.compareTo(new BigDecimal(10000)) == -1){
+			return new BigDecimal(5);
+		}
+		else if(transferMoney.compareTo(new BigDecimal(50000)) == -1){
+			return new BigDecimal(10);
+		}
+		return new BigDecimal(15);
+	}
 }

@@ -256,6 +256,7 @@
 				<div class="clearfix"></div>
 			</div>
 
+<<<<<<< HEAD
 			<!-- Button trigger modal -->
 			<button type="button" class="btn btn-primary btn-lg"
 				data-toggle="modal" data-target="#pwdModal">设置登陆密码</button>
@@ -281,6 +282,55 @@
 						</td>
 						<td><input type="number" id="max_price" name="max_price"></td>
 					</tr>
+=======
+    <!-- js-scripts -->
+    <!-- js -->
+    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <!-- Necessary-JavaScript-File-For-Bootstrap -->
+    <!-- //js -->
+    <!-- Baneer-js -->
+    <script src="js/responsiveslides.min.js"></script>
+    <script>
+        $(function() {
+            $("#slider").responsiveSlides({
+                auto: true,
+                pager: false,
+                nav: true,
+                speed: 1000,
+                namespace: "callbacks",
+                before: function() {
+                    $('.events').append("<li>before event fired.</li>");
+                },
+                after: function() {
+                    $('.events').append("<li>after event fired.</li>");
+                }
+            });
+            //复用头部JS
+            $("#header").load("/toHeader?value=setup");
+            //复用尾部JS
+            $("#footer").load("common/footer.html");
+        });
+    </script>
+    <!-- //Baneer-js -->
+    <!-- start-smoth-scrolling -->
+    <script type="text/javascript" src="js/move-top.js"></script>
+    <script type="text/javascript" src="js/easing.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(".scroll").click(function(event) {
+                event.preventDefault();
+                $('html,body').animate({
+                    scrollTop: $(this.hash).offset().top
+                }, 1000);
+            });
+        });
+    </script>
+    <!-- start-smoth-scrolling -->
+    <!-- Progressive-Effects-Animation-JavaScript -->
+    <script type="text/javascript" src="js/numscroller-1.0.js"></script>
+    <!-- //Progressive-Effects-Animation-JavaScript -->
+>>>>>>> branch 'master' of https://github.com/blacktean/project.git
 
 				</table>
 				<button id="querycard" type="submit" class="btn btn-primary btn-lg"
