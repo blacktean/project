@@ -2,8 +2,11 @@ package com.bankTransfer.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.CardType;
+import com.bankTransfer.pojo.Contacts;
 import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.Document;
 import com.bankTransfer.pojo.User;
@@ -51,4 +54,11 @@ public interface IBaseService {
 	 * @return
 	 */
 	User checkUser(Integer id);
+	
+	/**
+	 * 查询用户的联系人
+	 * @param id
+	 * @return
+	 */
+	Contacts queryContacts(Integer id);
 }

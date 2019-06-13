@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.CardType;
+import com.bankTransfer.pojo.Contacts;
 import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.Document;
 import com.bankTransfer.pojo.JsonCountry;
@@ -34,7 +35,8 @@ public class PageController {
 	@RequireLogin
 	@RequireIdentity
 	public String toBatchTransfer(Model model) {
-		List<Card> cards = baseService.queryCardByUserId(UserContext.getCurrent().getId());
+		Integer id = UserContext.getCurrent().getId();
+		List<Card> cards = baseService.queryCardByUserId(id);
 		model.addAttribute("cards", cards);
 		return "batchTransfer";
 	}
@@ -74,6 +76,8 @@ public class PageController {
 		List<CardType> cardTypes = baseService.queryCardType();
 		model.addAttribute("cardTypes", cardTypes);
 		model.addAttribute("cards", cards);
+		Contacts contacts = baseService.queryContacts(UserContext.getCurrent().getId());
+		model.addAttribute("contacts", contacts);
 		return "singleTransfer";
 	}
 	

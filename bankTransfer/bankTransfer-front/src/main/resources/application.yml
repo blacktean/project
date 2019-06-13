@@ -1,11 +1,11 @@
 #配置服务器端口
 server:
-  port: 8888
+  port: 8888  tomcat:    remote-ip-header: x-forwarded-for  use-forward-headers: true
+  address: 127.0.0.1
 #设置项目名称
 #  servlet:
-#    context-path: /boot
-
-
+ #   context-path: /front
+ 
 spring:
 #redis配置
 #本配置采用Redis一主五从的的配置方式来提高缓存的吞吐量
@@ -25,6 +25,8 @@ spring:
             max-idle: 8
             max-wait: -1   
             #配置数据源
+  
+ #配置nginx
 #  datasource:
 #    driver-class-name: oracle.jdbc.driver.OracleDriver
 #    url: jdbc:oracle:thin:@localhost:1521:orcl
