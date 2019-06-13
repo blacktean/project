@@ -10,6 +10,7 @@ import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.CardType;
 import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.Document;
+import com.bankTransfer.pojo.User;
 import com.bankTransfer.service.IBaseService;
 import com.bankTransfer.util.MD5;
 
@@ -48,6 +49,11 @@ public class BaseServiceImpl implements IBaseService {
 		if(baseMapper.queryCardByIdCardAndPassword(id_card,MD5.encode(password))==null) {
 			throw new RuntimeException("密码错误!!");
 		}
+	}
+
+	@Override
+	public User checkUser(Integer id) {
+		return baseMapper.queryUserById(id);
 	}
 
 
