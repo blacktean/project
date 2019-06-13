@@ -1,9 +1,13 @@
 #配置服务器端口
 server:
-  port: 8888
+  port: 8887
+  tomcat:
+    remote-ip-header: x-forwarded-for
+  use-forward-headers: true
+  address: 127.0.0.1
 #设置项目名称
 #  servlet:
-#    context-path: /boot
+#   context-path: /after
 
 
 spring:

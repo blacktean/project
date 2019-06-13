@@ -154,7 +154,8 @@
 		
 		//选择账号
 		$(".chooseAccount").click(function() {
-			$("#receivingAccount").val($(this).html());
+					$("#receivingAccount").val($(this).attr("value"));
+					$("#receivingName").val($(this).html());
 		});
 		//验证密码
 		$("#checkPassword").click(
@@ -298,9 +299,7 @@
 											联系人 <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu">
-											<li><a href="javascript:void(0);" class="chooseAccount">3781454895176000632</a></li>
-											<li><a href="javascript:void(0);" class="chooseAccount">6243439436244769368</a></li>
-											<li role="separator" class="divider"></li>
+											<li th:each="contact:${contacts}"><a href="javascript:void(0);" class="chooseAccount" th:text="${contact.receiving_name}" th:value="${contact.receiving_account}"></a></li>
 										</ul>
 									</div>
 								</div>
