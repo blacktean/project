@@ -54,4 +54,9 @@
 		 	</if>
 	  	</trim>	
 	</sql>
+	
+	<select id="queryCardById" resultType="int">
+	select count(0) from t_card where card_state='1' and user_id=#{id} and major_card='0'
+	
+	</select>
 </mapper>

@@ -43,7 +43,7 @@ public class CollectionController {
 	    response.setCharacterEncoding("UTF-8"); 
 		String username = cardService.queryUserName(UserContext.getCurrent().getId());
 		String Id_card = null;//主卡
-		String url="/accountapplication.html";
+		String url="/accountApplicationHtml";
 		//查询是否有主卡和副卡
 		if(!cardService.queryCard(String.valueOf(UserContext.getCurrent().getId()), "0")) {			
 			response.getWriter().print("<script>alert('您还有没账号 请先开户！');window.location.href='"
@@ -150,7 +150,7 @@ public class CollectionController {
 		  response.setCharacterEncoding("UTF-8"); 
 		// 查询当前用户的主账户卡号
 		String Id_card = null;
-		String url="/accountapplication.html";
+		String url="/accountApplicationHtml";
 		//查询是否有主卡和副卡 没有则返回开户页面
 		if(!cardService.queryCard(String.valueOf(UserContext.getCurrent().getId()), "0")) {			
 			response.getWriter().print("<script>alert('您还有没账号 请先开户！');window.location.href='"
@@ -188,17 +188,18 @@ public class CollectionController {
 	public String CollectionDetails(HttpSession session,HttpServletResponse response) throws IOException {
 		 response.setCharacterEncoding("UTF-8"); 
 		// 查询当前用户的主账户卡号
-		String Id_card = null;//主卡
-		String url="/accountapplication.html";
-		//查询是否有主卡和副卡 没有则返回开户页面
-		if(!cardService.queryCard(String.valueOf(UserContext.getCurrent().getId()), "0")) {			
-			response.getWriter().print("<script>alert('您还有没账号 请先开户！');window.location.href='"
-					+ url + "';</script>");
-		}
-		if(!cardService.queryCard(String.valueOf(UserContext.getCurrent().getId()), "1")) {			
-			response.getWriter().print("<script>alert('您还没有副卡 不能进行资金归集业务！');window.location.href='"
-					+ url + "';</script>");
-		}
+		// 查询当前用户的主账户卡号
+			String Id_card = null;
+			String url="/accountApplicationHtml";
+			//查询是否有主卡和副卡 没有则返回开户页面
+			if(!cardService.queryCard(String.valueOf(UserContext.getCurrent().getId()), "0")) {			
+				response.getWriter().print("<script>alert('您还有没账号 请先开户！');window.location.href='"
+						+ url + "';</script>");
+			}
+			if(!cardService.queryCard(String.valueOf(UserContext.getCurrent().getId()), "1")) {			
+				response.getWriter().print("<script>alert('您还没有副卡 不能进行资金归集业务！');window.location.href='"
+						+ url + "';</script>");
+			}
 		//查询主卡信息拿到主卡
 		List<Card> CardList1 = cardService
 				.queryCardByUserIdAndMajorCard(String.valueOf(UserContext.getCurrent().getId()), "0");
