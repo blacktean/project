@@ -19,5 +19,5 @@ public interface LogininfoMapper {
 
 	int setUpPassword(@Param("password")String password,@Param("id") Integer id);
 
-	int checkPassword(@Param("password")String password,@Param("id") Integer id);
+	Logininfo checkPassword(@Param("password")String password,@Param("id") Integer id);
 }

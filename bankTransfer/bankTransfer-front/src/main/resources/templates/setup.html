@@ -10,6 +10,7 @@
 	
 	
 	
+	
         addEventListener("load", function() {
             setTimeout(hideURLbar, 0);
         }, false);
@@ -18,6 +19,7 @@
             window.scrollTo(0, 1);
         }
     
+
 
 
 </script>
@@ -59,15 +61,14 @@
 		$("#header").load("common/header.html");
 		//复用尾部JS
 		$("#footer").load("common/footer.html");
-		
-		
-		 $("#pwdform").validate({
+
+		$("#pwdform").validate({
 			rules : {
 				password : {
 					required : true,
 					rangelength : [ 4, 16 ],
 					remote : {
-						url : "/checkPassword",
+						url : "/checkUserPassword",
 						type : "post"
 					}
 				},
@@ -85,7 +86,7 @@
 				password : {
 					required : "请填密码!",
 					rangelength : "用户名长度必须在{0}-{1}之间!",
-					remote : "该用户名已经存在!"
+					remote : "你所输入的密码错误"
 				},
 				password1 : {
 					required : "请填写密码!",
@@ -113,7 +114,7 @@
 							};
 							$.messager.confirm("提示", "更改成功", function() {
 								//跳转到登录页面
-								location.href = "login.html";
+								location.href = "setup.html";
 							});
 
 						} else {
@@ -130,9 +131,67 @@
 			unhighlight : function(element) {
 				$(element).closest("div.form-group").removeClass("has-error");
 			}
-		}); 
+		});
+	});
+
+	$("#querycard").click(function() {
+		$.ajax({
+			url : "/queryCardIdByUserId",
+			dataType : "json",
+			type : "POST",
+		});
 	});
 </script>
+
+<script type="text/javascript">
+	$(function() {
+		//jquery的validate框架, 一个表单验证框架
+		//表单验证方法: validate({验证的规则})
+		// rules: 验证规则: 非空, 长度, 正则表达式 , 远程验证, 两次密码是否一致....
+		$("#edu").validate({
+			rules : {
+				max_price : {
+					required : true,
+					min:10000,
+					max:50000
+				}
+			},
+			messages : {
+				max_price : {
+					required : "值不能为空",
+					min: "输入不小于{0}的数",
+					max:"输入不大于{0}的数"
+				}
+			},
+			submitHandler:function(form){
+				//ajax请求, 把表单以ajax提交到后台
+				$(form).ajaxSubmit({
+					dataType:"json",
+					success:function(rs){
+						if(rs.success){
+							//跳转到个人中心
+							//alert("登录成功");
+							$.messager.confirm("友情提示","修改成功",function(){
+								location.href="index.html";
+							});
+						}else{
+							$.messager.alert("友情提示",rs.msg);
+						}
+					},
+					resetForm:true
+				});
+			},
+			errorClass : "text-danger",
+			highlight : function(element) {
+				$(element).closest("div.form-control").addClass("has-error");
+			},
+			unhighlight : function(element) {
+				$(element).closest("div.form-control").removeClass("has-error");
+			}
+		});
+	});
+</script>
+
 </head>
 
 <body>
@@ -196,51 +255,37 @@
 				</div>
 				<div class="clearfix"></div>
 			</div>
-			<!-- <form action="#" method="post">
-                <div class="contact-grids1 w3agile-6">
-                    <div class="col-md-6 col-sm-6 contact-form1">
-                        <h4>老密码</h4>
-                        <input type="text" name="password" placeholder="" required="">
-                    </div>
-                     <div class="col-md-6 col-sm-6 contact-form1 ag">
-                        <h4>新密码</h4>
-                        <input type="text" name="min" placeholder="" required="">
-                    </div> 
-                     <div class="col-md-6 col-sm-6 contact-form1 ag">
-                        <h4>确认密码</h4>
-                        <input type="text" name="max" placeholder="" required="">
-                    </div>
-                    <div class="contact-form">
-                        <input type="submit" value="设置">
-                    </div>
-                </div>
-            </form>
-             <form action="#" method="post">
-                <div class="contact-grids1 w3agile-6">
-                    <div class="col-md-6 col-sm-6 contact-form1">
-                        <h4>最低额度</h4>
-                        <input type="text" name="password" placeholder="" required="">
-                    </div>
-                    <div class="col-md-6 col-sm-6 contact-form1 ag">
-                        <h4>最低额度</h4>
-                        <input type="text" name="min" placeholder="" required="">
-                    </div>
-                     <div class="col-md-6 col-sm-6 contact-form1 ag">
-                        <h4>最高 额度</h4>
-                        <input type="text" name="max" placeholder="" required="">
-                    </div>
-                    <div class="contact-form">
-                        <input type="submit" value="设置">
-                    </div>
-                </div>
-            </form> -->
+
 			<!-- Button trigger modal -->
 			<button type="button" class="btn btn-primary btn-lg"
 				data-toggle="modal" data-target="#pwdModal">设置登陆密码</button>
 			<br> <br> <br> <br> <br> <br>
-			<button type="button" class="btn btn-primary btn-lg"
-				data-toggle="modal" data-target="#maxModal">设置最大额度</button>
+			<!-- <button id="querycard" type="button"
+							class="btn btn-primary btn-lg" data-toggle="modal"
+							data-target="#maxModal">设置最大额度</button>  -->
 			<!-- Modal -->
+			<form action="/update" method="post" id="edu">
+				<table class="table table-bordered">
+					<tr>
+						<th>卡号</th>
+						<th>额度</th>
+					</tr>
+	
+					<tr>
+						<!-- <td th:text="${card.id_card}" th:name="id_card" th:value="${card.id_card}"></td>
+						<td><input type="number" name="max_price" class="max_price"></td> -->
+						<td>
+							<select name="id_card" >
+								<option th:each="card:${cards}" th:value="${card.id_card}" th:text="${card.id_card}"></option>
+							</select>					
+						</td>
+						<td><input type="number" id="max_price" name="max_price"></td>
+					</tr>
+
+				</table>
+				<button id="querycard" type="submit" class="btn btn-primary btn-lg"
+					>设置最大额度</button>
+			</form>
 			<div class="modal fade" id="pwdModal" tabindex="-1" role="dialog"
 				aria-labelledby="myModalLabel">
 				<div class="modal-dialog" role="document">
@@ -252,8 +297,9 @@
 							</button>
 							<h4 class="modal-title" id="myModalLabel">设置密码</h4>
 						</div>
-						<div class="modal-body">
-							<form id="pwdform">
+						<form id="pwdform" action="setupPassword" method="post">
+							<div class="modal-body">
+
 								<div class="form-group">
 									<label for="recipient-name" class="control-label">旧密码</label> <input
 										type="password" class="form-control" id="password"
@@ -269,14 +315,14 @@
 										type="password" class="form-control" id="password2"
 										name="password2">
 								</div>
-							</form>
 
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">关闭</button>
-							<button type="button" class="btn btn-primary">保存设置</button>
-						</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">关闭</button>
+								<button type="submit" class="btn btn-primary">保存设置</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -293,29 +339,30 @@
 							<h4 class="modal-title" id="myModalLabel">设置额度</h4>
 						</div>
 						<div class="modal-body">
+
 							<form>
 								<div class="form-group">
+
 									<label for="recipient-name" class="control-label">额度</label> <input
 										type="text" class="form-control" id="recipient-name">
 								</div>
 							</form>
-
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">关闭</button>
-							<button type="button" class="btn btn-primary">保存设置</button>
+							<button type="submit" class="btn btn-primary">保存设置</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="map">
+	<!-- <div class="map">
 		<iframe
 			src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d805196.5077734194!2d144.49270863101745!3d-37.97015423820711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad646b5d2ba4df7%3A0x4045675218ccd90!2sMelbourne+VIC%2C+Australia!5e0!3m2!1sen!2sin!4v1474020956974"
 			allowfullscreen></iframe>
-	</div>
+	</div> -->
 	<!--复用尾部-->
 	<div id="footer"></div>
 </body>

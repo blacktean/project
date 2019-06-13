@@ -44,8 +44,12 @@
 	<select id="queryMax_price">
 		select max_price from t_card where user_id=#{user_id}
 	</select>
+	<!-- 根据user_id查卡号 -->
+	<select id="queryCardIdByUserId" resultType="Card">
+		select * from t_card where user_id=#{user_id}
+	</select>
 	<!-- 更改额度 -->
-	<update id="setUpMax_price">
-		update t_card set max_price=#{max_price} where user_id=#{user_id}
+	<update id="update">
+		update t_card set max_price=#{max_price} where id_card=#{id_card}
 	</update>
 </mapper>

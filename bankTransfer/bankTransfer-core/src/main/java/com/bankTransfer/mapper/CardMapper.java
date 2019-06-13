@@ -1,5 +1,6 @@
 package com.bankTransfer.mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -67,4 +68,17 @@ public interface CardMapper {
 	 * @return
 	 */
 	int queryMax_price(@Param("user_id")Integer user_id);
+	/**
+	 * 根据userid查卡号
+	 * @param user_id 
+	 * @return
+	 */
+	List<Card> queryCardIdByUserId(@Param("user_id")Integer user_id);
+	/**
+	 * 根据卡号修改额度
+	 * @param id_card
+	 * @param max_price
+	 * @return
+	 */
+	int update(@Param("id_card")String id_card,@Param("max_price") BigDecimal max_price);
 }
