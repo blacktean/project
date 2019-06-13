@@ -1,384 +1,143 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="bootstrap/bootstrap.css">
 <script type="text/javascript" src="scripts/jquery/jquery-1.7.1.js"></script>
-<link rel="stylesheet" href="bootstrap/bootstrap.css" type="text/css" />
-<link href="style/authority/basic_layout.css" rel="stylesheet"
-	type="text/css">
-<link href="style/authority/common_style.css" rel="stylesheet"
-	type="text/css">
+<link href="style/authority/basic_layout.css" rel="stylesheet" type="text/css">
+<link href="style/authority/common_style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="scripts/authority/commonAll.js"></script>
-<script type="text/javascript"
-	src="scripts/fancybox/jquery.fancybox-1.3.4.js"></script>
-<script type="text/javascript"
-	src="scripts/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="style/authority/jquery.fancybox-1.3.4.css" media="screen"></link>
-<script type="text/javascript"
-	src="scripts/artDialog/artDialog.js?skin=default"></script>
-<title>信息管理系统</title>
+<script type="text/javascript" src="scripts/fancybox/jquery.fancybox-1.3.4.js"></script>
+<script type="text/javascript" src="scripts/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<link rel="stylesheet" type="text/css" href="style/authority/jquery.fancybox-1.3.4.css" media="screen"></link>
+<script type="text/javascript" src="scripts/artDialog/artDialog.js?skin=default"></script>
+<link rel="stylesheet" href="bootstrap/bootstrap-datetimepicker.css"></link>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<title>开户记录</title>
 <script type="text/javascript">
-	$(document).ready(function() {
-		/** 新增   **/
-		$("#addBtn").fancybox({
-			'href' : 'house_edit.html',
-			'width' : 733,
-			'height' : 530,
-			'type' : 'iframe',
-			'hideOnOverlayClick' : false,
-			'showCloseButton' : false,
-			'onClosed' : function() {
-				window.location.href = 'house_list.html';
-			}
+	$(document).ready(function(){
+		//显示日期
+		$("#start,#end").datetimepicker({
+			fornat:'yyyy-mm-dd',
+			language:'zh-CN',
+			minView:2,
 		});
-
-		/** 导入  **/
-		$("#importBtn").fancybox({
-			'href' : '/xngzf/archives/importFangyuan.action',
-			'width' : 633,
-			'height' : 260,
-			'type' : 'iframe',
-			'hideOnOverlayClick' : false,
-			'showCloseButton' : false,
-			'onClosed' : function() {
-				window.location.href = 'house_list.html';
-			}
-		});
-
-		/**编辑   **/
-		$("a.edit").fancybox({
-			'width' : 733,
-			'height' : 530,
-			'type' : 'iframe',
-			'hideOnOverlayClick' : false,
-			'showCloseButton' : false,
-			'onClosed' : function() {
-				window.location.href = 'house_list.html';
-			}
-		});
+		//给分页超链接绑定事件
+		$(".aojump").click(function(){
+			$("#aopi").val($(this).attr("data"));
+			$("#aosearchForm").submit();
+		})
 	});
-	/** 用户角色   **/
-	var userRole = '';
-
-	/** 模糊查询来电用户  **/
-	function search() {
-		$("#submitForm").attr("action", "house_list.html?page=" + 1).submit();
-	}
-
-	/** 新增   **/
-	function add() {
-		$("#submitForm").attr("action", "/xngzf/archives/luruFangyuan.action")
-				.submit();
-	}
-
-	/** Excel导出  **/
-	function exportExcel() {
-		if (confirm('您确定要导出吗？')) {
-			var fyXqCode = $("#fyXq").val();
-			var fyXqName = $('#fyXq option:selected').text();
-			//	 		alert(fyXqCode);
-			if (fyXqCode == "" || fyXqCode == null) {
-				$("#fyXqName").val("");
-			} else {
-				//	 			alert(fyXqCode);
-				$("#fyXqName").val(fyXqName);
-			}
-			$("#submitForm").attr("action",
-					"/xngzf/archives/exportExcelFangyuan.action").submit();
-		}
-	}
-
-	/** 删除 **/
-	function del(fyID) {
-		// 非空判断
-		if (fyID == '')
-			return;
-		if (confirm("您确定要删除吗？")) {
-			$("#submitForm").attr("action",
-					"/xngzf/archives/delFangyuan.action?fyID=" + fyID).submit();
-		}
-	}
-
-	/** 批量删除 **/
-	function batchDel() {
-		if ($("input[name='IDCheck']:checked").size() <= 0) {
-			art.dialog({
-				icon : 'error',
-				title : '友情提示',
-				drag : false,
-				resize : false,
-				content : '至少选择一条',
-				ok : true,
-			});
-			return;
-		}
-		// 1）取出用户选中的checkbox放入字符串传给后台,form提交
-		var allIDCheck = "";
-		$("input[name='IDCheck']:checked").each(
-				function(index, domEle) {
-					bjText = $(domEle).parent("td").parent("tr").last()
-							.children("td").last().prev().text();
-					// 			alert(bjText);
-					// 用户选择的checkbox, 过滤掉“已审核”的，记住哦
-					if ($.trim(bjText) == "已审核") {
-						// 				$(domEle).removeAttr("checked");
-						$(domEle).parent("td").parent("tr").css({
-							color : "red"
-						});
-						$("#resultInfo").html("已审核的是不允许您删除的，请联系管理员删除！！！");
-						// 				return;
-					} else {
-						allIDCheck += $(domEle).val() + ",";
-					}
-				});
-		// 截掉最后一个","
-		if (allIDCheck.length > 0) {
-			allIDCheck = allIDCheck.substring(0, allIDCheck.length - 1);
-			// 赋给隐藏域
-			$("#allIDCheck").val(allIDCheck);
-			if (confirm("您确定要批量删除这些记录吗？")) {
-				// 提交form
-				$("#submitForm").attr("action",
-						"/xngzf/archives/batchDelFangyuan.action").submit();
-			}
-		}
-	}
-
-	/** 普通跳转 **/
-	function jumpNormalPage(page) {
-		$("#submitForm").attr("action", "house_list.html?page=" + page)
-				.submit();
-	}
-
-	/** 输入页跳转 **/
-	function jumpInputPage(totalPage) {
-		// 如果“跳转页数”不为空
-		if ($("#jumpNumTxt").val() != '') {
-			var pageNum = parseInt($("#jumpNumTxt").val());
-			// 如果跳转页数在不合理范围内，则置为1
-			if (pageNum<1 | pageNum>totalPage) {
-				art.dialog({
-					icon : 'error',
-					title : '友情提示',
-					drag : false,
-					resize : false,
-					content : '请输入合适的页数，\n自动为您跳到首页',
-					ok : true,
-				});
-				pageNum = 1;
-			}
-			$("#submitForm").attr("action", "house_list.html?page=" + pageNum)
-					.submit();
-		} else {
-			// “跳转页数”为空
-			art.dialog({
-				icon : 'error',
-				title : '友情提示',
-				drag : false,
-				resize : false,
-				content : '请输入合适的页数，\n自动为您跳到首页',
-				ok : true,
-			});
-			$("#submitForm").attr("action", "house_list.html?page=" + 1)
-					.submit();
-		}
-	}
 </script>
 <style>
-.alt td {
-	background: black !important;
-}
+	.alt td{ background:black !important;}
+	#searchForm{position: relative;left: 1%;}
+	#jilu{position: relative;}
 </style>
+
+
+
 </head>
-<body>
-	<form id="submitForm" name="submitForm" action="/aoselect" method="post">
-		<input type="hidden" name="allIDCheck" value="" id="allIDCheck" /> <input
-			type="hidden" name="fangyuanEntity.fyXqName" value="" id="fyXqName" />
-		<div id="container">
-			<div class="ui_content">
-				<div class="ui_text_indent">
-					<div id="box_bottom" align="center">
-						&nbsp;&nbsp;小区 <select name="fangyuanEntity.fyXqCode" id="fyXq"
-							class="ui_select01" onchange="getFyDhListByFyXqCode();">
-							<option value="">--请选择--</option>
-							<option value="6">瑞景河畔</option>
-							<option value="77">蔚蓝小区</option>
-							<option value="83">和盛园小区</option>
-						</select> &nbsp;&nbsp;开户时间 <select name="fangyuanEntity.fyDhCode" id="fyDh"
-							class="ui_select01">
-							<option value="">--请选择--</option>
-						</select> &nbsp;&nbsp;开户地点 <select name="fangyuanEntity.fyHxCode" id="fyHx"
-							class="ui_select01">
-							<option value="">--请选择--</option>
-							<option value="76">深圳南山</option>
-							<option value="10">深圳罗湖</option>
-							<option value="14">深圳宝安</option>
-							<option value="71">深圳坪山</option>
-						</select> &nbsp;&nbsp;状态 <select name="fangyuanEntity.fyStatus"
-							id="fyStatus" class="ui_select01">
-							<option value="">--请选择--</option>
-							<option value="26">成功</option>
-							<option value="25">失败</option>
-						</select> &nbsp;&nbsp;&nbsp;<input type="text" id="fyZldz"
-							name="fangyuanEntity.fyZldz" class="ui_input_txt02" /> <input
-							type="button" value="查询" class="ui_input_btn01"
-							onclick="search();" />
-					</div>
+<body>	
+	<div style="Margin:10px;">	
+		<form action="/Account_opening" name="aosearchForm" id="aosearchForm" class="form-inline" method="post">
+			
+				<div class="form-group">
+					<label>&nbsp;&nbsp;&nbsp;&nbsp;姓名</label> 
+					<input type="text" class="form-control ao_name" name="ao_name" th:value="${session.accout_openingCondition.ao_name}">
 				</div>
-			</div>
-			<div class="ui_content">
-				<div class="ui_tb">
-					<table class="table" cellspacing="0" cellpadding="0" width="100%"
-						align="center" border="0">
-						<tr>
-							<th width="30"><input type="checkbox" id="all"
-								onclick="selectOrClearAllCheckbox(this);" /></th>
-							<th>姓名</th>
-							<th>开户账号</th>
-							<th>开户时间</th>
-							<th>开户地点</th>
-							<th>卡类型</th>
-							<th>状态</th>
-							<th>操作</th>
-						</tr>
-						<tr th:each="ao_accout_opening:${ao_accout}">
-							<td><input type="checkbox" name="IDCheck" value="14458579642011" class="acb" /></td>
-							<td th:text="${ao_accout_opening.ao_name}"></td>
-							<td th:text="${ao_accout_opening.ao_accout_number}"></td>
-							<td th:text="${ao_accout_opening.ao_time}"></td>
-							<td th:text="${ao_accout_opening.ao_location}"></td>
-							<td th:text="${ao_accout_opening.ao_cardtype}"></td>
-							<td th:text="${ao_accout_opening.result}"></td>
-							<td><a href="house_edit.html?fyID=14458579642011" class="edit">编辑</a> <a href="javascript:del('14458579642011');">删除</a>
-							</td>
-						</tr>
-					</table>
+				
+				<div class="form-group">
+					<label>账号</label> 
+					<input type="text" class="form-control ao_accout_number" name="ao_accout_number" th:value="${session.accout_openingCondition.ao_accout_number}">
 				</div>
-
-				<div style="text-align: center;">
-					<ul class="pagination">
-
-						<!-- <div th:if="${page.isFirstPage=='true'}">
-							<li class="disabled"><a href="#">首页</a></li>
-							<li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-						</div>
-						
-							
-						<div th:if="${page.isFirstPage=='flase'}">
-							<li><a href="aoselect.do?page=1">首页</a></li>
-							<li><a href="aoselect.do?page=${page.prePage}"aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
-						</div>
-
-
-						<c:set value="1" var="startPage"></c:set>
-						<c:set value="${page.pages }" var="endPage"></c:set>
-						
-						
-						
-						<div th:each='begin="${startPage}" end="${endPage}" var="i"'>
-							<div th:if="${i == page.pageNum }"><li class="active"><a href="#">${i } </a></li></div>							
-							<div th:if="${i == page.pageNum }"><li><a href="aoselect.do?page=${i}">${i} </a></li></div>							
-						</div>
-
-						
-						<div th:each="${page.hasNextPage=='false'}">
-							<li class="disabled"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-							<li class="disabled"><a href="#">尾页</a></li>
-						</div>
-						
-						<div th:>
-							<li><a href="" th:href="@{aoselect.do?page=${page.nextPage}}" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a></li>
-							<li><a href="" th:href="@{aoselect.do?page=${page.pages}}">尾页</a></li>
-						</div>
- -->
-						<c:choose>
-							<c:when test="${page.isFirstPage=='true'}">
-								<li class="disabled"><a href="#">首页</a></li>
-								<li class="disabled"><a href="#" aria-label="Previous">
-										<span aria-hidden="true">&laquo;</span>
-								</a></li>
-							</c:when>
-							<c:otherwise>
-								<li><a href="aoselect.do?page=1">首页</a></li>
-								<li><a href="aoselect.do?page=${page.prePage}"
-									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-								</a></li>
-							</c:otherwise>
-						</c:choose>
-						<c:set value="1" var="startPage"></c:set>
-						<c:set value="${page.pages }" var="endPage"></c:set>
-						<c:forEach begin="${startPage}" end="${endPage}" var="i">
-							<c:choose>
-								<c:when test="${i == page.pageNum }">
-									<li class="active"><a href="#">${i } </a></li>
-								</c:when>
-								<c:otherwise>
-									<li><a href="aoselect.do?page=${i}">${i} </a></li>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-
-						<c:choose>
-							<c:when test="${page.hasNextPage=='false'}">
-								<li class="disabled"><a href="#" aria-label="Next"> <span
-										aria-hidden="true">&raquo;</span>
-								</a></li>
-								<li class="disabled"><a href="#">尾页</a></li>
-							</c:when>
-							<c:otherwise>
-								<li><a href="aoselect.do?page=${page.nextPage}"
-									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-								</a></li>
-								<li><a href="aoselect.do?page=${page.pages}">尾页</a></li>
-							</c:otherwise>
-						</c:choose>
-					</ul>
+				
+				<div class="form-group">
+					<label>开始时间</label> <input type="text" class="form-control beginDate"
+						name="beginDate" id="start" readonly="readonly" th:value="${#dates.format(session.accout_openingCondition.startTime,'yyyy-MM-dd')}" />
 				</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-				<!-- <div class="ui_tb_h30">
-					<div class="ui_flt" style="height: 30px; line-height: 30px;">
-						共有
-						<span class="ui_txt_bold04">90</span>
-						条记录，当前第
-						<span class="ui_txt_bold04">1
-						/
-						9</span>
-						页
-					</div>
-					<div class="ui_frt">
-						   如果是第一页，则只显示下一页、尾页
-						
-							<input type="button" value="首页" class="ui_input_btn01" />
-							<input type="button" value="上一页" class="ui_input_btn01" />
-							<input type="button" value="下一页" class="ui_input_btn01"
-								onclick="jumpNormalPage(2);" />
-							<input type="button" value="尾页" class="ui_input_btn01"
-								onclick="jumpNormalPage(9);" />
-						
-						
-						
-						    如果是最后一页，则只显示首页、上一页
-						
-						转到第<input type="text" id="jumpNumTxt" class="ui_input_txt01" />页
-							 <input type="button" class="ui_input_btn01" value="跳转" onclick="jumpInputPage(9);" />
-					</div>
+				<div class="form-group">
+					<label>结束时间</label> <input type="text" class="form-control endDate"
+						id="end" readonly="readonly" name="endDate" th:value="${#dates.format(session.accout_openingCondition.endTime,'yyyy-MM-dd')}" />
+				</div>
+				
+				<!-- <div class="form-group">
+					<label>开户地点</label> 
+					<input type="text" class="form-control ao_location" name="ao_location" th:value="${session.accout_openingCondition.ao_location}" />
 				</div> -->
+				
+				<div class="form-group">
+					<label>卡类型</label> 
+					<input type="text" class="form-control ao_cardtype" name="ao_cardtype" th:value="${session.accout_openingCondition.ao_cardtype}" />
+				</div>
+				<div class="form-group">
+					<label>状态</label> 
+					<select class="form-control" name="state" id="state">
+						<option value="-1">全部</option>					
+						<option value="1" th:selected="${session.accout_openingCondition.state eq 1}">开户成功</option>	
+						<option value="0" th:selected="${session.accout_openingCondition.state eq 0}">开户失败</option>							
+					</select>
+				</div>
+				<div class="form-group">
+							<!-- 写一个隐藏域: -->
+					<input type="hidden" name="page" value="1" id="aopi" />&nbsp;
+					<button type="submit" class="btn btn-success">查询</button>				
+				</div>				
+		</form>						
+	</div>					
+			
+	<div class="ui_content">
+		<div class="ui_tb">					
+			<table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+				<tr>				
+					<th>姓名</th>
+					<th>开户账号</th>
+					<th>开户时间</th>
+					<!-- <th>开户地点</th> -->
+					<th>卡类型</th>
+					<th>状态</th>
+					<th>操作</th>					
+				</tr>
+				<tr th:each="ao_accout_opening:${session.ao_accout_opening_list}">
+					<td th:text="${ao_accout_opening.ao_name}"></td>
+					<td th:text="${ao_accout_opening.ao_accout_number}"></td>
+					<td th:text="${#dates.format(ao_accout_opening.ao_time,'yyyy-MM-dd hh:mm:ss')}"></td>
+					<!-- <td th:text="${ao_accout_opening.ao_location}"></td> -->
+					<td th:text="${ao_accout_opening.ao_cardtype}"></td>
+					<td th:if="${ao_accout_opening.result} eq 0" th:text="开户失败"></td>
+					<td th:if="${ao_accout_opening.result} eq 1" th:text="开户成功"></td>
+					<td><a href="/delAo_accout_opening?id=${ao_accout_opening.id}">删除</a></td>						
+				</tr>		
+			</table>
+						
+			<div style="text-align: center;">
+			     <ul class="pagination">
+					<li th:if="${session.a_page.pageNum eq 1}" th:class="disabled"><a href="#">首页</a></li>
+					<li th:if="${session.a_page.pageNum ne 1}"><a href="javascript:void(0);" class="aojump" th:data="1">首页</a></li>
+					<li th:if="${session.a_page.pageNum eq 1}" th:class="disabled"><a href="#">上一页</a></li>
+					<li th:if="${session.a_page.pageNum ne 1}"><a href="javascript:void(0);" class="aojump" th:data="${session.a_page.pageNum-1}">上一页</a></li>
+								
+					<!-- 这是页码 -->
+					<th:block th:each="nav:${session.a_page.navigatepageNums}">
+						<li th:class="${nav==session.a_page.pageNum}?'active':''"><a th:text="${nav}" href="javascript:void(0);" class="aojump" th:data="${nav}"></a></li>
+					</th:block>
+								
+					<li th:if="${session.a_page.pageNum eq session.a_page.pages}" th:class="disabled"><a href="#">下一页</a></li>
+					<li th:if="${session.a_page.pageNum ne session.a_page.pages}"><a href="javascript:void(0);" class="aojump" th:data="${session.a_page.pageNum+1}">下一页</a></li>
+					<li th:if="${session.a_page.pageNum eq session.a_page.pages}" th:class="disabled"><a href="#">尾页</a></li>
+					<li th:if="${session.a_page.pageNum ne session.a_page.pages}"><a href="javascript:void(0);" class="aojump" th:data="${session.a_page.pages}">尾页</a></li>										
+				</ul>
+				<div id="jilu">
+					<span >一共:<span th:text="${session.a_page.total}"></span>条记录</span>
+				</div>
 			</div>
 		</div>
-	</form>
+	</div>				
 </body>
 </html>
+					
+
+
+
+

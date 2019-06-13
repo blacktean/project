@@ -3,20 +3,14 @@ package com.bankTransfer.pojo;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
- * 开户记录表
- * @author Administrator
+ *  开户记录表
+ * @author BLACKTEA
  *
  */
-@Setter
-@Getter
-@ToString
+@Data
 public class Ao_accout_opening implements Serializable {
 
 	private static final long serialVersionUID = 1L;
