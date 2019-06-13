@@ -2,6 +2,8 @@ package com.bankTransfer.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.CardType;
+import com.bankTransfer.pojo.Contacts;
 import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.Document;
 import com.bankTransfer.pojo.JsonCountry;
@@ -34,7 +37,8 @@ public class PageController {
 	@RequireLogin
 	@RequireIdentity
 	public String toBatchTransfer(Model model) {
-		List<Card> cards = baseService.queryCardByUserId(UserContext.getCurrent().getId());
+		Integer id = UserContext.getCurrent().getId();
+		List<Card> cards = baseService.queryCardByUserId(id);
 		model.addAttribute("cards", cards);
 		return "batchTransfer";
 	}
@@ -74,17 +78,33 @@ public class PageController {
 		List<CardType> cardTypes = baseService.queryCardType();
 		model.addAttribute("cardTypes", cardTypes);
 		model.addAttribute("cards", cards);
+		Contacts contacts = baseService.queryContacts(UserContext.getCurrent().getId());
+		model.addAttribute("contacts", contacts);
 		return "singleTransfer";
 	}
 	
-	@GetMapping("toHeader")
-	public String toHeader(String value,Model model) {
+	@RequestMapping("toHeader")
+	public String toHeader(String value,Model model,HttpSession session) {
 		model.addAttribute("name", value);
+		//session.setAttribute("Weathernow", APIUtils.getWeather());
+		//session.setAttribute("Countrynow",APIUtils.getJsonCountry());
 		return "common/header";
 	}
 	
 	@RequestMapping("login")
 	public String toLogin() {
 		return "login";
+	}
+	
+	
+	//注销
+	@RequestMapping("/LoginOut")
+	public String LoginOut(HttpSession session){
+		System.err.println(session.getAttribute("logininfo"));
+		//销毁session
+		session.invalidate();
+		
+		return "redirect:/login";
+		
 	}
 }

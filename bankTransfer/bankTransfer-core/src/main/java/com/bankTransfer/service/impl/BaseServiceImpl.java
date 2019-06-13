@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.bankTransfer.mapper.BaseMapper;
 import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.CardType;
+import com.bankTransfer.pojo.Contacts;
 import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.Document;
 import com.bankTransfer.pojo.User;
@@ -54,6 +55,11 @@ public class BaseServiceImpl implements IBaseService {
 	@Override
 	public User checkUser(Integer id) {
 		return baseMapper.queryUserById(id);
+	}
+
+	@Override
+	public Contacts queryContacts(Integer id) {
+		return baseMapper.queryContacts(id);
 	}
 
 

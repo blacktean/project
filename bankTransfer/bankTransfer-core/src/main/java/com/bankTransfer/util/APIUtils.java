@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bankTransfer.pojo.JsonCountry;
 import com.bankTransfer.pojo.JsonRate;
 import com.bankTransfer.pojo.JsonUserInfo;
+import com.bankTransfer.pojo.JsonWeather;
 
 public class APIUtils {
 	/**
@@ -60,29 +61,31 @@ public class APIUtils {
 	 * @param ip
 	 * @return
 	 */
-	public static String getWeather() {
-		String host = "https://ali-weather.showapi.com";
-		String path = "/area-to-weather";
-		Map<String, String> headers = new HashMap<String, String>();
-		headers.put("Authorization", "APPCODE " + APP_CODE);
-		Map<String, String> querys = new HashMap<String, String>();
-		querys.put("areaid", getMyIP());
-		querys.put("need3HourForcast", "0");
-		querys.put("needAlarm", "0");
-		querys.put("needHourData", "0");
-		querys.put("needIndex", "0");
-		querys.put("needMoreDay", "0");
-		try {
-			HttpResponse response = HttpUtils.doGet(host, path, GET_METHOD, headers, querys);
-			return EntityUtils.toString(response.getEntity());
+	public static JsonWeather getWeather() {
+		  String host = "https://ali-weather.showapi.com";
+		  String path = "/area-to-weather";
+		  Map<String, String> headers = new HashMap<String, String>();
+		  headers.put("Authorization", "APPCODE " + APP_CODE);
+		  Map<String, String> querys = new HashMap<String, String>();
+		  querys.put("area", "深圳");
+		  querys.put("need3HourForcast", "0");
+		  querys.put("needAlarm", "0");
+		  querys.put("needHourData", "0");
+		  querys.put("needIndex", "0");
+		  querys.put("needMoreDay", "0");
+		  try {
+		   HttpResponse response = HttpUtils.doGet(host, path, GET_METHOD, headers, querys);
+		   String result = JSONObject.parseObject(EntityUtils.toString(response.getEntity())).get("showapi_res_body").toString();
+		   String rs = JSONObject.parseObject(result).get("now").toString();
+		   JsonWeather jsonWeather = JSONObject.parseObject(rs,JsonWeather.class);
+		   return jsonWeather;
+		  } catch (Exception e) {
+		   e.printStackTrace();
+		  }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
+		  return null;
+		 }
+		
 	/**
 	 * 查询税率
 	 * 

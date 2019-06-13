@@ -15,7 +15,7 @@ public class JsonCountry {
 	/** 国家*/
 	private String country;
 	/** 省份*/
-	private String regison;
+	private String region;
 	/** 城市*/
 	private String city;
 	/** 本机ip*/
