@@ -14,7 +14,7 @@ public class ScheduledTasks {
     private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
     private  static final SimpleDateFormat dataFromat = new SimpleDateFormat("HH:mm:ss");
  
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 5*60*1000)
     public void reportCurrent(){
         logger.info("现在时间：{}",dataFromat.format(new Date()));
     }

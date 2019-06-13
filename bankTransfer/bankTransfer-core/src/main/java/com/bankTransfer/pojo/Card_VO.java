@@ -2,13 +2,23 @@ package com.bankTransfer.pojo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import java.util.Date;
 
 import lombok.Data;
 @Data
-public class Card_VO implements Serializable {
+@Getter
+@Setter
+@ToString
+public class Card_VO implements Serializable{
+
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	
 	/**主键*/
 	private Integer id;
 	/**银行卡号*/
@@ -40,4 +50,5 @@ public class Card_VO implements Serializable {
 	/**证件号码*/
 	private String card_number;
 	private Integer u_user_id;
+	
 }

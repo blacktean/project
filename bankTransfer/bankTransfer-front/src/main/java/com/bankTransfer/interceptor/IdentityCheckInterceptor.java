@@ -30,7 +30,7 @@ public class IdentityCheckInterceptor extends  HandlerInterceptorAdapter {
 	          .getBean(IBaseService.class);
 			//判断是否有该注解
 			if(rl != null && UserContext.getCurrent() != null && baseService.checkUser(UserContext.getCurrent().getId()) == null){ 
-				response.sendRedirect("/accountapplication.html");
+				response.sendRedirect("/accountApplicationHtml");
 				return false;
 			}
 		}
