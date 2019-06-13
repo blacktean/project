@@ -55,10 +55,10 @@
 				
 				<div class="form-group">
 					<label>状态</label> 
-					<select class="form-control" name="state" id="state">
+					<select class="form-control" name="result" id="result">
 						<option value="-1">全部</option>					
-						<option value="0" th:selected="${session.collectionCondition.state eq 0}">归集失败</option>	
-						<option value="1" th:selected="${session.collectionCondition.state eq 1}">归集成功</option>							
+						<option value="0" th:selected="${session.collectionCondition.result eq 0}">归集失败</option>	
+						<option value="1" th:selected="${session.collectionCondition.result eq 1}">归集成功</option>							
 					</select>
 				</div>
 				
@@ -73,7 +73,8 @@
 	<div class="ui_content">
 		<div class="ui_tb">					
 			<table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
-				<tr>					
+				<tr>
+					<th>ID</th>					
 					<th>姓名</th>
 					<th>主账号</th>
 					<th>子账号1</th>
@@ -85,6 +86,7 @@
 					<th>操作</th>
 				</tr>
 				<tr th:each="C_collection:${session.collectionList}">
+					<td th:text="${C_collection.id}"></td>
 					<td th:text="${C_collection.C_name}"></td>
 					<td th:text="${C_collection.c_main_account}"></td>
 					<td th:text="${C_collection.c_sub_account_a}"></td>

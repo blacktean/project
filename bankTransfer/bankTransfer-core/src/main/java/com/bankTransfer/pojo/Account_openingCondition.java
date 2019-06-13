@@ -27,5 +27,5 @@ public class Account_openingCondition implements Serializable {
 	/**开户地址*/
 	/* private String ao_location; */
 	/**开户状态 0开户失败 1开户成功 */
-	private Integer state;
+	private Integer result;
 }
