@@ -3,11 +3,10 @@ package com.bankTransfer.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.bankTransfer.pojo.Card;
-
-import io.lettuce.core.dynamic.annotation.Param;
 @Mapper
 @Repository
 public interface CardMapper {
