@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Setter
-@Getter
+@Getter 
 @ToString
 public class JsonWeather {
 	/** 天气温度 */
