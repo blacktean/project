@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>设置</title>
-    <!-- Meta tag Keywords -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="" />
-    <script type="application/x-javascript">
+<title>设置</title>
+<!-- Meta tag Keywords -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="application/x-javascript">
+	
+	
+	
+	
         addEventListener("load", function() {
             setTimeout(hideURLbar, 0);
         }, false);
@@ -15,166 +18,353 @@
         function hideURLbar() {
             window.scrollTo(0, 1);
         }
-    </script>
+    
 
-    <!--// Meta tag Keywords -->
-    <!-- css files -->
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <!-- Bootstrap-Core-CSS -->
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
-    <!-- Style-CSS -->
-    <link rel="stylesheet" href="css/font-awesome.css">
-    <!-- Font-Awesome-Icons-CSS -->
-    <!-- //css files -->
-    <!-- web-fonts -->
-    <link href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900" rel="stylesheet">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
-    <!-- //web-fonts -->
+
+
+</script>
+<style type="text/css">
+.btn btn-primary btn-lg {
+	
+}
+</style>
+<!--// Meta tag Keywords -->
+<!-- css files -->
+<link rel="stylesheet" href="css/bootstrap.css">
+<!-- Bootstrap-Core-CSS -->
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+<!-- Style-CSS -->
+<link rel="stylesheet" href="css/font-awesome.css">
+<!-- Font-Awesome-Icons-CSS -->
+<!-- //css files -->
+<!-- web-fonts -->
+<link
+	href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900"
+	rel="stylesheet">
+<link
+	href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
+	rel="stylesheet">
+<!-- //web-fonts -->
+<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript" src="js/jquery.bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.css"></link>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript"
+	src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="js/messages_zh.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
+<script type="text/javascript">
+	$(function() {
+		//复用头部JS
+		$("#header").load("toHeader?value=setup");
+		//复用尾部JS
+		$("#footer").load("common/footer.html");
+
+		$("#pwdform").validate({
+			rules : {
+				password : {
+					required : true,
+					rangelength : [ 4, 16 ],
+					remote : {
+						url : "/checkUserPassword",
+						type : "post"
+					}
+				},
+				password1 : {
+					required : true,
+					rangelength : [ 4, 20 ]
+				},
+				password2 : {
+					required : true,
+					equalTo : "#password1"
+				}
+
+			},
+			messages : {
+				password : {
+					required : "请填密码!",
+					rangelength : "用户名长度必须在{0}-{1}之间!",
+					remote : "你所输入的密码错误"
+				},
+				password1 : {
+					required : "请填写密码!",
+					rangelength : "密码长度必须在{0}-{1}之间!"
+				},
+				password2 : {
+					required : "请再次确认密码",
+					equalTo : "两次密码不一致"
+				}
+			},
+			submitHandler : function(form) {
+				$("#pwdform").ajaxSubmit({
+					dataType : "json",
+					success : function(data) {
+						if (data.success) {
+							$.messager.model = {
+								ok : {
+									text : "关闭",
+									classed : 'btn­default'
+								},
+								cancel : {
+									text : "取消",
+									classed : 'btn­error'
+								}
+							};
+							$.messager.confirm("提示", "更改成功", function() {
+								//跳转到登录页面
+								location.href = "/queryCardIdByUserId";
+							});
+
+						} else {
+							$.messager.popup(data.msg)
+						}
+					},
+					resetForm : true
+				});
+			},
+			errorClass : "text-danger",
+			highlight : function(element) {
+				$(element).closest("div.form-group").addClass("has-error");
+			},
+			unhighlight : function(element) {
+				$(element).closest("div.form-group").removeClass("has-error");
+			}
+		});
+	});
+
+	$("#querycard").click(function() {
+		$.ajax({
+			url : "/queryCardIdByUserId",
+			dataType : "json",
+			type : "POST",
+		});
+	});
+</script>
+
+<script type="text/javascript">
+	$(function() {
+		//jquery的validate框架, 一个表单验证框架
+		//表单验证方法: validate({验证的规则})
+		// rules: 验证规则: 非空, 长度, 正则表达式 , 远程验证, 两次密码是否一致....
+		$("#edu").validate({
+			rules : {
+				max_price : {
+					required : true,
+					min:10000,
+					max:50000
+				}
+			},
+			messages : {
+				max_price : {
+					required : "值不能为空",
+					min: "输入不小于{0}的数",
+					max:"输入不大于{0}的数"
+				}
+			},
+			submitHandler:function(form){
+				//ajax请求, 把表单以ajax提交到后台
+				$(form).ajaxSubmit({
+					dataType:"json",
+					success:function(rs){
+						if(rs.success){
+							
+							$.messager.confirm("友情提示","修改成功",function(){
+								location.href="/queryCardIdByUserId";
+							});
+						}else{
+							$.messager.alert("友情提示",rs.msg);
+						}
+					},
+					resetForm:true
+				});
+			},
+			errorClass : "text-danger",
+			highlight : function(element) {
+				$(element).closest("div.form-control").addClass("has-error");
+			},
+			unhighlight : function(element) {
+				$(element).closest("div.form-control").removeClass("has-error");
+			}
+		});
+	});
+</script>
+
 </head>
 
 <body>
-    <!--复用头部-->
-    <div id="header"></div>
-    <!-- banner 2 -->
-      <div>
-	<!-- class="banner-2-agile" -->
-	<img style="height: 420px; width:100%;" src="images/banner4.jpg" />
+	<!--复用头部-->
+	<div id="header"></div>
+	<!-- banner 2 -->
+	<div>
+		<!-- class="banner-2-agile" -->
+		<img style="height: 420px; width: 100%;" src="images/banner4.jpg" />
 	</div>
-    <div class="services-breadcrumb">
-        <div class="agile_inner_breadcrumb">
-            <ul class="w3_short">
-                <li>
-                    <a href="index.html">主页</a>
-                    <i>>></i>
-                </li>
-                <li>设置</li>
-            </ul>
-        </div>
-    </div>
-    <!-- //banner 2 -->
-    <!-- about -->
-    <div class="contact wthree-2">
-        <div class="container">
-            <h3 class="tittle">
-                <span>S</span>et U<span>p</span>
-            </h3>
-            <div class="contact-grids agile-1">
-                <div class="col-md-4 col-xs-4 contact-grid agileinfo-6">
-                    <div class="contact-grid1">
-                        <div class="con-ic">
-                            <span class="fa fa-map-marker" aria-hidden="true"></span>
-                        </div>
-                        <h4>Address</h4>
-                        <p>1PO Box 8568954 Melbourne
-                            <label>Australia.</label>
-                        </p>
-                    </div>
-                </div>
-                <div class="col-md-4 col-xs-4 contact-grid agileinfo-6">
-                    <div class="contact-grid1">
-                        <div class="con-ic">
-                            <span class="fa fa-phone" aria-hidden="true"></span>
-                        </div>
-                        <h4>Call Us</h4>
-                        <p>+(0121) 121 121
-                            <label>+(0121) 121 122</label>
-                        </p>
-                    </div>
-                </div>
-                <div class="col-md-4 col-xs-4 contact-grid agileinfo-6">
-                    <div class="contact-grid1">
-                        <div class="con-ic">
-                            <span class="fa fa-envelope" aria-hidden="true"></span>
-                        </div>
-                        <h4>Email</h4>
-                        <p>
-                            <a href="mailto:info@example.com">info@example1.com</a>
-                            <label>
+	<div class="services-breadcrumb">
+		<div class="agile_inner_breadcrumb">
+			<ul class="w3_short">
+				<li><a href="index.html">主页</a> <i>>></i></li>
+				<li>设置</li>
+			</ul>
+		</div>
+	</div>
+	<!-- //banner 2 -->
+	<!-- about -->
+	<div class="contact wthree-2">
+		<div class="container">
+			<h3 class="tittle">
+				<span>S</span>et U<span>p</span>
+			</h3>
+			<div class="contact-grids agile-1">
+				<div class="col-md-4 col-xs-4 contact-grid agileinfo-6">
+					<div class="contact-grid1">
+						<div class="con-ic">
+							<span class="fa fa-map-marker" aria-hidden="true"></span>
+						</div>
+						<h4>Address</h4>
+						<p>
+							1PO Box 8568954 Melbourne <label>Australia.</label>
+						</p>
+					</div>
+				</div>
+				<div class="col-md-4 col-xs-4 contact-grid agileinfo-6">
+					<div class="contact-grid1">
+						<div class="con-ic">
+							<span class="fa fa-phone" aria-hidden="true"></span>
+						</div>
+						<h4>Call Us</h4>
+						<p>
+							+(0121) 121 121 <label>+(0121) 121 122</label>
+						</p>
+					</div>
+				</div>
+				<div class="col-md-4 col-xs-4 contact-grid agileinfo-6">
+					<div class="contact-grid1">
+						<div class="con-ic">
+							<span class="fa fa-envelope" aria-hidden="true"></span>
+						</div>
+						<h4>Email</h4>
+						<p>
+							<a href="mailto:info@example.com">info@example1.com</a> <label>
 								<a href="mailto:info@example.com">info@example2.com</a>
 							</label>
-                        </p>
-                    </div>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-            <form action="#" method="post">
-                <div class="contact-grids1 w3agile-6">
-                    <div class="col-md-6 col-sm-6 contact-form1">
-                        <h4>Name</h4>
-                        <input type="text" name="password" placeholder="" required="">
-                    </div>
-                    <div class="col-md-6 col-sm-6 contact-form1 ag">
-                        <h4>Email</h4>
-                        <input type="email" name="Email" placeholder="" required="">
-                    </div>
-                    <div class="clearfix"> </div>
-                    <div class="contact-me animated wow slideInUp">
-                        <h4>Message</h4>
-                        <textarea name="Message" placeholder="" required=""> </textarea>
-                    </div>
-                    <div class="contact-form">
-                        <input type="submit" value="Submit">
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d805196.5077734194!2d144.49270863101745!3d-37.97015423820711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad646b5d2ba4df7%3A0x4045675218ccd90!2sMelbourne+VIC%2C+Australia!5e0!3m2!1sen!2sin!4v1474020956974"
-            allowfullscreen></iframe>
-    </div>
-   <!--复用尾部-->
-    <div id="footer"></div>
+						</p>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
 
-    <!-- js-scripts -->
-    <!-- js -->
-    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
-    <!-- Necessary-JavaScript-File-For-Bootstrap -->
-    <!-- //js -->
-    <!-- Baneer-js -->
-    <script src="js/responsiveslides.min.js"></script>
-    <script>
-        $(function() {
-            $("#slider").responsiveSlides({
-                auto: true,
-                pager: false,
-                nav: true,
-                speed: 1000,
-                namespace: "callbacks",
-                before: function() {
-                    $('.events').append("<li>before event fired.</li>");
-                },
-                after: function() {
-                    $('.events').append("<li>after event fired.</li>");
-                }
-            });
-            //复用头部JS
-            $("#header").load("/toHeader?value=setup");
-            //复用尾部JS
-            $("#footer").load("common/footer.html");
-        });
-    </script>
-    <!-- //Baneer-js -->
-    <!-- start-smoth-scrolling -->
-    <script type="text/javascript" src="js/move-top.js"></script>
-    <script type="text/javascript" src="js/easing.js"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $(".scroll").click(function(event) {
-                event.preventDefault();
-                $('html,body').animate({
-                    scrollTop: $(this.hash).offset().top
-                }, 1000);
-            });
-        });
-    </script>
-    <!-- start-smoth-scrolling -->
-    <!-- Progressive-Effects-Animation-JavaScript -->
-    <script type="text/javascript" src="js/numscroller-1.0.js"></script>
-    <!-- //Progressive-Effects-Animation-JavaScript -->
 
-    <!-- //js-scripts -->
+			<!-- Button trigger modal -->
+			<button type="button" class="btn btn-primary btn-lg"
+				data-toggle="modal" data-target="#pwdModal">设置登陆密码</button>
+			<br> <br> <br> <br> <br> <br>
+			<!-- <button id="querycard" type="button"
+							class="btn btn-primary btn-lg" data-toggle="modal"
+							data-target="#maxModal">设置最大额度</button>  -->
+			<!-- Modal -->
+			<form action="/update" method="post" id="edu">
+				<table class="table table-bordered">
+					<tr>
+						<th>卡号</th>
+						<th>额度</th>
+					</tr>
+	
+					<tr>
+						<!-- <td th:text="${card.id_card}" th:name="id_card" th:value="${card.id_card}"></td>
+						<td><input type="number" name="max_price" class="max_price"></td> -->
+						<td>
+							<select name="id_card" >
+								<option th:each="card:${cards}" th:value="${card.id_card}" th:text="${card.id_card}"></option>
+							</select>					
+						</td>
+						<td><input type="number" id="max_price" name="max_price"></td>
+					</tr>
+
+				</table>
+				<button id="querycard" type="submit" class="btn btn-primary btn-lg"
+					>设置最大额度</button>
+			</form>
+			<div class="modal fade" id="pwdModal" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">设置密码</h4>
+						</div>
+						<form id="pwdform" action="setupPassword" method="post">
+							<div class="modal-body">
+
+								<div class="form-group">
+									<label for="recipient-name" class="control-label">旧密码</label> <input
+										type="password" class="form-control" id="password"
+										name="password">
+								</div>
+								<div class="form-group">
+									<label for="message-text" class="control-label">新密码</label> <input
+										type="password" class="form-control" id="password1"
+										name="password1">
+								</div>
+								<div class="form-group">
+									<label for="message-text" class="control-label">确认密码</label> <input
+										type="password" class="form-control" id="password2"
+										name="password2">
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">关闭</button>
+								<button type="submit" class="btn btn-primary">保存设置</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- Modal -->
+			<div class="modal fade" id="maxModal" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">设置额度</h4>
+						</div>
+						<div class="modal-body">
+
+							<form>
+								<div class="form-group">
+
+									<label for="recipient-name" class="control-label">额度</label> <input
+										type="text" class="form-control" id="recipient-name">
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">关闭</button>
+							<button type="submit" class="btn btn-primary">保存设置</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <div class="map">
+		<iframe
+			src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d805196.5077734194!2d144.49270863101745!3d-37.97015423820711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad646b5d2ba4df7%3A0x4045675218ccd90!2sMelbourne+VIC%2C+Australia!5e0!3m2!1sen!2sin!4v1474020956974"
+			allowfullscreen></iframe>
+	</div> -->
+	<!--复用尾部-->
+	<div id="footer"></div>
 </body>
 
 </html>

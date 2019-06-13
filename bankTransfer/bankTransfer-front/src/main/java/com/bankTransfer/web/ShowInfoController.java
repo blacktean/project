@@ -10,15 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bankTransfer.pojo.Card;
-import com.bankTransfer.pojo.JsonRate;
 import com.bankTransfer.service.IBaseService;
-import com.bankTransfer.util.APIUtils;
 import com.bankTransfer.util.JsonResult;
 import com.bankTransfer.util.UserContext;
 import com.google.code.kaptcha.impl.DefaultKaptcha;

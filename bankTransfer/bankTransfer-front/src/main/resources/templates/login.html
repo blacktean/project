@@ -120,7 +120,7 @@
 							//跳转到个人中心
 							//alert("登录成功");
 							$.messager.confirm("友情提示","登录成功",function(){
-								location.href="index.html";
+								location.href="/problemList";
 							});
 						}else{
 							$.messager.alert("友情提示",rs.msg);
@@ -296,7 +296,7 @@
                                         <form action="/logininfo" method="get" id="loginForm">
                                             <input type="text" class="form-control" required="required" placeholder="用户名/手机号" id="login_number" name="login_number"/>
                                             <input type="password" class="form-control" required="required" placeholder="密码" id="login_password" name="login_password"/>
-                                            <input type="submit" value="登录" class="btn btn-success" id="login_btn" />
+                                            <input type="submit" value="登录" class="btn btn-success" id="login_btn" style="position: absolute;right:240px;"/>
                                         </form>
                                         <span id="rememberOrfindPwd">
 									<span>
@@ -307,10 +307,10 @@
 									</span>
                                         <a href="#">
                                             <span style="color:#000000">
-										忘记密码
+										忘记密码 </span>
 										</a>
 									</span>
-                                            </span>
+                                           
 
                                     </div>
 
@@ -319,7 +319,7 @@
                                     </div>
                                     <div style="width:330px;height:100px;border-bottom: 1px solid #FFFFFF;">
                                         <br />
-                                        <button id="login_QQ" type="button" class="btn btn-info">
+                                        <button id="login_QQ" type="button" class="btn btn-info" >
 									<img src="images/qq32.png" style="width:20px;margin-top:-4px;" />&emsp;QQ登录
 								</button>
                                         <button id="login_WB" type="button" class="btn btn-danger">
@@ -346,7 +346,7 @@
                                             <input type="text" class="form-control" required="required" placeholder="手机号" name="regist_phone" id="regist_phone" />
                                             <input type="text" class="form-control" required="required" placeholder="验证码" name="regist_vcode" id="regist_vcode"  />
                                             <!--<button id="getVCode" type="button" class="btn btn-success" >获取验证码</button>--><!-- onclick="sendCode(this)" -->
-                                            <input id="getVCode" type="button" class="btn btn-success" required="required" value="点击发送验证码"  onclick="sendCode(this)" />
+                                            <input id="getVCode" type="button" class="btn btn-success" required="required" value="点击发送验证码"  onclick="sendCode(this)"/>
 
                                         </div>
                                         <input type="submit" value="注册" class="btn btn-success" id="regist_btn" />

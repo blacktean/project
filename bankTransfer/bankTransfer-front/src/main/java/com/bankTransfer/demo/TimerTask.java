@@ -15,7 +15,7 @@ import com.bankTransfer.util.HandleTransfer;
 public class TimerTask {
 	@Autowired
 	private HandleTransfer handleTransfer;
-	@Scheduled(cron="0 0 * * * * *")    // 间隔30秒执行
+	@Scheduled(cron="0 0 * * * ?")    // 间隔一小时执行
     public void test(){
         try {
         	handleTransfer.Handle();

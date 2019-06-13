@@ -37,4 +37,13 @@ public class AccountApplicationServiceImpl implements IAccountApplicationService
 		accountApplicationMapper.addUser(user);
 	}
 
+	@Override
+	public boolean queryCardById(Integer id) {
+		int rows = accountApplicationMapper.queryCardById(id);
+		if(rows>0) {
+			return true;
+		}
+		return false;
+	}
+
 }

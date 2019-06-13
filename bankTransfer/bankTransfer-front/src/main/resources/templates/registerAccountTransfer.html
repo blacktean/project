@@ -127,6 +127,10 @@
 				}
 			},
 			submitHandler : function(form) {
+				if ($("#receivingAccount").val() == $("#paymentAccount").val()) {
+					alert("转入卡号与转出卡号不能一样!!");
+					return;
+				}
 				checkBalance();
 			},
 			errorClass : "text-danger",
@@ -223,15 +227,6 @@
 				}
 			});
 		});
-
-		$("#registerAccountTransferForm").submit(function() {
-			if ($("#receivingAccount").val() == $("#paymentAccount").val()) {
-				alert("转入卡号与转出卡号不能一样!!");
-				return false;
-			}
-
-		});
-		
 		
 	});
 </script>
@@ -277,16 +272,6 @@
 								method="POST" id="registerAccountTransferForm">
 								<input type="hidden" id="test"/>
 								<div class="form-group">
-									<label for="paymentAccount" class="col-sm-2 control-label">转出卡号</label>
-									<div class="col-sm-8">
-										<select name="paymentAccount" id="paymentAccount"
-											class="form-control ">
-											<option th:each="card:${cards}" th:value="${card.id_card}"
-												th:text="${card.id_card}"></option>
-										</select>
-									</div>
-								</div>
-								<div class="form-group">
 									<label for="receivingAccount" class="col-sm-2 control-label">转入卡号</label>
 									<div class="col-sm-8">
 										<select name="receivingAccount" id="receivingAccount"
@@ -296,6 +281,17 @@
 										</select>
 									</div>									
 								</div>
+								<div class="form-group">
+									<label for="paymentAccount" class="col-sm-2 control-label">转出卡号</label>
+									<div class="col-sm-8">
+										<select name="paymentAccount" id="paymentAccount"
+											class="form-control ">
+											<option th:each="card:${cards}" th:value="${card.id_card}"
+												th:text="${card.id_card}"></option>
+										</select>
+									</div>
+								</div>
+								
 								<div class="form-group">
 									<label for="balance" class="col-sm-2 control-label">余额</label>
 									<div class="col-sm-6">

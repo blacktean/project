@@ -2,6 +2,8 @@ package com.bankTransfer.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.CardType;
+import com.bankTransfer.pojo.Contacts;
 import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.Document;
 import com.bankTransfer.pojo.JsonCountry;
 import com.bankTransfer.service.IBaseService;
 import com.bankTransfer.util.APIUtils;
+import com.bankTransfer.util.RequireIdentity;
 import com.bankTransfer.util.RequireLogin;
 import com.bankTransfer.util.UserContext;
 
@@ -25,20 +29,22 @@ import com.bankTransfer.util.UserContext;
  *
  */
 @Controller
-
 public class PageController { 
 	@Autowired
 	private IBaseService baseService;
 	
 	@GetMapping("toBatchTransfer")
 	@RequireLogin
+	@RequireIdentity
 	public String toBatchTransfer(Model model) {
-		List<Card> cards = baseService.queryCardByUserId(UserContext.getCurrent().getId());
+		Integer id = UserContext.getCurrent().getId();
+		List<Card> cards = baseService.queryCardByUserId(id);
 		model.addAttribute("cards", cards);
 		return "batchTransfer";
 	}
 	@GetMapping("toCrossBorderTransfer")
 	@RequireLogin
+	@RequireIdentity
 	public String toCrossBorderTransfer(Model model) {
 		List<Currency> currencys = baseService.queryCurrency();
 		List<Card> cards = baseService.queryCardByUserId(UserContext.getCurrent().getId());
@@ -55,6 +61,7 @@ public class PageController {
 	 
 	@GetMapping("toRegisterAccountTransfer")
 	@RequireLogin
+	@RequireIdentity
 	public String toRegisterAccountTransfer(Model model) {
 		List<Card> cards = baseService.queryCardByUserId(UserContext.getCurrent().getId());
 		List<Document> documents = baseService.queryDocument();
@@ -65,22 +72,39 @@ public class PageController {
 	
 	@GetMapping("toSingleTransfer")
 	@RequireLogin
+	@RequireIdentity
 	public String toSingleTransfer(Model model) {
 		List<Card> cards = baseService.queryCardByUserId(UserContext.getCurrent().getId());
 		List<CardType> cardTypes = baseService.queryCardType();
 		model.addAttribute("cardTypes", cardTypes);
 		model.addAttribute("cards", cards);
+		Contacts contacts = baseService.queryContacts(UserContext.getCurrent().getId());
+		model.addAttribute("contacts", contacts);
 		return "singleTransfer";
 	}
 	
-	@GetMapping("toHeader")
-	public String toHeader(String value,Model model) {
+	@RequestMapping("toHeader")
+	public String toHeader(String value,Model model,HttpSession session) {
 		model.addAttribute("name", value);
+		//session.setAttribute("Weathernow", APIUtils.getWeather());
+		//session.setAttribute("Countrynow",APIUtils.getJsonCountry());
 		return "common/header";
 	}
 	
 	@RequestMapping("login")
 	public String toLogin() {
 		return "login";
+	}
+	
+	
+	//注销
+	@RequestMapping("/LoginOut")
+	public String LoginOut(HttpSession session){
+		System.err.println(session.getAttribute("logininfo"));
+		//销毁session
+		session.invalidate();
+		
+		return "redirect:/login";
+		
 	}
 }

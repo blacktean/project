@@ -3,14 +3,15 @@ package com.bankTransfer.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.CardType;
+import com.bankTransfer.pojo.Contacts;
 import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.Document;
-import com.bankTransfer.pojo.Logininfo;
+import com.bankTransfer.pojo.User;
 
-import io.lettuce.core.dynamic.annotation.Param;
 @Mapper
 public interface BaseMapper {
 
@@ -49,4 +50,16 @@ public interface BaseMapper {
 	 * @param password
 	 */
 	Card queryCardByIdCardAndPassword(@Param("id_card")String id_card,@Param("password")String password);
+	/**
+	 * 根据id查询user
+	 * @param id
+	 * @return
+	 */
+	User queryUserById(@Param("id")Integer id);
+	/**
+	 * 查询用户的联系人
+	 * @param id
+	 * @return
+	 */
+	Contacts queryContacts(@Param("id")Integer id);
 }

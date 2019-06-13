@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.bankTransfer.pojo.Card;
 
-import io.lettuce.core.dynamic.annotation.Param;
-
 public interface ICardService {
 	
 	/**

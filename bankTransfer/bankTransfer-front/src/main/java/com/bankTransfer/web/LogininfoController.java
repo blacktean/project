@@ -38,14 +38,14 @@ public class LogininfoController {
 
 	@RequestMapping("/logininfo")
 	@ResponseBody
-	public JsonResult Logininfo(String login_number, String login_password) {
+	public JsonResult Logininfo(String login_number, String login_password,HttpSession session) {
 		//System.err.println("进来了");
 		//System.err.println(login_number + "" + login_password);
 		JsonResult js = new JsonResult();
 		boolean isOk;
 		try {
 			isOk = logininfoService.queryByUsernameOrPhoneAndPassword(login_number, login_password, 0);
-
+			
 			if (!isOk) {
 				js.setSuccess(false);
 				js.setMsg("用户名或密码错误");
@@ -58,23 +58,9 @@ public class LogininfoController {
 
 		return js;
 	}
+
 	
-	//注销
-	@RequestMapping("/LoginOut")
-	public String LoginOut(HttpSession session){
-		System.err.println(session.getAttribute("logininfo"));
-		//销毁session
-		session.invalidate();
-		
-		return "login.html";
-		
-	}
 	
-		//预加载
-		@RequestMapping("/header")
-		public String Header(HttpSession session){			
-			return "common/header";		
-		}
 	/**
 	 * 分页查询例子
 	 * @param page
