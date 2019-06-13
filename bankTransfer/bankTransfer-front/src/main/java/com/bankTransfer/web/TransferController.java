@@ -18,11 +18,12 @@ import com.bankTransfer.service.ITransferService;
 import com.bankTransfer.util.APIUtils;
 import com.bankTransfer.util.CalculationRate;
 import com.bankTransfer.util.JsonResult;
+import com.bankTransfer.util.RequireIdentity;
 import com.bankTransfer.util.UserContext;
 
 @RestController
 public class TransferController {
-
+	
 	@Autowired
 	private ITransferService transferService;
 

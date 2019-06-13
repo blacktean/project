@@ -6,6 +6,7 @@ import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.CardType;
 import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.Document;
+import com.bankTransfer.pojo.User;
 
 public interface IBaseService {
 
@@ -44,4 +45,10 @@ public interface IBaseService {
 	 * @param password
 	 */
 	void queryCardByIdCardAndPassword(String id_card, String password);
+	/**
+	 * 根据logininfo的id查询user
+	 * @param id
+	 * @return
+	 */
+	User checkUser(Integer id);
 }

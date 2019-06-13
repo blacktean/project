@@ -23,7 +23,7 @@
 <title>信息管理系统</title>
 <script type="text/javascript">
 	$(document).ready(function() {
-		//显示日期      
+			//显示日期      
 	       $("#start,#end").datetimepicker({
 	    	   format: 'yyyy-mm-dd',
 	    	   language:'zh-CN',
@@ -35,50 +35,49 @@
 	      	 $("#pi").val($(this).attr("data"));
 	      	 $("#searchForm").submit();
 	       })
-	       
-	       /**编辑   **/
-	     
 	});
 </script>
 <style>
 .alt td {
 	background: black !important;
 }
+#searchForm{position: relative;left: 10%;}
+#jilu{position: relative;}
 </style>
 </head>
 <body>
-			<form action="/AccountAudit" name="searchForm" id="searchForm" class="form-inline"
-				method="post">
+	<div style="Margin:10px;">
+		<form action="/AccountAudit" name="searchForm" id="searchForm" class="form-inline" method="post">
+				
 				<div class="form-group">
 					<label>证件号码</label> <input type="text" class="form-control card_number"
 						name="card_number" id="card_number" th:value="${session.condition.card_number}">
 				</div>
 				<div class="form-group">
-					<label>时间范围</label> <input type="text" class="form-control beginDate"
+					<label>开始时间</label> <input type="text" class="form-control beginDate"
 						name="beginDate" id="start" readonly="readonly" th:value="${#dates.format(session.condition.startTime,'yyyy-MM-dd')}" />
 				</div>
 				<div class="form-group">
-					<label></label> <input type="text" class="form-control endDate"
+					<label>结束时间</label> <input type="text" class="form-control endDate"
 						id="end" readonly="readonly" name="endDate" th:value="${#dates.format(session.condition.endTime,'yyyy-MM-dd')}" />
 				</div>
 				<div class="form-group">
 					<label>状态</label> <select class="form-control" name="state"
 						id="state">
 						<option value="-1">全部</option>					
-						<option value="0" th:selected="${session.condition.state eq 0}">审核通过</option>	
+						<option value="0" th:selected="${session.condition.state eq 0}">已审核</option>	
 						<option value="1" th:selected="${session.condition.state eq 1}">未审核</option>	
-						<option value="2" th:selected="${session.condition.state eq 2}">已注销</option>		
-						<option value="3" th:selected="${session.condition.state eq 3}">审核失败</option>				
+						<option value="2" th:selected="${session.condition.state eq 2}">已注销</option>						
 					</select>
 				</div>
 				<div class="form-group">
 					<!-- 写一个隐藏域: -->
-					<input type="hidden" name="page" value="1" id="pi" />
-					<button type="submit" class="btn btn-success">查询</button>
-		
-				</div>
-			</form>
-		
+					<input type="hidden" name="page" value="1" id="pi" />&nbsp;&nbsp;
+					<button type="submit" class="btn btn-success">查询</button>		
+				</div>		
+		</form>
+	
+	</div>	
 			<table class="table" cellspacing="0" cellpadding="0" width="100%"
 				align="center" border="0">
 				<tr>
@@ -112,18 +111,15 @@
 					<td th:text="${user.supporting_population}"></td>
 					<td th:text="${user.work_unit}"></td>
 					<td th:if="${user.create_bank} eq 41" th:text="乔治银行"></td>
-					<td th:text="${#dates.format(user.applyTime,'yyyy-MM-dd HH:mm:ss')}"></td>
-					<td th:if="${user.state} eq 0" th:text="审核通过"></td>
+					<td th:text="${#dates.format(user.applyTime,'yyyy-MM-dd hh:mm:ss')}"></td>
+					<td th:if="${user.state} eq 0" th:text="已审核"></td>
 					<td th:if="${user.state} eq 1" th:text="未审核"></td>
 					<td th:if="${user.state} eq 2" th:text="已注销"></td>
-					<td th:if="${user.state} eq 3" th:text="审核失败"></td>
-					<td><a th:href="@{'/editAccount?id='+${user.id}}">编辑</a> <a th:href="@{'/delAccount?id='+${user.id}+'&user_id='+${user.user_id}}" onClick="return confirm('确定要删除这条记录吗？');">删除</a></td>
+					<td><a href="/editAccount?id=${user.id}" class="edit">编辑</a> <a href="/delAccount?id=${user.id}">删除</a></td>
 				</tr>
 			</table>
-			
-			<!-- 页码 -->
 		<div style="text-align: center;">
-		<span style="font-size: 20px; position:absolute; left:400px; bottom:495px;">一共:<span th:text="${session.page.total}"></span>条记录</span>
+		
 			<ul class="pagination">
 											
 				<li th:if="${session.page.pageNum eq 1}" th:class="disabled"><a href="#">首页</a></li>
@@ -140,7 +136,10 @@
 				<li th:if="${session.page.pageNum eq session.page.pages}" th:class="disabled"><a href="#">尾页</a></li>	
 				<li th:if="${session.page.pageNum ne session.page.pages}"	><a href="javascript:void(0);" class="jump" th:data="${session.page.pages }">尾页</a></li>
 			</ul>
+			<div id="jilu">
+				<span >一共:<span th:text="${session.page.total}"></span>条记录</span>
+			</div>
 		</div>
-		
+
 </body>
 </html>
