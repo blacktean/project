@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import com.bankTransfer.pojo.VerifyCodeVo;
 import com.bankTransfer.service.IVerifyCodeService;
 import com.bankTransfer.util.DateUtil;
+import com.bankTransfer.util.MsgUtil;
 import com.bankTransfer.util.SystemConst;
 import com.bankTransfer.util.UserContext;
-import com.bankTransfer.util.VerifyCodeUtil;
 
 @Service
 public class VerifyCodeServiceImpl implements IVerifyCodeService {
@@ -21,7 +21,13 @@ public class VerifyCodeServiceImpl implements IVerifyCodeService {
 	public void sendVerifyCode(String phoneNumber) {
 		VerifyCodeVo vo = UserContext.getCurrentVerifyCodeVo();
 		if(vo==null||DateUtil.secondBetwen(vo.getLastTime(), new Date())>30) {
-			VerifyCodeUtil.sendMsg(phoneNumber);
+			MsgUtil.mobileQuery(phoneNumber);
+//			vo.setPhoneNumber(phoneNumber);
+//			System.err.println(">>>>>>>>>");
+//			String ll= (String) UserContext.getHttpSession().getAttribute("mathCode");
+//			vo.setLastTime(new Date());
+//			vo.setVerifyCode(ll);
+			System.err.println(UserContext.getCurrentVerifyCodeVo());
 		}else {
 			throw new RuntimeException("操作过于频繁");
 		}
