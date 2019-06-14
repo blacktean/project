@@ -46,6 +46,15 @@
          $("#header").load("/toHeader?value=accountapplication");
          //复用尾部JS
          $("#footer").load("common/footer.html");
+         
+       //显示日期      
+	       $("#work_time,#birthday").datetimepicker({
+	    	   format: 'yyyy-mm-dd',
+	    	   language:'zh-CN',
+	    	   minView:2
+	           //endDate:new Date()
+	       });
+       
 	       //表单验证
 	 		$("#accountApplicationForm").validate({
 	 			rules : {
@@ -103,7 +112,6 @@
 								});
 								
 							}else{
-								alert(data.msg)
 								 $.messager.popup(data.msg);
 							}
 						},
@@ -217,7 +225,7 @@
                         <div class="form-group">
 							<label for="birthday" class="col-sm-2 control-label">出生年月</label>
 							<div class="col-sm-6">
-								<input type="date" class="form-control" id="birthday" name="birthday">
+								<input type="text" class="form-control" id="birthday" name="birthday" readonly="readonly">
 							</div>
 						</div>
 						<div class="form-group">
@@ -282,7 +290,7 @@
 						<div class="form-group">
 							<label for="work_time" class="col-sm-2 control-label">进入单位时间</label>
 							<div class="col-sm-6">
-								<input type="date" class="form-control" id="work_time" name="work_time">
+								<input type="text" class="form-control" id="work_time" name="work_time" readonly="readonly">
 							</div>
 						</div>						
 						<div class="form-group ">

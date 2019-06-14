@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
 <head>
 <title>我的账户</title>
@@ -24,13 +24,11 @@
 
         //控制按钮跳转
         function jump1(){
-       	 window.location.href="http://localhost:8888/toSingleTransfer";
+       	 window.location.href="/toSingleTransfer";
        	}
-        function jump2(){
-          	 window.location.href="http://localhost:8888/kaihuwangdian.html";
-          	}
+        
         function jump3(){
-         	 window.location.href="http://localhost:8888/mingxi.html";
+         	 window.location.href="/transactionList";
          	}
         
         $(function(){
@@ -77,7 +75,7 @@
     							};
     							$.messager.confirm("提示","新增银行卡成功",function(){
     								//跳转到我的账户页面
-    								location.href="http://localhost:8888/templates/myaccount.html";
+    								location.href="/queryUserOne";
     							});
     							
     						}else{
@@ -95,7 +93,15 @@
     				$(element).closest("div.form-group").removeClass("has-error");
     			}
     		});
+        	
+    		$(".kaihuwangdian").click(function(){
+        		location.href="/showIOpenDot?id_card="+$(this).attr("title");
+        	});
+    		$("#gengduo").click(function(){
+        		location.href="/queryCardByIdCardAll?id_card="+$(this).attr("title");
+        	});
         });
+        
 </script>
  
 <!--// Meta tag Keywords -->
@@ -145,9 +151,10 @@
 				<span>我</span>的账<span>户</span>
 			</h3>
 			<span class="w3l-head">账户资料</span>
-			<table class="table table-striped">
+			<table class="table" cellspacing="0" cellpadding="0" width="100%"
+				align="center" border="0">
 				<tr>
-					<td>id</td>
+					<!-- <td>id</td> -->
 					<td>用户名</td>
 					<td>用户真实姓名</td>
 					<td>证件类型</td>
@@ -172,29 +179,30 @@
 					<td>用户状态</td>
 				</tr>
 				<tr>
-					<td th:text="${user.id}"></td>
-					<td th:text="${user.user_name}"></td>
-					<td th:text="${user.real_name}"></td>
-					<td th:text="${user.card_type}"></td>
-					<td th:text="${user.card_number}"></td>
-					<td th:text="${user.xingming}"></td>
-					<td th:text="${user.reg_type}"></td>
-					<td th:text="${user.grade}"></td>
-					<td th:text="${user.english_name}"></td>
-					<td th:text="${user.sex}"></td>
-					<td th:text="${user.nation}"></td>
-					<td th:text="${user.nationality}"></td>
-					<td th:text="${user.birthday}"></td>
-					<td th:text="${user.marital_status}"></td>
-					<td th:text="${user.edu_level}"></td>
-					<td th:text="${user.profession}"></td>
-					<td th:text="${user.industry}"></td>
-					<td th:text="${user.technical_title}"></td>
-					<td th:text="${user.adminstrative_level}"></td>
-					<td th:text="${user.supporting_population}"></td>
-					<td th:text="${user.work_unit}"></td>
-					<td th:text="${user.work_time}"></td>
-					<td th:text="${user.state}"></td>
+					<!-- <td th:text="${session.user.id}"></td> -->
+					<td th:text="${session.user.user_name}"></td>
+					<td th:text="${session.user.real_name}"></td>
+					<td th:text="${session.user.card_type == '2'}?'护照':'身份证'"></td>
+					<td th:text="${session.user.card_number}"></td>
+					<td th:text="${session.user.xingming}"></td>
+					<td th:text="${session.user.reg_type}"></td>
+					<td th:text="${session.user.grade == 0}?'个人':'企业'"></td>
+					<td th:text="${session.user.english_name}"></td>
+					<td th:text="${session.user.sex == 0}?'女':'男'"></td>
+					<td th:text="${session.user.nation}"></td>
+					<td th:text="${session.user.nationality}"></td>
+					<td th:text="${#dates.format(session.user.birthday,'yyyy-MM-dd')}"></td>
+					<td th:text="${session.user.marital_status}"></td>
+					<td th:text="${session.user.edu_level}"></td>
+					<td th:text="${session.user.profession}"></td>
+					<td th:text="${session.user.industry}"></td>
+					<td th:text="${session.user.technical_title}"></td>
+					<td th:text="${session.user.adminstrative_level}"></td>
+					<td th:text="${session.user.supporting_population}"></td>
+					<td th:text="${session.user.work_unit}"></td>
+					<td th:text="${#dates.format(session.user.work_time,'yyyy-MM-dd')}"></td>
+					<td th:text="正常"></td>
+					<td><a href="/updateUserOne" class="btn btn-primary">编辑资料</a></td>
 				</tr>
 			</table>
 		</div>
@@ -244,35 +252,41 @@
 			<span class="w3l-head">银行卡资料</span>
 			<table class="table table-striped">
 				<tr>
-					<td>id</td>
+					<!-- <td>id</td> -->
 					<td>银行卡号</td>
 					<td>开户地点</td>
 					<td>币种</td>
 					<td>余额</td>
 					<td>可用余额</td>
 					<td>开户网点</td>
+					<td>主副卡</td>
+					<td>操作</td>
 				</tr>
-				<tr th:each="card:${cards}">
-					<td th:text="${card.id}"></td>
+				<tr th:each="card:${session.cards}">
+					<!-- <td th:text="${card.id}"></td> -->
 					<td th:text="${card.id_card}"></td>
 					<td th:text="${card.start_place}"></td>
 					<td th:text="${card.currency}"></td>
 					<td th:text="${card.balance}"></td>
 					<td th:text="${card.available_balance}"></td>
-					<td th:text="${card.start_place_id}"></td>
-					 <td><a href="javascript::void(0)" id="kaihuwangdian" title="${id_card}">开户网点</a>
+					<td th:text="${card.start_place_id}"></td>				
+					<td th:text="${card.major_card == '0'}?'主卡':'副卡'"></td>
+					 <td><a href="javascript::" class="kaihuwangdian" th:title="${card.id_card}">开户网点</a>
+					 
 					&nbsp;&nbsp;
-					 <a href="javascript::void(0)" id="gengduo" title="${id_card}">更多</a></td>
+					 <a href="javascript::" id="gengduo" th:title="${card.id_card}">更多</a></td>
 					<!--  <a href="javascript::void(0)" id="xx" title="${id_card}">xx</a>  -->
-					 <!--location.href="/queryCardByIdCard?id_card=" +  title-->
-					<!--  /queryCardByIdCard?id_card=${card.id_card} -->
+					 <!--location.href="/showIOpenDot?id_card=" +  title-->
+					<!--  /showIOpenDot?id_card=${card.id_card} -->
 				</tr>
 			</table>
-			<br /> <input type="button" value="汇款" onclick=javascrtpt:jump1()>
-			<!-- <input type="button" value="开户网点" onclick=javascrtpt:jump2()> -->
-			<input type="button" value="明细" onclick=javascrtpt:jump3()>
+			<br /> <input type="button" value="汇款" onclick='location.href="/toSingleTransfer"'/>
+			<!-- <input type="button" value="开户网点" onclick=javascript:jump2()> -->
+			<input type="button" value="明细" onclick='location.href="/transactionList"'/>
 		</div>
 	</div>
+
+
 	<!-- //what we do -->
 	<!-- 模带框 -->
 	<div class="container">
@@ -280,8 +294,8 @@
 			data-target="#myModal">新增银行卡</button>
 		<!--  定义模态框触发器，此处为按钮触发  -->
 
-		<form method="post" action="#" class="form-horizontal" role="form"
-			id="myForm" onsubmit="return ">
+		<form method="post" action="/addCard" class="form-horizontal" role="form"
+			id="myForm" onsubmit="return">
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 				aria-labelledby="myModalLabel" aria-hidden="true">
 				<!--  定义模态框，过渡效果为淡入，id为myModal,tabindex=-1可以禁用使用tab切换，aria-labelledby用于引用模态框的标题，aria-hidden=true保持模态框在触发前窗口不可见  -->
@@ -300,7 +314,7 @@
 
 						<div class="modal-body">
 							<!--  模态框内容，我在此处添加一个表单 -->
-							<form class="form-horizontal" role="form" action="http://localhost:8888/addCard">				
+											
 								<div class="form-group">
 									<label for="start_place" class="col-sm-2 control-label">开户地</label>
 									<div class="col-sm-9">
@@ -312,8 +326,8 @@
 									<label for="currency" class="col-sm-2 control-label">货币</label>
 									<div class="col-sm-9">
 										<select name="currency" id="currency" class="form-control ">
-											<option th:each="currency:${currencys}"
-												th:value="${currency.money_name}"
+											<option th:each="currency:${session.currencys}"
+												th:value="${currency.id}"
 												th:text="${currency.money_name}" th:select="人民币"></option>
 										</select>
 									</div>
@@ -340,7 +354,7 @@
 				</div>
 			</div>
 			<!-- /.modal -->
-		</form>
+	
 	</div>
 	<!--复用尾部-->
 	<div id="footer"></div>

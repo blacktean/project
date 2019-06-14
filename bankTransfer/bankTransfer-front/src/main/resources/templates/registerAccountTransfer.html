@@ -157,7 +157,12 @@
 		});
 		//验证密码
 		$("#checkPassword").click(
+				
 				function() {
+					if ($("#codeTime").val() == "3") {
+						alert("银行卡已冻结,请联系管理员");
+						return;
+					}
 					$.ajax({
 						dataType : "json",
 						url : "/checkPassword?password=" + $("#password").val()
@@ -168,6 +173,7 @@
 									dataType : "json",
 									success : function(rs) {
 										if (rs.success) {
+											$.messager.alert("处理成功!!");
 											location.href = "index.html";
 										} else {
 											$.messager.alert("友情提示", rs.msg);
@@ -178,9 +184,7 @@
 								alert("密码错误!!请重新输入密码");
 								$("#codeTime").val(
 										parseInt($("#codeTime").val()) + 1);
-								if ($("#codeTime").val() == "3") {
-									alert("银行卡已冻结,请联系管理员");
-								}
+								
 							}
 						}
 

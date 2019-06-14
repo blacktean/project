@@ -6,7 +6,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import com.bankTransfer.pojo.TransactionCondition;
 import com.bankTransfer.pojo.TransferSingle_VO;
+import com.bankTransfer.pojo.User;
+import com.bankTransfer.pojo.UserCondition;
 
 @Repository
 public interface TransferMapper {
@@ -30,5 +33,11 @@ public interface TransferMapper {
 	List<TransferSingle_VO> queryTranferInfoByTransferMode();
 	
 	void changeTransferInfo(@Param("id") Integer id);
-
+	/**
+	   * 带条件分页查询所有交易记录
+	 * @param condition
+	 * @return
+	 */
+	List<TransferSingle_VO> queryTranferInfoAllByT_id(TransactionCondition condition);
+	
 }

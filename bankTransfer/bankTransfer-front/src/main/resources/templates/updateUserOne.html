@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>修改个人资料</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="" />
+	<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<script type="text/javascript" src="js/jquery.validate.js"></script>
+	<script type="text/javascript" src="js/jquery.bootstrap.min.js"></script>
+	<link rel="stylesheet" href="css/bootstrap-datetimepicker.css"></link>
+	<script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+	<script type="text/javascript" src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script type="text/javascript" src="js/messages_zh.js"></script>
+	<script type="text/javascript" src="js/jquery.form.js"></script>
+	<!--// Meta tag Keywords -->
+	<!-- css files -->
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<!-- Bootstrap-Core-CSS -->
+	<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+	<!-- Style-CSS -->
+	<link rel="stylesheet" href="css/font-awesome.css">
+</head>
+<style>
+	#box1{
+		width:550px;
+		height:1000px;
+		float:left;
+		border:1px red solid;
+		
+	}
+	#box2{
+		width:550px;
+		height:1000px;
+		float:right;
+		border:1px black solid;
+		
+	}
+</style>
+<script>
+     $(function() {       
+         //复用头部JS
+         $("#header").load("common/header.html");
+         //复用尾部JS
+         $("#footer").load("common/footer.html");
+	       //表单验证
+	 		$("#accountApplicationForm").validate({
+	 			rules : {
+	 				user_name : {
+	 					required : true
+	 				},	 				
+	 				xingming : {
+	 					required : true
+	 				},
+	 				profession : {
+	 					required : true
+	 				},
+	 				industry : {
+	 					required : true
+	 				},
+	 				technical_title : {
+	 					required : true
+	 				},
+	 				supporting_population : {
+	 					required : true
+	 				},
+	 				work_unit : {
+	 					required : true
+	 				}
+	 			},
+	 			messages : {
+	 				real_name : {
+	 					required : "请填写真实姓名"
+	 				},
+	 				
+	 				xingming : {
+	 					required : "非空"
+	 				},
+	 				profession : {
+	 					required : "非空"
+	 				},
+	 				industry : {
+	 					required : "非空"
+	 				},
+	 				technical_title : {
+	 					required : "非空"
+	 				},	 				
+	 				supporting_population : {
+	 					required : "非空"
+	 				},
+	 				work_unit : {
+	 					required : "非空"
+	 				}
+	 			},
+	 			submitHandler:function(form){
+					$("#accountApplicationForm").ajaxSubmit({
+						dataType:"json",
+						success:function(data){
+							if(data.success){
+								$.messager.model = {
+											ok:{ text: "关闭", classed: 'btn­default' },
+											cancel: { text: "取消", classed: 'btn­error' }
+								};
+								$.messager.confirm("提示","个人资料修改成功",function(){
+									//跳转到我的归集页面
+									location.href="/queryUserOne";
+								});
+								
+							}else{
+								//alert(data.msg)
+								 $.messager.popup(data.msg);
+							}
+						},
+						resetForm:true
+					});
+				},
+	 			errorClass : "text-danger",
+	 			highlight : function(element) {
+	 				$(element).closest("div.form-group").addClass("has-error");
+	 			},
+	 			unhighlight : function(element) {
+	 				$(element).closest("div.form-group").removeClass("has-error");
+	 			}
+	 		})
+     });
+ </script>
+<body>
+    <div id="header"></div>
+    <!-- banner 2 -->
+      <div>
+	<!-- class="banner-2-agile" -->
+	<img style="height: 420px; width:100%;" src="images/banner2.jpg" />
+	</div>
+    <div class="services-breadcrumb">
+        <div class="agile_inner_breadcrumb">
+            <ul class="w3_short">
+                <li>
+                    <a href="#">主页</a>
+                </li>
+                <li>修改个人资料</li>
+            </ul>
+        </div>
+    </div>
+    <!-- //banner 2 -->
+    <!-- about -->
+    <!-- Gallery -->
+    <div class="gallery">
+        <div class="container">
+            <h3 class="tittle">
+                <span>个</span>人资料<span>修改</span>
+            </h3>
+            <div class="gallery-w3lsrow"> 
+            	<form class="form-horizontal" action="/UpdateUserDetails" method="POST" id="accountApplicationForm">
+						<div class="form-group">
+							<label for="user_name" class="col-sm-2 control-label">用户名</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="user_name" name="user_name" th:value="${session.user.user_name}">
+							</div>
+						</div>
+						
+                        <div class="form-group">
+                            <label for="card_number" class="col-sm-2 control-label">证件号码</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="card_number" name="card_number" readonly="readonly" th:value="${session.user.card_number}">
+                            </div>
+                        </div>                           
+						<div class="form-group">
+							<label for="xingming" class="col-sm-2 control-label">姓名拼音</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="xingming" name="xingming" th:value="${session.user.xingming}">
+							</div>
+						</div>
+						<!-- 隐藏User_id -->
+						 <div class="form-group" style="display: none;">
+                            <label for="user_id" class="col-sm-2 control-label">user_id</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="user_id" name="user_id" readonly="readonly" th:value="${session.user.user_id}">
+                            </div>
+                        </div>  
+										
+            
+                        <div class="form-group">
+							<label for="birthday" class="col-sm-2 control-label">出生年月</label>
+							<div class="col-sm-6">
+								<input type="date" class="form-control" id="birthday" name="birthday" readonly="readonly" th:value="${#dates.format(session.user.birthday,'yyyy-MM-dd')}">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="marital_status" class="col-sm-2 control-label">婚姻状态</label>
+							<div class="col-sm-6">
+								<select name="marital_status" id="marital_status" class="form-control ">
+									<option value="已婚"  th:selected="${session.user.marital_status eq '已婚'}">已婚</option>
+									<option value="未婚"  th:selected="${session.user.marital_status eq '未婚'}">未婚</option>								
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="edu_level" class="col-sm-2 control-label">教育程度</label>
+							<div class="col-sm-6">
+								<select name="edu_level" id="edu_level" class="form-control ">
+									<option value="高中及以下"  th:selected="${session.user.edu_level eq '高中及以下'}">高中及以下</option>
+									<option value="大专"   th:selected="${session.user.edu_level eq '大专'}">大专</option>
+									<option value="本科 "  th:selected="${session.user.edu_level eq '本科'}">本科</option>
+									<option value="研究生"  th:selected="${session.user.edu_level eq '研究生'}">研究生</option>
+									<option value="博士及以上"  th:selected="${session.user.edu_level eq '博士及以上'}">博士及以上</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="profession" class="col-sm-2 control-label">职业</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="profession" name="profession" th:value="${session.user.profession}">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="industry" class="col-sm-2 control-label">所属行业</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="industry" name="industry" th:value="${session.user.industry}" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="technical_title" class="col-sm-2 control-label">技术职称</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="technical_title" name="technical_title" th:value="${session.user.technical_title}">
+							</div>
+						</div>			
+						<div class="form-group">
+							<label for="supporting_population" class="col-sm-2 control-label">供养人口</label>
+							<div class="col-sm-6">
+								<input type="number" class="form-control" id="supporting_population" name="supporting_population" th:value="${session.user.supporting_population}">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="work_unit" class="col-sm-2 control-label">工作单位</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="work_unit" name="work_unit" th:value="${session.user.work_unit}">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="work_time" class="col-sm-2 control-label">进入单位时间</label>
+							<div class="col-sm-6">
+								<input type="date" class="form-control" id="work_time" name="work_time" th:value="${#dates.format(session.user.work_time,'yyyy-MM-dd')}" readonly="readonly">
+							</div>
+						</div>						
+						<div class="form-group ">
+							<div class="col-sm-offset-8 col-sm-10 ">
+								<button type="submit" class="btn btn-default ">确认提交</button>
+							</div>
+						</div>						
+					</form>
+            	</div>
+          </div>
+    </div>
+    <!-- //gallery -->
+    <!--复用尾部-->
+    <div id="footer"></div>
+    
+
+</body>
+
+</html>

@@ -134,7 +134,7 @@
 			});
 		});
 
-		
+		 $("#paymentAccount").change();
 		//查询余额是否充足
 		/* $("#singleTransferForm").submit(function(){
 			checkBalance();
@@ -160,6 +160,10 @@
 		//验证密码
 		$("#checkPassword").click(
 				function() {
+					if ($("#codeTime").val() == "3") {
+						$.messager.alert("银行卡已冻结,请联系管理员");
+						return;
+					}
 					$.ajax({
 						dataType : "json",
 						url : "/checkPassword?password=" + $("#password").val()
@@ -170,6 +174,7 @@
 									dataType : "json",
 									success : function(rs) {
 										if (rs.success) {
+											alert("提交成功!!!");
 											location.href = "index.html";
 										} else {
 											$.messager.alert("友情提示", rs.msg);
@@ -177,12 +182,11 @@
 									}
 								});
 							} else {
-								alert("密码错误!!请重新输入密码");
+								
+								$.messager.alert("密码错误!!请重新输入密码");
 								$("#codeTime").val(
 										parseInt($("#codeTime").val()) + 1);
-								if ($("#codeTime").val() == "3") {
-									alert("银行卡已冻结,请联系管理员");
-								}
+								
 							}
 						}
 
@@ -261,7 +265,7 @@
 								<div class="form-group">
 									<label for="balance" class="col-sm-2 control-label">余额</label>
 									<div class="col-sm-6">
-										<input type="text" class="form-control" id="balance"
+										<input type="text" class="form-control" id="balance" readonly="readonly"
 											name="balance" th:value="${cards[1].balance}">
 
 									</div>

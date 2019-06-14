@@ -17,7 +17,7 @@ public interface ICardService {
 	 * @param user_id
 	 * @return 
 	 */
-	public void addCard(String id_card,String start_place,String currency,String password,String user_id);
+	public void addCard(Card card);
 	/**
 	 * 通过id_card查到对应的银行卡卡号的card
 	 * @param user_id

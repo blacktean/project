@@ -1,13 +1,25 @@
 package com.bankTransfer.web;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bankTransfer.pojo.JsonRate;
+import com.bankTransfer.pojo.TransactionCondition;
 import com.bankTransfer.pojo.TransactionState;
 import com.bankTransfer.pojo.TransferBatch_VO;
 import com.bankTransfer.pojo.TransferCrossBorder_VO;
@@ -17,16 +29,20 @@ import com.bankTransfer.pojo.UserVo;
 import com.bankTransfer.service.ITransferService;
 import com.bankTransfer.util.APIUtils;
 import com.bankTransfer.util.CalculationRate;
+import com.bankTransfer.util.DateHelpher;
 import com.bankTransfer.util.JsonResult;
 import com.bankTransfer.util.UserContext;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
-@RestController
+@Controller
 public class TransferController {
 	
 	@Autowired
 	private ITransferService transferService;
 
 	@PostMapping("singleTransfer")
+	@ResponseBody
 	public JsonResult singleTransfer(TransferSingle_VO singleVO) {
 		JsonResult jsonResult = new JsonResult();
 		// 收款人卡号
@@ -78,6 +94,7 @@ public class TransferController {
 	}
 
 	@PostMapping("registerAccountTransfer")
+	@ResponseBody
 	public JsonResult registerAccountTransfer(TransferRegisterAccount_VO transferRgister_VO) {
 		JsonResult jsonResult = new JsonResult();
 		// 获取用户输入的身份证号
@@ -108,6 +125,7 @@ public class TransferController {
 	}
 
 	@PostMapping("batchTranfer")
+	@ResponseBody
 	public JsonResult batchTransfer(TransferBatch_VO batch_VO) {
 		JsonResult jsonResult = new JsonResult();
 		/*
@@ -130,6 +148,7 @@ public class TransferController {
 	
 	
 	@PostMapping("crossBorderTransfer")
+	@ResponseBody
 	public JsonResult crossBorderTransfer(TransferCrossBorder_VO crossBorder_VO) {
 		JsonResult jsonResult = new JsonResult();
 		//验证和姓名是否正确
@@ -183,5 +202,27 @@ public class TransferController {
 		// 错误返回信息不正确
 		return jsonResult;
 	}
+	
+	@RequestMapping("/transactionList")
+	public String transactionList(@RequestParam(required = true, defaultValue = "1") Integer page, HttpSession session,
+			TransactionCondition transactionCondition ) {
+		Date startTime = DateHelpher.addDay(transactionCondition.getTime());
+		transactionCondition.setT_id(UserContext.getCurrent().getId());
+		transactionCondition.setStartTime(startTime);
+		PageHelper.startPage(page, 5);
+		List<TransferSingle_VO> transactionlist = transferService.queryTranferInfoAllByT_id(transactionCondition);
+		System.err.println(transactionlist);
+		PageInfo<TransferSingle_VO> p = new PageInfo<TransferSingle_VO>(transactionlist);
+		session.setAttribute("pagelist", p);
+		session.setAttribute("transactionCondition", transactionCondition);
+		session.setAttribute("transactionlist", transactionlist);
+		return "mingxi";
+	}
+	
+	// 自定义类型转换器
+		@InitBinder
+		public void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
 
+			binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
+		}
 }
