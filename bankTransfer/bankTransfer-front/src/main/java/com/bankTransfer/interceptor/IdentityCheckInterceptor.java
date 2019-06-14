@@ -30,7 +30,11 @@ public class IdentityCheckInterceptor extends  HandlerInterceptorAdapter {
 	          .getBean(IBaseService.class);
 			//判断是否有该注解
 			if(rl != null && UserContext.getCurrent() != null && baseService.checkUser(UserContext.getCurrent().getId()) == null){ 
-				response.sendRedirect("/accountApplicationHtml");
+				response.setContentType("text/html;charset=utf-8"); 
+				String url="/accountApplicationHtml";
+				response.getWriter().print("<script>alert('请先开户!');window.location.href='"
+						+ url + "';</script>");
+				//response.sendRedirect("/accountApplicationHtml");
 				return false;
 			}
 		}

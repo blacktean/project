@@ -264,7 +264,7 @@
 							class="btn btn-primary btn-lg" data-toggle="modal"
 							data-target="#maxModal">设置最大额度</button>  -->
 			<!-- Modal -->
-			<form action="/update" method="post" id="edu">
+			<form action="/update" method="post" id="edu" th:if="${session.isHaveAccount} eq true">
 				<table class="table table-bordered">
 					<tr>
 						<th>卡号</th>

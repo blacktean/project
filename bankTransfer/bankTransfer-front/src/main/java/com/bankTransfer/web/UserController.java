@@ -16,6 +16,7 @@ import com.bankTransfer.service.IBaseService;
 import com.bankTransfer.service.ICardService;
 import com.bankTransfer.service.IUserService;
 import com.bankTransfer.util.JsonResult;
+import com.bankTransfer.util.RequireIdentity;
 import com.bankTransfer.util.RequireLogin;
 import com.bankTransfer.util.UserContext;
 
@@ -45,6 +46,7 @@ public class UserController {
 	
 	@RequestMapping("/queryUserOne")
 	@RequireLogin
+	@RequireIdentity
 	public String queryUserOne(HttpSession session) {
 		int user_id = UserContext.getCurrent().getId();
 		User user = iUserService.queryUserByUser_name(user_id);
