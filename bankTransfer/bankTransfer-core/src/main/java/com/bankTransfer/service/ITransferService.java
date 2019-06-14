@@ -3,6 +3,7 @@ package com.bankTransfer.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.bankTransfer.pojo.TransactionCondition;
 import com.bankTransfer.pojo.TransferSingle_VO;
 import com.bankTransfer.pojo.UserVo;
 
@@ -23,6 +24,10 @@ public interface ITransferService {
 	void judgeReceiving(List<UserVo> users,String payCardNum,BigDecimal allMoney);
 	/**处理定时任务*/
 	void handleTransfer();
-	
-
+	/**
+	   * 带条件分页查询所有交易记录
+	 * @param condition
+	 * @return
+	 */
+	List<TransferSingle_VO> queryTranferInfoAllByT_id(TransactionCondition condition);
 }

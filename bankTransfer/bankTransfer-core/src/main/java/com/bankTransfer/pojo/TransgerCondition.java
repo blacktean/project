@@ -7,7 +7,7 @@ import lombok.Data;
 
 /**
  * 后台转账记录条件类
- * @author blacktea
+ * @author BLACKTEA
  *
  */
 @Data
@@ -23,5 +23,5 @@ public class TransgerCondition implements Serializable {
 	/**结束时间 */
 	private Date endTime;
 	/**转账状态0转账成功 1转账失败 */
-	private Integer state;
+	private Integer result;
 }

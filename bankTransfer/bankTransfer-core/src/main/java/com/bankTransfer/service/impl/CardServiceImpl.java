@@ -21,8 +21,8 @@ public class CardServiceImpl implements ICardService {
 	}
 	
 	@Override
-	public void addCard(String id_card,String start_place,String currency,String password,String user_id) {
-		cardMapper.addCard(id_card, start_place, currency, password, user_id);
+	public void addCard(Card card) {
+		cardMapper.addCard(card);
 	}
 	
 	@Override

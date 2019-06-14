@@ -34,7 +34,9 @@
 	<update id="changeTransferInfo">
 	update t_transfer set result = '2' where id = #{id}
 	</update>
-	
+	<!-- <select id="queryTranferInfoAllByT_id" resultMap="TransferSingleMap">
+	select * from T_TRANSFER where t_id = #{t_id}
+	</select> -->
 	
 	<resultMap type="TransferSingle_VO" id="TransferSingleMap">
 	<id column="id" property="id"/>
@@ -51,9 +53,15 @@
 	<result column="TRANSACTION_TYPE" property="transaction_type"/>
 	<result column="MSG" property="msg"/>
 	<result column="TRANSFER_MODE" property="transfer_mode"/>
-	
-	
-
 	</resultMap>
 	
+	<select id="queryTranferInfoAllByT_id" resultMap="TransferSingleMap" parameterType="TransactionCondition">
+		select * from T_TRANSFER where t_id = #{t_id}
+    	<if test="money_flow!=null and money_flow!='全部'">
+    	and transaction_type=#{money_flow}
+    	</if>
+    	<if test="time!=null and time!=-1">
+    	and t_time &gt;= #{startTime}
+    	</if>
+	</select> 
 </mapper>

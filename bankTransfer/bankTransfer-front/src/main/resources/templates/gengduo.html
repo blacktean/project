@@ -3,9 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <title>更多</title>
+<!-- Javascript goes in the document HEAD -->
+<script type="text/javascript">
+function altRows(id){
+	if(document.getElementsByTagName){  
+		
+		var table = document.getElementById(id);  
+		var rows = table.getElementsByTagName("tr"); 
+		 
+		for(i = 0; i < rows.length; i++){          
+			if(i % 2 == 0){
+				rows[i].className = "evenrowcolor";
+			}else{
+				rows[i].className = "oddrowcolor";
+			}      
+		}
+	}
+}
+ 
+window.onload=function(){
+	altRows('alternatecolor');
+}
+</script>
+ 
+ 
+<!-- CSS goes in the document HEAD or added to your external stylesheet -->
+<style type="text/css">
+table.altrowstable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #a9c6c9;
+	border-collapse: collapse;
+}
+table.altrowstable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #a9c6c9;
+}
+table.altrowstable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #a9c6c9;
+}
+.oddrowcolor{
+	background-color:#d4e3e5;
+}
+.evenrowcolor{
+	background-color:#c3dde0;
+}
+</style>
+
 </head>
 <link rel="stylesheet" href="localhost:8888/static/bootstrap/bootstrap.css" type="text/css" />
 <body>
+
+	<!-- Table goes in the document BODY -->
+	<table class="altrowstable" id="alternatecolor">
+		<tr>
+			<th>银行卡号</th>
+			<th>开户地点</th>
+			<th>币种</th>
+			<th>余额</th>
+			<th>可用余额</th>
+			<th>开户网点</th>
+			<th>银行卡类型</th>
+			<th>银行卡状态</th>
+			<th>主副卡标志</th>
+			<th>办卡日期</th>
+			<th>有效期</th>
+			<th>注册类型</th>
+			<th>卡片限额</th>
+			<th>银行类型</th>
+		</tr>
+		<tr>
+			<td th:text="${card.id_card}"></td>
+			<td th:text="${card.start_place}"></td>
+			<td th:text="${card.currency}"></td>
+			<td th:text="${card.balance}"></td>
+			<td th:text="${card.available_balance}"></td>
+			<td th:text="${card.start_place_id}"></td>
+			<td th:text="${card.card_type}"></td>   <!-- 这里 -->
+			<td th:text="${card.card_state}"></td>
+			<td th:text="${card.major_card}"></td>
+			<td th:text="${#dates.format(card.create_time,'yyyy-MM-dd')}"></td>
+			<td th:text="${card.effective_time}"></td>
+			<td th:text="${card.register_type}"></td>
+			<td th:text="${card.max_price}"></td>
+			<td th:text="${card.bank_type}"></td>
+		</tr>
+	</table>
 	
 </body>
 </html>
