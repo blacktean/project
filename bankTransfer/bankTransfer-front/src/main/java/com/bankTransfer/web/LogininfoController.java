@@ -45,7 +45,8 @@ public class LogininfoController {
 		boolean isOk;
 		try {
 			isOk = logininfoService.queryByUsernameOrPhoneAndPassword(login_number, login_password, 0);
-			
+			//设置session失效时间
+			//session.setMaxInactiveInterval(30*60);
 			if (!isOk) {
 				js.setSuccess(false);
 				js.setMsg("用户名或密码错误");
