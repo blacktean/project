@@ -7,7 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="" />
-<script type="application/x-javascript">	
+<script type="application/x-javascript">
+		
         addEventListener("load", function() {
             setTimeout(hideURLbar, 0);
         }, false);
@@ -15,6 +16,7 @@
         function hideURLbar() {
             window.scrollTo(0, 1);
         }
+
 </script>
 
 <!--// Meta tag Keywords -->
@@ -72,8 +74,8 @@
 	height: 700px;
 }
 
-#unused{
-	height:200px;
+#unused {
+	height: 200px;
 }
 </style>
 <!-- //css files -->
@@ -231,7 +233,12 @@
 			
 			//验证密码
 			$("#checkPassword").click(
+					
 					function() {
+						if($("#codeTime").val() == "3") {
+							$.messager.alert("银行卡已冻结,请联系管理员!!");
+							return ;
+						}
 						$.ajax({
 							dataType : "json",
 							url : "/checkPassword?password=" + $("#password").val()
@@ -242,7 +249,7 @@
 										dataType : "json",
 										success : function(rs) {
 											if (rs.success) {
-												alert("处理成功!!");
+												$.messager.alert("处理成功!!");
 												location.href = "index.html";
 											} else {
 												$.messager.alert("友情提示", rs.msg);
@@ -250,12 +257,10 @@
 										}
 									});
 								} else {
-									alert("密码错误!!请重新输入密码");
+									$.messager.alert("密码错误!!请重新输入密码!!");
 									$("#codeTime").val(
 											parseInt($("#codeTime").val()) + 1);
-									if ($("#codeTime").val() == "3") {
-										alert("银行卡已冻结,请联系管理员");
-									}
+									
 								}
 							}
 
@@ -378,8 +383,7 @@
 								<div class="form-group">
 									<label for="payCardNum" class="col-sm-2 control-label">汇款人卡号</label>
 									<div class="col-sm-8">
-										<select name="payCardNum" id="payCardNum"
-											class="form-control">
+										<select name="payCardNum" id="payCardNum" class="form-control">
 											<option th:each="card:${cards}" th:value="${card.id_card}"
 												th:text="${card.id_card}"></option>
 										</select> <input type="hidden" id="balance" name="balance" />
@@ -427,8 +431,8 @@
 											<option th:each="document:${documents}"
 												th:value="${document.document_name}"
 												th:text="${document.document_name}"></option>
-										</select>
-										<input type="hidden" id="checkDocumentType" name="checkDocumentType" value="身份证"/>
+										</select> <input type="hidden" id="checkDocumentType"
+											name="checkDocumentType" value="身份证" />
 									</div>
 								</div>
 								<div class="form-group">
