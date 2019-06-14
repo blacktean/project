@@ -2,252 +2,316 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>主页</title>
-    <!-- Meta tag Keywords -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="" />
-    <script type="application/x-javascript">
-        addEventListener("load", function() {
-            setTimeout(hideURLbar, 0);
-        }, false);
+<title>主页</title>
+<!-- Meta tag Keywords -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript" src="js/jquery.bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.css"></link>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript"
+	src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="js/messages_zh.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
+<!--// Meta tag Keywords -->
+<!-- css files -->
+<link rel="stylesheet" href="css/bootstrap.css">
+<!-- Bootstrap-Core-CSS -->
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+<!-- Style-CSS -->
+<link rel="stylesheet" href="css/font-awesome.css">
 
-        function hideURLbar() {
-            window.scrollTo(0, 1);
-        }
-    </script>
-    <!--// Meta tag Keywords -->
-    <!-- css files -->
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <!-- Bootstrap-Core-CSS -->
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
-    <!-- Style-CSS -->
-    <link rel="stylesheet" href="css/font-awesome.css">
-    <!-- Font-Awesome-Icons-CSS -->
-    <!-- //css files -->
-    <!-- web-fonts -->
-    <link href="http://fonts.googleapis.com/css?family=Mada:200,300,400,500,600,700,900" rel="stylesheet">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
-    <!-- //web-fonts -->
+<script src="js/responsiveslides.min.js"></script>
+
+
+<script type="text/javascript">
+	$(function() {
+		$("#slider").responsiveSlides({
+            auto: true,
+            pager: false,
+            nav: true,
+            speed: 1000,
+            namespace: "callbacks",
+            before: function() {
+                $('.events').append("<li>before event fired.</li>");
+            },
+            after: function() {
+                $('.events').append("<li>after event fired.</li>");
+            }
+        });
+		//复用头部JS
+		$("#header").load("toHeader?value=index");
+		//复用尾部JS
+		$("#footer").load("common/footer.html");
+
+		//jquery的validate框架, 一个表单验证框架
+		//表单验证方法: validate({验证的规则})
+		// rules: 验证规则: 非空, 长度, 正则表达式 , 远程验证, 两次密码是否一致....
+		$("#zhuan").validate({
+			rules : {
+				money : {
+					required : true
+				}
+				
+			},
+			messages : {
+				money : {
+					required : "转换金额不能为空"
+				}
+			},
+					submitHandler : function(form) {
+						//ajax请求, 把表单以ajax提交到后台
+						$(form).ajaxSubmit({
+							dataType : "json",
+							success : function(rs) {
+								if (rs.success) {
+									$("#camount").val(rs.msg);
+									$("#from").val(rs.from);
+									$("#to").val(rs.to);
+									$("#money").val(rs.money);
+								} else {
+									$.messager.alert("友情提示", rs.msg);
+								}
+							},
+							resetForm : true
+						});
+					},
+					errorClass : "text-danger",
+					highlight : function(element) {
+						$(element).closest("div.form-control").addClass(
+								"has-error");
+					},
+					unhighlight : function(element) {
+						$(element).closest("div.form-control").removeClass(
+								"has-error");
+					}
+				});
+	});
+</script>
+<!-- //web-fonts -->
 </head>
 
 <body>
-   <div id="header"></div> 
-    <!-- 引入抽取的头部 -->
-    <!-- <div th:insert="~{common/header :: header}"></div> -->
-    <!-- Slider -->
-    <div class="slider">
-        <div class="callbacks_container">
-            <ul class="rslides" id="slider">
-                <li>
-                    <div class="w3layouts-banner-top w3layouts-banner-top1">
-                        <div class="container">
-                            <div class="slider-info">
-                                <h3>Welcome to George Bank</h3>
-                                <h4>欢迎 -
-                                    <span>乔治银行</span>
-                                </h4>
-                                <p>竭诚为您服务</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="w3layouts-banner-top">
-                        <div class="container">
-                            <div class="slider-info">
-                                <h3>Welcome to George Bank</h3>
-                                <h4>欢迎 -
-                                    <span>乔治银行</span>
-                                </h4>
-                                <p>竭诚为您服务</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="w3layouts-banner-top w3layouts-banner-top2">
-                        <div class="container">
-                            <div class="slider-info">
-                                <h3>Welcome to George Bank</h3>
-                                <h4>欢迎 -
-                                    <span>乔治银行</span>
-                                </h4>
-                                <p>竭诚为您服务</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="clearfix"></div>
-    </div>
-    <!-- //Slider -->
-    <!-- about -->
-    <div class="about" id="about">
-        <div class="container">
-            <h3 class="tittle">
-                <span>新</span>世<span>界</span>
-            </h3>
-            <span class="w3l-head"></span>
-            <div class="col-md-6 agileits_works-grid1">
-                <img src="http://image4.ccb.com/cn/home/life/upload/20151206_1449373236/20160325100618720146.jpg" alt="" />
-            </div>
-            <div class="col-md-6 agileits_works-grid">
-                <div class="wthree-text">
-                    <h6 class="subheading-w3ls">福利来袭</h6>
-                   <!--  <p class="para-w3-agileits w3l2">As one of the oldest home and office remodeling companies in the city, we have a very special feeling that our duty is to be the best!</p>
+	<div id="header"></div>
+	<!-- 引入抽取的头部 -->
+	<!-- <div th:insert="~{common/header :: header}"></div> -->
+	<!-- Slider -->
+	<div class="slider">
+		<div class="callbacks_container">
+			<ul class="rslides" id="slider">
+				<li>
+					<div class="w3layouts-banner-top w3layouts-banner-top1">
+						<div class="container">
+							<div class="slider-info">
+								<h3>Welcome to George Bank</h3>
+								<h4>
+									欢迎 - <span>乔治银行</span>
+								</h4>
+								<p>竭诚为您服务</p>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="w3layouts-banner-top">
+						<div class="container">
+							<div class="slider-info">
+								<h3>Welcome to George Bank</h3>
+								<h4>
+									欢迎 - <span>乔治银行</span>
+								</h4>
+								<p>竭诚为您服务</p>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="w3layouts-banner-top w3layouts-banner-top2">
+						<div class="container">
+							<div class="slider-info">
+								<h3>Welcome to George Bank</h3>
+								<h4>
+									欢迎 - <span>乔治银行</span>
+								</h4>
+								<p>竭诚为您服务</p>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<!-- //Slider -->
+	<!-- about -->
+	<div class="about" id="about">
+		<div class="container">
+			<h3 class="tittle">
+				<span>新</span>世<span>界</span>
+			</h3>
+			<span class="w3l-head"></span>
+			<div class="col-md-6 agileits_works-grid1">
+				<img
+					src="http://image4.ccb.com/cn/home/life/upload/20151206_1449373236/20160325100618720146.jpg"
+					alt="" />
+			</div>
+			<div class="col-md-6 agileits_works-grid">
+				<div class="wthree-text">
+					<h6 class="subheading-w3ls">福利来袭</h6>
+					<!--  <p class="para-w3-agileits w3l2">As one of the oldest home and office remodeling companies in the city, we have a very special feeling that our duty is to be the best!</p>
                     <p class="para-w3-agileits">Each single remodeling or renovation project that we take puts our unique project management system to a test. This kind of a complex take on both home and apartment remodeling projects includes a detailed project overview, constant
                         client communication, an advanced invoicing system, a weekly delay guarantee, and other advantages that you will just love working with us!</p> -->
-                    <h3 class="tittle"><span>大<br></span>福利<br><span>哦<br>!</span></h3>
-                    <a href="/addCardOne" class="link-w3l1">立即前往办卡</a>
-                    <a href="kaika.html" class="link-w3l1">立即前往转账</a>
-                    <a href="kaika.html" class="link-w3l1">立即前往购买</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- //about -->
-    <!-- about-bottom-grid -->
-    <div class="wthree-about-bot-grid">
-        <div class="grid1-agile agile-new1">
-            <div class="sub-w3l">
-                <div class="inner-sub">
-<!-- <script type="text/javascript">
-            document.writeln("<iframe id=\'cnhuilvIfr\' src=\'\' scrolling=\'no\' frameborder=\'0\' allowTransparency=\'true\' style=\'width:100%;min-height:371px;\'></iframe>");
+					<h3 class="tittle">
+						<span>大<br></span>福利<br> <span>哦<br>!
+						</span>
+					</h3>
+					<a href="/accountApplicationHtml" class="link-w3l1">立即前往办卡</a> <a
+						href="/toSingleTransfer" class="link-w3l1">立即前往转账</a> <a
+						href="/newcollection" class="link-w3l1">立即前往办理资金归集</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- //about -->
+	<!-- about-bottom-grid -->
+	<div class="wthree-about-bot-grid">
+		<div class="grid1-agile agile-new1">
+			<div class="sub-w3l">
+				<div class="inner-sub">
+					<form action="/huilv" id="zhuan" class="form-inline">
+						<div class="form-group">
+							<h4>汇率转换</h4>
+							<select name="from" id="from" class="form-control">
+								<option th:each="currency:${currencys}"
+									th:value="${currency.money_number}"
+									th:text="${currency.money_number+currency.money_name}"></option>
+							</select> >>>>>>>> <select name="to" id="to" class="form-control">
+								<option th:each="currency:${currencys}"
+									th:value="${currency.money_number}"
+									th:text="${currency.money_number+currency.money_name}"></option>
+							</select> <br> 转换前 <br> <input name="money" id="money" class="form-control">
+							<br> 转换后 <br> <input id="camount" value="" class="form-control"> <br>
+							<button type="submit" class="btn-info  btn-lg ">开始</button>
+						</div>
+					</form>
+				</div>
+				<div class="inner2">
+					<h4>
+						<span>实时</span> 汇率
+					</h4>
+					<!--                     <p>As one of the oldest home and office remodeling companies in the city, we have won multiple design awards and have been published in numerous local and national publications.</p>
+ -->
+					<h4>
+						<span>转换!</span>
+					</h4>
 
-            function setIframeSrc() {
-                var s = "http://api.cnhuilv.com/invoke/";
-                var iCnHuilv = document.getElementById('cnhuilvIfr');
-                if (-1 == navigator.userAgent.indexOf("MSIE")) {
-                    iCnHuilv.src = s
-                } else {
-                    iCnHuilv.location = s
-                }
-            }
-            setTimeout(setIframeSrc, 1);
-        </script> -->
-                    <h3>汇率
-                        <span>查询</span>
-                    </h3>
-                </div>
-                <div class="inner2">
-                    <h4>
-                        <span>免费</span>
-                       		查汇率
-                    </h4>
-<!--                     <p>As one of the oldest home and office remodeling companies in the city, we have won multiple design awards and have been published in numerous local and national publications.</p>
- -->                    <h4>
-                        <span>免费的哦!</span>
-                    </h4>
- 	<a href="about.html" class="link-w3l1">查询</a>
-                </div>
-            </div>
-        </div>
-        <div class="grid1-agile agile-new2">
-            <div class="sub-w3l head-sub">
-                <div class="inner2 w3l-sub">
-                    <h4>问题
-                        <span>反馈!</span>
-                    </h4>
-<!--                     <p>As one of the oldest home and office remodeling companies in the city, we have won multiple design awards and have been published in numerous local and national publications.</p>
- -->                    <h4>
-                        <span>有什么问题都可以告诉我们哦!</span>
-                    </h4>
- 				<a href="about.html" class="link-w3l1 color-2">我要反馈</a>
-                </div>
-                <div class="inner-sub-2">
+				</div>
+			</div>
+		</div>
+		<div class="grid1-agile agile-new2">
+			<div class="sub-w3l head-sub">
+				<div class="inner2 w3l-sub">
 
-                    <h3>We Do
-                        <span>Great Design</span> For Creative Folks</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- //about-bottom-grid-->
-    <div class="tlinks">Collect from <a href="http://www.cssmoban.com/">建站模板</a></div>
-    <!--services-->
-    <div class="agileits-services">
-        <div class="container">
-            <h3 class="tittle">
-                <span>最新</span>|<span>公告</span>
-            </h3>
-            <div class="agileits-services-row">
-                <div class="col-md-3 col-xs-6 agileits-services-grids">
-                    <h4>01. 正式开业</h4>
-                    <p>乔治银行于6月15日正式开业各种福利来袭详情请看福利页面</p>
-                    <span class="fa fa-cubes" aria-hidden="true"></span>
-                </div>
-                <div class="col-md-3 col-xs-6 agileits-services-grids">
-                    <h4>02. 版本更新</h4>
-                    <p>乔治银行于6月25日进行数据更新即时我们会对部分功能进行停用请大家谅解</p>
-                    <span class="fa fa-paint-brush" aria-hidden="true"></span>
-                </div>
-                <div class="col-md-3 col-xs-6 agileits-services-grids">
-                    <h4>03. 夏日大酬宾</h4>
-                    <p>乔治银行夏日存款便可享受七日年化优惠哦!</p>
-                    <span class="fa fa-line-chart" aria-hidden="true"></span>
-                </div>
-                <div class="col-md-3 col-xs-6 agileits-services-grids">
-                    <h4>04. 总裁换任</h4>
-                    <p>陈总因经济纷争被迫下位由副总钱总继任职位</p>
-                    <span class="fa fa-home" aria-hidden="true"></span>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-        </div>
-    </div>
-    <!--//agileits-services-->
-   <!--复用尾部-->
-     <div id="footer"></div> 
-	<!-- 引入抽取的尾部 -->
-    <!-- <div th:replace="common/footer::footer"></div> -->
-    <!-- js-scripts -->
-    <!-- js -->
-    <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
-    <!-- Necessary-JavaScript-File-For-Bootstrap -->
-    <!-- //js -->
-    <!-- Baneer-js -->
-    <script src="js/responsiveslides.min.js"></script>
-    <script>
-        $(function() {
-            $("#slider").responsiveSlides({
-                auto: true,
-                pager: false,
-                nav: true,
-                speed: 1000,
-                namespace: "callbacks",
-                before: function() {
-                    $('.events').append("<li>before event fired.</li>");
-                },
-                after: function() {
-                    $('.events').append("<li>after event fired.</li>");
-                }
-            });
-            //复用头部JS
-           $("#header").load("common/header.html");
-            //复用尾部JS
-           $("#footer").load("common/footer.html");
+					<h4>
+						问题 <span>反馈!</span>
+					</h4>
+					<!--                     <p>As one of the oldest home and office remodeling companies in the city, we have won multiple design awards and have been published in numerous local and national publications.</p>
+ -->
+					<h4>
+						<span>有什么问题都可以告诉我们哦!</span>
+					</h4>
+					<button type="button" class="btn-lg   btn-danger"
+						data-toggle="modal" data-target="#Modal">问题查询</button>
 
-        });
-    </script>
-    <!-- //Baneer-js -->
-    <!-- start-smoth-scrolling -->
-    <script type="text/javascript" src="js/move-top.js"></script>
-    <script type="text/javascript" src="js/easing.js"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $(".scroll").click(function(event) {
-                event.preventDefault();
-                $('html,body').animate({
-                    scrollTop: $(this.hash).offset().top
-                }, 1000);
-            });
-        });
-    </script>
-    <!-- start-smoth-scrolling -->
-    <!-- //js-scripts -->
+
+				</div>
+				<div class="inner-sub-2">
+
+					<h3>
+						解决 <span>问题</span> 我们是专业的
+					</h3>
+					<!-- Modal -->
+					<div class="modal fade" id="Modal" tabindex="-1" role="dialog"
+						aria-labelledby="myModalLabel">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<h4 class="modal-title" id="myModalLabel">问题</h4>
+								</div>
+								<div class="modal-body">
+									<table class="table table-bordered">
+										<tr>
+											<th>问题</th>
+											<th>解决方案</th>
+										</tr>
+										<tr th:each="pro:${problem}">
+											<td th:text="${pro.problem_name}"></td>
+											<td th:text="${pro.problem_detail}"></td>
+										</tr>
+									</table>
+
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">关闭</button>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- //about-bottom-grid-->
+	<div class="tlinks">
+		Collect from <a href="http://www.cssmoban.com/">建站模板</a>
+	</div>
+	<!--services-->
+	<div class="agileits-services">
+		<div class="container">
+			<h3 class="tittle">
+				<span>最新</span>|<span>公告</span>
+			</h3>
+			<div class="agileits-services-row">
+				<div class="col-md-3 col-xs-6 agileits-services-grids">
+					<h4>01. 正式开业</h4>
+					<p>乔治银行于6月15日正式开业各种福利来袭详情请看福利页面</p>
+					<span class="fa fa-cubes" aria-hidden="true"></span>
+				</div>
+				<div class="col-md-3 col-xs-6 agileits-services-grids">
+					<h4>02. 版本更新</h4>
+					<p>乔治银行于6月25日进行数据更新即时我们会对部分功能进行停用请大家谅解</p>
+					<span class="fa fa-paint-brush" aria-hidden="true"></span>
+				</div>
+				<div class="col-md-3 col-xs-6 agileits-services-grids">
+					<h4>03. 夏日大酬宾</h4>
+					<p>乔治银行夏日存款便可享受七日年化优惠哦!</p>
+					<span class="fa fa-line-chart" aria-hidden="true"></span>
+				</div>
+				<div class="col-md-3 col-xs-6 agileits-services-grids">
+					<h4>04. 总裁换任</h4>
+					<p>陈总因经济纷争被迫下位由副总钱总继任职位</p>
+					<span class="fa fa-home" aria-hidden="true"></span>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+	<!--//agileits-services-->
+	<!--复用尾部-->
+	<div id="footer"></div>
+
+
+
 </body>
 
 </html>

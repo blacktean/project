@@ -2,14 +2,13 @@
 <!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.bankTransfer.mapper.CardMapper">
-	<!-- 通过user_id查到对应用户的银行卡 -->
 	<select id="queryCardByUserId" resultType="Card">
 		select <include refid="cardColumn"/> from T_CARD WHERE user_id=#{user_id}
 	</select>
-	<!-- 通过id_card找到对应的银行卡 -->
 	<select id="queryCardByIdCard" resultType="Card">
 		select <include refid="cardColumn"/> from T_CARD WHERE id_card=#{id_card}
 	</select>
+
 	<!-- 通过登录id查询当前用户名 -->
 	<select id="queryUserName" resultType="String">
 	select distinct real_name from t_user where user_id=#{id}
@@ -32,6 +31,7 @@
 	<!-- 验证交易密码 -->
 	<select id="checkPailPWD" resultType="int">
 	select count(0) from t_card where  user_id=#{user_id} and password=#{pailPWD}
+	
 	</select>
 	
 	<sql id="cardColumn">
@@ -39,6 +39,19 @@
 		password,card_type,user_id,card_state,major_card,create_time,
 		effective_time,register_type,max_price,bank_type
 	</sql>
+	<!-- 查询额度 -->
+	
+	<select id="queryMax_price">
+		select max_price from t_card where user_id=#{user_id}
+	</select>
+	<!-- 根据user_id查卡号 -->
+	<select id="queryCardIdByUserId" resultType="Card">
+		select * from t_card where user_id=#{user_id}
+	</select>
+	<!-- 更改额度 -->
+	<update id="update">
+		update t_card set max_price=#{max_price} where id_card=#{id_card}
+	</update>
 	<!-- 新增银行卡 -->
 	<insert id="addCard" parameterType="Card">
 		INSERT INTO T_CARD VALUES(seq_card_id.nextval,#{id_card},#{start_place},#{currency},10000,10000,'1',#{password},'储蓄卡',#{user_id},'1','1',sysdate,'10','个人',50000,'乔治银行')

@@ -19,6 +19,21 @@
 	$(function(){
 		var name = $("#show").val();
 		$("#"+name).addClass("active");
+		
+		//$("#temperature").html(now.temperature+"℃");
+	    // $("#weather").html("  "+now.weather);
+	    //$("#weather_pic").attr("src",now.weather_pic);
+	    setInterval(function(){
+            var dateTime = new Date();
+            var years = dateTime.getFullYear();
+            var months = dateTime.getUTCMonth()+1;
+            var date = dateTime.getDate();
+            var hours = dateTime.getHours();
+            var minutes = dateTime.getMinutes();
+            var seconds = dateTime.getSeconds();
+            $("#time").text(years+"年"+months+"月"+date+"日 "+hours + ":" + minutes + ":" + seconds);
+        }
+,1000)
 	});
 	</script>
 </head>
@@ -41,11 +56,14 @@
                         </h1>
                     </div>
                 </div>
-                <div class="col-xs-4 agileinfo_search">
-                    <p style="color:black; font-size:14px;"><b>您好:张三<span>&nbsp;欢迎使用乔治银行</span></b></p>
-                    <p style="color:black; font-size:14px;"><b><span>天气:30℃</span>&nbsp;&nbsp;&nbsp;<span>位置:深圳</span></b></p>
-                    <p style="color:black; font-size:14px; "><b>上次登录时间:<span>2019-5-31 14:49:30</span></b></p>
-                </div>
+                 <div class="col-xs-4 agileinfo_search" th:if="${session.logininfo} ne null">
+                <!-- <font id="temperature" th:text="${session.Weathernow.temperature}+'℃'">20</font>&nbsp;<font id="weather" th:text="${session.Weathernow.weather}"> 阴</font>
+				 <img id="weather_pic" th:src="${session.Weathernow.weather_pic}" height="30px" style="vertical-align:middle;" />
+				 
+                    <p style="color:black; font-size:14px;"><b th:text="'您好: '+${session.logininfo.username}">张三<span>&nbsp;欢迎使用乔治银行</span></b></p>
+                    <p style="color:black; font-size:14px;"><b><span th:text="${'位置: '+session.Countrynow.region+'-'+session.Countrynow.city}">位置:深圳</span></b></p> -->
+                    <p style="color:black; font-size:14px;"><b>当前时间:<span id="time"></span></b></p>
+                </div> 
                 <div class="clearfix"> </div>
                 <div class="top-nav">
                     <nav class="navbar navbar-default">
@@ -60,7 +78,7 @@
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav navbar-right">
                                 <li>
-                                    <a id="index" href="index.html" >主页</a>
+                                    <a id="index" href="/problemList" >主页</a>
                                 </li>
                                 <li>
                                 <!-- 高亮 
@@ -71,7 +89,7 @@
                                     <a id="transfer" href="/toSingleTransfer">转账汇款</a>
                                 </li>
                                 <li class="">
-                                    <a href="javaScript:void(0);" class="dropdown-toggle hvr-bounce-to-bottom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">资金归集
+                                    <a href="javaScript:void(0);" id="collection" class="dropdown-toggle hvr-bounce-to-bottom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">资金归集
                                                     <span class="caret"></span>
                                                 </a>
                                     <ul class="dropdown-menu">
@@ -90,18 +108,17 @@
                                     <a id="accountapplication" href="/accountApplicationHtml">账户申请</a>
                                 </li>
                                 <li>
-                                    <a id="setup" href="setup.html">设置</a>
+                                    <a id="setup" href="/queryCardIdByUserId">设置</a>
                                 </li>
-                                <li>
+                            
+                              <li th:if="${session.logininfo} eq null">
                                     <a id="login" href="login.html">登录/注册</a>
+                                </li> 
+                               
+                                <li th:if="${session.logininfo} ne null" >
+                                    <a id="login" href="/LoginOut" onClick="return confirm('确定要退出吗？');">注销</a>
                                 </li>
-                                <!-- <li th:if="${session.logininfo} eq null">
-                                    <a id="login" href="login.html">登录/注册</a>
-                                </li>
-                                <li th:if="${session.logininfo} nq null" >
-                                    <a id="loginOut" href="/LoginOut" onClick="return confirm('确定要退出吗？');">注销</a>
-                                </li> -->
-                            </ul>
+                              </ul>
                             <div class="clearfix"> </div>
                         </div>
                     </nav>

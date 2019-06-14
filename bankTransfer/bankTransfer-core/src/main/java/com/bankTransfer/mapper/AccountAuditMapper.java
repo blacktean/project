@@ -3,7 +3,7 @@ package com.bankTransfer.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.repository.query.Param;
+import org.apache.ibatis.annotations.Param;
 
 import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.CardCondition;

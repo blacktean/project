@@ -2,10 +2,14 @@ package com.bankTransfer.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.bankTransfer.pojo.Card;
 import com.bankTransfer.pojo.CardType;
+import com.bankTransfer.pojo.Contacts;
 import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.Document;
+import com.bankTransfer.pojo.User;
 
 public interface IBaseService {
 
@@ -44,4 +48,17 @@ public interface IBaseService {
 	 * @param password
 	 */
 	void queryCardByIdCardAndPassword(String id_card, String password);
+	/**
+	 * 根据logininfo的id查询user
+	 * @param id
+	 * @return
+	 */
+	User checkUser(Integer id);
+	
+	/**
+	 * 查询用户的联系人
+	 * @param id
+	 * @return
+	 */
+	Contacts queryContacts(Integer id);
 }

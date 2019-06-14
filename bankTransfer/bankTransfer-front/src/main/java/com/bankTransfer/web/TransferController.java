@@ -37,7 +37,7 @@ import com.github.pagehelper.PageInfo;
 
 @Controller
 public class TransferController {
-
+	
 	@Autowired
 	private ITransferService transferService;
 
@@ -53,6 +53,7 @@ public class TransferController {
 		String paymentAccount = singleVO.getPaymentAccount();
 		//转账金额
 		BigDecimal transferMoney = singleVO.getTransferAmount();
+		singleVO.setMsg(singleVO.getMsg().trim());
 		//收款账户的银行id
 		int bank_id = singleVO.getBankName();
 		BigDecimal rate = new BigDecimal(0);
@@ -187,11 +188,11 @@ public class TransferController {
 				singleVO.setReceivingName(crossBorder_VO.getReciverName());
 				singleVO.setResult(TransactionState.TRANSFER_STATE_ACCEPTED);
 			
-				singleVO.setServiceCharge(new BigDecimal(f));
+				singleVO.setServiceCharge(new BigDecimal(f).add(rate.getCamount()));
 				singleVO.setTransfer_type("跨境转账");
 				singleVO.setTransaction_type("支出");
 				singleVO.setTransfer_mode("实时到账");
-				singleVO.setMsg(crossBorder_VO.getMsg());
+				singleVO.setMsg(crossBorder_VO.getMsg().trim());
 				transferService.insertRecord(singleVO);
 				}catch(Exception e) {
 					jsonResult.setSuccess(false);

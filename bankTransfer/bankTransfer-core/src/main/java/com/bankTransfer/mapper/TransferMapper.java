@@ -3,14 +3,13 @@ package com.bankTransfer.mapper;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.bankTransfer.pojo.TransactionCondition;
 import com.bankTransfer.pojo.TransferSingle_VO;
 import com.bankTransfer.pojo.User;
 import com.bankTransfer.pojo.UserCondition;
-
-import io.lettuce.core.dynamic.annotation.Param;
 
 @Repository
 public interface TransferMapper {

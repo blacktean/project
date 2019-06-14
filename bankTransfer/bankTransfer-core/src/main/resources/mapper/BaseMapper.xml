@@ -25,8 +25,18 @@
 	<select id="queryCardByIdCardAndPassword" resultType="Card">
 	select id_card from t_card where id_card = #{id_card} and password = #{password}
 	</select>
-
-
+	
+	<select id="queryUserById" resultType="User">
+	select * from t_user where user_id =#{id}
+	</select>
+	
+	<select id="queryContacts" resultType="Contacts">
+	select <include refid="contactsColumn"/>  from t_contacts where user_id = #{id}
+	</select>
+	
+	<sql id="contactsColumn">
+	id,user_id,receiving_account,receiving_name
+	</sql>
 	
 	<sql id="cardTypeColumn">
 	id,type_name,type_code
