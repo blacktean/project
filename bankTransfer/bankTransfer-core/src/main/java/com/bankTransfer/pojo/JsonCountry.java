@@ -1,5 +1,7 @@
 package com.bankTransfer.pojo;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -7,7 +9,9 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class JsonCountry {
+public class JsonCountry implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 //{"area":"","country":"中国","city":"苏州市","ip":"117.82.82.104",
 //"isp":"电信","region_id":"320000","ipend":"117.82.82.255",
 //"region":"江苏省","ipstart":"117.82.82.0","country_id":"CN","city_id":"320500"}

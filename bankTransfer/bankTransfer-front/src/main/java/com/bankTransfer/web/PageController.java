@@ -16,6 +16,7 @@ import com.bankTransfer.pojo.Contacts;
 import com.bankTransfer.pojo.Currency;
 import com.bankTransfer.pojo.Document;
 import com.bankTransfer.pojo.JsonCountry;
+import com.bankTransfer.pojo.JsonWeather;
 import com.bankTransfer.service.IBaseService;
 import com.bankTransfer.util.APIUtils;
 import com.bankTransfer.util.RequireIdentity;
@@ -86,8 +87,12 @@ public class PageController {
 	@RequestMapping("toHeader")
 	public String toHeader(String value,Model model,HttpSession session) {
 		model.addAttribute("name", value);
-		//session.setAttribute("Weathernow", APIUtils.getWeather());
-		//session.setAttribute("Countrynow",APIUtils.getJsonCountry());
+		if(session.getAttribute("Weathernow") == null) {
+			session.setAttribute("Weathernow", APIUtils.getWeather());
+		}
+		if(session.getAttribute("Countrynow") == null) {
+			session.setAttribute("Countrynow", APIUtils.getJsonCountry());
+		}
 		return "common/header";
 	}
 	

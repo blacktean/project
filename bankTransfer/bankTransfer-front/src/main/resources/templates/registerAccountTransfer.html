@@ -87,7 +87,7 @@
 				phone : {
 					required : true,
 					remote : {
-						url : "/checkPhone",
+						url : "/checkMyPhone",
 						type : "post"
 					}
 				},
@@ -199,13 +199,13 @@
 			$.ajax({
 				dataType : "json",
 				type : "POST",
-				url : "/checkPhone?phone=" + phone,
+				url : "/checkphonetest?phone=" + phone,
 				success : function(rs) {
 					if (rs) {
 						$.ajax({
 							dataType : "json",
 							type : "POST",
-							url : "/sendMssage?phone=" + phone,
+							url : "/checkphoneNumberById?debit_tel=" + phone,
 							success : function(rs) {
 
 								if (rs.success) {

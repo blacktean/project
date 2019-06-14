@@ -1,5 +1,6 @@
 package com.bankTransfer.pojo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import lombok.Getter;
@@ -15,7 +16,9 @@ import lombok.ToString;
  * @author Administrator
  *
  */
-public class TransferCrossBorder_VO {
+public class TransferCrossBorder_VO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	/** 收款姓名 */
 	private String reciverName;

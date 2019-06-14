@@ -1,5 +1,6 @@
 package com.bankTransfer.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import lombok.Getter;
@@ -14,8 +15,9 @@ import lombok.ToString;
  * @author Administrator
  *
  */
-public class TransferInfo {
+public class TransferInfo implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	/** 主键  */ private Long id;
 	/**  汇款人姓名 */ private String t_name;
 	/**  汇款人卡号 */ private String t_accout_number;

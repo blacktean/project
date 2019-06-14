@@ -1,5 +1,6 @@
 package com.bankTransfer.pojo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import lombok.Getter;
@@ -9,7 +10,8 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class UserVo {
+public class UserVo implements Serializable {
+	private static final long serialVersionUID = 1L;
 	/** 收款人姓名*/
 	private String name;
 	/** 收款人卡号*/

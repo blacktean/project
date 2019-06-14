@@ -52,8 +52,12 @@ public class ShowInfoController {
 		return jsonResult;
 	}
 
-	@PostMapping("checkPhone")
+	@PostMapping("checkMyPhone")
 	public boolean checkPhone(String phone, HttpSession session) {
+		return phone.equals(UserContext.getCurrent().getTelphone());
+	}
+	@PostMapping("checkphonetest")
+	public boolean checkphonetest(String phone, HttpSession session) {
 		return phone.equals(UserContext.getCurrent().getTelphone());
 	}
 
@@ -92,10 +96,10 @@ public class ShowInfoController {
 
 	@PostMapping("checkCode")
 	public boolean checkCode(String code, HttpSession session) {
-		return code.equals(session.getAttribute("code"));
+		return code.equals(session.getAttribute("mathCode"));
 	}
 
-	@PostMapping("sendMssage")
+	@PostMapping("sendMyMssage")
 	public JsonResult sendMssage(String phone, HttpSession session) {
 		JsonResult jsonResult = new JsonResult();
 		String code = APIUtils.sendMessage(phone);

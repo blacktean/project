@@ -12,4 +12,11 @@ public interface AccountApplicationMapper {
 	 * @return
 	 */
 	int queryCardById(Integer id);
+	
+	/**
+	 * 查询是否提交开户申请
+	 * @param id
+	 * @return
+	 */
+	int queryUserById(Integer id);
 }

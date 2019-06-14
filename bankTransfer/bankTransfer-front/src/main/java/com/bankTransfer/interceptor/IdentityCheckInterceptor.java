@@ -8,6 +8,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.bankTransfer.service.IAccountApplicationService;
 import com.bankTransfer.service.IBaseService;
 import com.bankTransfer.util.RequireIdentity;
 import com.bankTransfer.util.UserContext;
@@ -25,11 +26,11 @@ public class IdentityCheckInterceptor extends  HandlerInterceptorAdapter {
 			 if (rl == null) {
 	                rl = handlerMethod.getMethod().getDeclaringClass().getAnnotation(RequireIdentity.class);
 	            }
-			 IBaseService baseService = WebApplicationContextUtils
+			 IAccountApplicationService baseService = WebApplicationContextUtils
 	          .getRequiredWebApplicationContext(request.getServletContext())
-	          .getBean(IBaseService.class);
+	          .getBean(IAccountApplicationService.class);
 			//判断是否有该注解
-			if(rl != null && UserContext.getCurrent() != null && baseService.checkUser(UserContext.getCurrent().getId()) == null){ 
+			if(rl != null && UserContext.getCurrent() != null && !baseService.queryCardById((UserContext.getCurrent().getId()))){ 
 				response.setContentType("text/html;charset=utf-8"); 
 				String url="/accountApplicationHtml";
 				response.getWriter().print("<script>alert('请先开户!');window.location.href='"

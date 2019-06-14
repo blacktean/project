@@ -108,7 +108,7 @@
 								};
 								$.messager.confirm("提示","开户申请提交成功,请等待审核!",function(){
 									//跳转到我的归集页面
-									location.href="/accountApplication";
+									location.href="/accountApplicationHtml";
 								});
 								
 							}else{
@@ -151,7 +151,7 @@
             <h3 class="tittle">
                 <span>账</span>户申<span>请</span>
             </h3>
-            <div class="gallery-w3lsrow" th:if="${session.isHaveAccount} eq false"> 
+            <div class="gallery-w3lsrow" th:if="${rs} eq 1"> 
             	<form class="form-horizontal" action="/accountApplication" method="POST" id="accountApplicationForm">
 						<div class="form-group">
 							<label for="real_name" class="col-sm-2 control-label">真实姓名</label>
@@ -190,10 +190,10 @@
 							<label for="sex" class="col-sm-2 control-label">性别</label>
 							<div class="col-sm-6">
 								<p class="col-sm-3">
-									<input type="radio" name="sex" id="man" value="1" checked>男
+									<input type="radio" name="sex" id="man" value="0" checked>男
 								</p>
 								<p class="col-sm-3">
-									<input type="radio" name="sex" id="woman" value="0">女
+									<input type="radio" name="sex" id="woman" value="1">女
 								</p>
 							</div>
 						</div>
@@ -300,8 +300,12 @@
 						</div>						
 					</form>
             	</div>
+            	<div class="page-header" th:if="${rs} eq 2">
+  				<h1> <small>您已经提交开户申请 请等待后台人员审核</small></h1>
+				</div>
             	
-            	<div class="page-header" th:if="${session.isHaveAccount} eq true">
+            					
+            	<div class="page-header" th:if="${rs} eq 3">
   				<h1> <small>您已经成功开户 请点击<a href="/queryUserOne" class="btn btn-info">我的账户</a>查看详情</small></h1>
 				</div>
           </div>

@@ -56,7 +56,12 @@
 	</sql>
 	
 	<select id="queryCardById" resultType="int">
-	select count(0) from t_card where card_state='1' and user_id=#{id} and major_card='0'
+	select count(1) from t_card where  user_id=#{id}
+	
+	</select>
+	
+	<select id="queryUserById" resultType="int">
+	select count(1) from t_user where user_id=#{id} and state=1
 	
 	</select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.bankTransfer.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import lombok.Getter;
@@ -14,7 +15,8 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class JsonUserInfo {
+public class JsonUserInfo implements Serializable {
+	private static final long serialVersionUID = 1L;
 	/** 用户身份证详细地址*/
 	private String area; 
 	/** 用户身份证号*/

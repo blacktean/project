@@ -1,4 +1,5 @@
 package com.bankTransfer.pojo;
+import java.io.Serializable;
 import java.util.Date;
 
 import lombok.Getter;
@@ -13,7 +14,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class VerifyCodeVo {
+public class VerifyCodeVo implements Serializable {
+	private static final long serialVersionUID = 1L;
 	/**验证码*/
 	private String verifyCode;
 	/**接收验证码的手机号码*/

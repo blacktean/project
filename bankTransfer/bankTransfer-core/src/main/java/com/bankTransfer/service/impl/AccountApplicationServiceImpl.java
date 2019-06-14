@@ -46,4 +46,13 @@ public class AccountApplicationServiceImpl implements IAccountApplicationService
 		return false;
 	}
 
+	@Override
+	public boolean queryUserById(Integer id) {
+		int rows  = accountApplicationMapper.queryUserById(id);
+		if(rows>0) {
+			return true;
+		}
+		return false;
+	}
+
 }
