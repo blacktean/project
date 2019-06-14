@@ -97,9 +97,7 @@
     		$(".kaihuwangdian").click(function(){
         		location.href="/showIOpenDot?id_card="+$(this).attr("title");
         	});
-    		$("#gengduo").click(function(){
-        		location.href="/queryCardByIdCardAll?id_card="+$(this).attr("title");
-        	});
+    		
         });
         
 </script>
@@ -274,7 +272,7 @@
 					 <td><a href="javascript::" class="kaihuwangdian" th:title="${card.id_card}">开户网点</a>
 					 
 					&nbsp;&nbsp;
-					 <a href="javascript::" id="gengduo" th:title="${card.id_card}">更多</a></td>
+					 <a th:href="@{'/queryCardByIdCardAll?id_card='+${card.id_card}}" id="gengduo">更多</a></td>
 					<!--  <a href="javascript::void(0)" id="xx" title="${id_card}">xx</a>  -->
 					 <!--location.href="/showIOpenDot?id_card=" +  title-->
 					<!--  /showIOpenDot?id_card=${card.id_card} -->

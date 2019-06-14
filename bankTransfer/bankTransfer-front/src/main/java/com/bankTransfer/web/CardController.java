@@ -62,6 +62,7 @@ public class CardController {
 	@RequestMapping("/queryCardByIdCardAll")
 	public String queryCardByIdCardAll(String id_card,HttpServletRequest request) {
 		Card card = iCardService.queryCardByIdCard(id_card);
+		System.err.println("卡片详细信息"+card);
 		request.setAttribute("card", card);
 		return "gengduo";
 	}
