@@ -1,5 +1,6 @@
 package com.bankTransfer.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -53,5 +54,19 @@ public class DateHelpher {
 		rightNow.add(Calendar.YEAR, 10);
 		Date dt1 = rightNow.getTime();
 		return dt1;
+	}
+
+	/**
+	 * 减少指定的天数
+	 * 
+	 * @param number
+	 * @return
+	 */
+	public static Date addDay(Integer number) {
+		Calendar rightNow = Calendar.getInstance();
+		rightNow.setTime(new Date());
+		rightNow.add(Calendar.DATE, -number);
+		return rightNow.getTime();
+
 	}
 }

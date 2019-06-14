@@ -2,155 +2,141 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="bootstrap/bootstrap.css">
+<script type="text/javascript" src="scripts/jquery/jquery-1.7.1.js"></script>
+<link href="style/authority/basic_layout.css" rel="stylesheet"
+	type="text/css">
+<link href="style/authority/common_style.css" rel="stylesheet"
+	type="text/css">
+<script type="text/javascript" src="scripts/authority/commonAll.js"></script>
+<script type="text/javascript"
+	src="scripts/fancybox/jquery.fancybox-1.3.4.js"></script>
+<script type="text/javascript"
+	src="scripts/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="style/authority/jquery.fancybox-1.3.4.css" media="screen"></link>
+<script type="text/javascript"
+	src="scripts/artDialog/artDialog.js?skin=default"></script>
+	<link rel="stylesheet" href="bootstrap/bootstrap-datetimepicker.css"></link>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+ <script type="text/javascript" src="js/bootstrap-datetimepicker.zh-CN.js"></script>
 <title>明细</title>
+<script type="text/javascript">
+	$(document).ready(function() {
+		//显示日期      
+	       $("#start,#end").datetimepicker({
+	    	   format: 'yyyy-mm-dd',
+	    	   language:'zh-CN',
+	    	   minView:2,
+	       });
+		
+	       //给页码的超链接绑定点击事件
+	       $(".jump").click(function(){
+	      	 $("#pi").val($(this).attr("data"));
+	      	 $("#searchForm").submit();
+	       })
+	       
+	       /**编辑   **/
+	     
+	});
+</script>
+<style>
+.alt td {
+	background: black !important;
+}
+.jilu{
+	position: relative;
+}
+</style>
 </head>
-<link rel="stylesheet" href="localhost:8888/static/bootstrap/bootstrap.css" type="text/css" />
 <body>
-	<div class="container">
-		<div class="page-header">
-			<h1>明细</h1>
-		</div>
-		<div>
-			<form action="${pageContext.request.contextPath }/EmpServlet"
-				class="form-inline" id="queryForm">
+			<form action="/transactionList" name="searchForm" id="searchForm" class="form-inline"
+				method="post">
 				<div class="form-group">
-					<label for="time">起止日期</label> <input type="text"
-						class="form-control" id="start" name="start" readonly="readonly"
-						value='<fmt:formatDate value="${condition.start }"  pattern="yyyy-MM-dd"/>'>
-					到 <input type="text" id="end" class="form-control" name="end"
-						readonly="readonly"
-						value='<fmt:formatDate value="${condition.end }"  pattern="yyyy-MM-dd"/>'>
-				</div>
-				<div class="form-group">
-					<label for="registered_accounts">按时期段进行查询</label> <select id="registered_accounts" name="registered_accounts"
+					<label for="registered_accounts">按时期段进行查询</label> <select id="time" name="time"
 						class="form-control">
-						<option value="all">全部</option>
+						<option value="-1">全部</option>
 						<!-- th:each -->
-						<option value="today">当日</option>
-						<option value="oneweek">近一周</option>
-						<option value="onemonth">近一月</option>
-						<option value="theremonth">近三月</option>
-						<option value="sixmonth">当六月</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="registered_accounts">请选择注册账户</label> <select id="registered_accounts" name="registered_accounts"
-						class="form-control">
-						<option value="全部">全部</option>
-						<!-- th:each -->
+						<option value="1">当日</option>
+						<option value="7">近一周</option>
+						<option value="30">近一月</option>
+						<option value="90">近三月</option>
+						<option value="180">当六月</option>
 					</select>
 				</div>
 				<div class="form-group">
 					<label for="money_flow">资金流向</label> <select id="money_flow" name="money_flow"
 						class="form-control">
-						<option value="-1">全部</option>
+						<option value="全部">全部</option>
 						<!-- th:each -->
+						<option value="收入">收入</option>
+						<option value="支出">支出</option>
 					</select>
 				</div>
-				
-				<!-- 写一个隐藏域: -->
-				<input type="hidden" name="pageIndex" value="1" id="pi" />
-				<button type="submit" class="btn btn-success">查询</button>
+				<div class="form-group">
+					<!-- 写一个隐藏域: -->
+					<input type="hidden" name="page" value="1" id="pi" />
+					<button type="submit" class="btn btn-success">查询</button>
+		
+				</div>
 			</form>
-		</div>
-
-		<div class="table-bordered"
-			style="border-radius: 5px; margin-top: 20px;">
-			<table class="table table-hover ">
-				<thead>
-					<tr>
-						<th>员工编号</th>
-						<th>员工姓名</th>
-						<th>岗位</th>
-						<th>上级领导</th>
-						<th>上岗日期</th>
-						<th>薪水</th>
-						<th>奖金</th>
-						<th>所在部门</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${pages.datas }" var="emp">
-						<tr>
-							<td>${emp.empno }</td>
-							<td>${emp.ename }</td>
-							<td>${emp.job }</td>
-							<td>${emp.mgr }</td>
-							<td>${emp.hiredate }</td>
-							<td>${emp.sal }</td>
-							<td>${emp.comm }</td>
-							<td>${emp.dept }</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="8" align="center">
-							<div>
-								<ul class="pagination">
-									<c:choose>
-										<c:when test="${pages.pageIndex == 1 }">
-											<li class="disabled"><a href="#">首页</a></li>
-											<li class="disabled"><a href="javascript:void(0);">上一页</a></li>
-										</c:when>
-										<c:otherwise>
-											<li><a href="javascript:void(0);" class="jump" data="1">首页</a></li>
-											<li><a href="javascript:void(0);" class="jump"
-												data="${pages.pageIndex-1 }">上一页</a></li>
-										</c:otherwise>
-									</c:choose>
-
-
-									<!-- 这是页码 -->
-									<!-- 如果总页数小于等于10 -->
-									<c:set value="1" var="startPage"></c:set>
-									<c:set value="${pages.totalPages }" var="endPage"></c:set>
-									<c:if test="${pages.totalPages > 10 }">
-										<c:set value="${pages.pageIndex - 5 }" var="startPage"></c:set>
-										<c:set value="${pages.pageIndex + 4 }" var="endPage"></c:set>
-										<c:if test="${startPage < 1 }">
-											<c:set value="1" var="startPage"></c:set>
-											<c:set value="${startPage + 9 }" var="endPage"></c:set>
-										</c:if>
-										<c:if test="${endPage >pages.totalPages  }">
-											<c:set value="${pages.totalPages }" var="endPage"></c:set>
-											<c:set value="${endPage - 9 }" var="startPage"></c:set>
-										</c:if>
-									</c:if>
-									<c:forEach begin="${startPage}" end="${endPage}" var="i">
-										<c:choose>
-											<c:when test="${i == pages.pageIndex }">
-												<li class="active"><a href="#">${i } </a></li>
-											</c:when>
-											<c:otherwise>
-												<li><a href="javascript:void(0);" class="jump"
-													data="${i }">${i} </a></li>
-											</c:otherwise>
-										</c:choose>
-
-									</c:forEach>
-									<c:choose>
-										<c:when test="${pages.pageIndex == pages.totalPages }">
-											<li class="disabled"><a href="#">下一页</a></li>
-											<li class="disabled"><a href="#">最后一页</a></li>
-										</c:when>
-										<c:otherwise>
-											<li><a href="javascript:void(0);" class="jump"
-												data="${pages.pageIndex+1 }">下一页</a></li>
-											<li><a href="javascript:void(0);" class="jump"
-												data="${pages.totalPages }">最后一页</a></li>
-
-										</c:otherwise>
-
-									</c:choose>
-								</ul>
-							</div>
-						</td>
-					</tr>
-				</tfoot>
+		
+			<table class="table" cellspacing="0" cellpadding="0" width="100%"
+				align="center" border="0">
+				<tr>
+						<th></th>
+						<th>汇款账户</th>
+						<th>汇款时间</th>
+						<th>汇款金额</th>
+						<th>收款人姓名</th>
+						<th>收款账号</th>
+						<th>手续费</th>
+						<th>交易状态</th>
+						<th>转账类型</th>
+						<th>交易类型</th>
+						<th>备注</th>
+						<th>转账模式</th>
+				</tr>
+				<tr th:each="card:${session.transactionlist}">
+					<td></td>
+					<td th:text="${card.paymentAccount}"></td>
+					<td th:text="${card.paymentDate}"></td>
+					<td th:text="${card.transferAmount}"></td>
+					<td th:text="${card.receivingName}"></td>
+					<td th:text="${card.receivingAccount}"></td>
+					<td th:text="${card.serviceCharge}"></td>
+					<td th:if="${card.result} eq 1" >待处理</td>
+						<td th:if="${card.result} eq 2" >成功</td>
+							<td th:if="${card.result} eq 3" >失败</td>
+								<td th:if="${card.result} eq 4" >已取消</td>
+					<td th:text="${card.transfer_type}"></td>
+					<td th:text="${card.transaction_type}"></td>
+					<td th:text="${card.msg}"></td>
+					<td th:text="${card.transfer_mode}"></td>
+				</tr>
 			</table>
+			
+			<!-- 页码 -->
+		<div style="text-align: center;">
+			<ul class="pagination">
+											
+				<li th:if="${session.pagelist.pageNum eq 1}" th:class="disabled"><a href="#">首页</a></li>
+				<li th:if="${session.pagelist.pageNum ne 1}"><a href="javascript:void(0);" class="jump" th:data="1">首页</a></li>
+				<li th:if="${session.pagelist.pageNum eq 1}" th:class="disabled"><a href="#">上一页</a></li>
+				<li th:if="${session.pagelist.pageNum ne 1}"><a href="javascript:void(0);" class="jump" th:data="${session.pagelist.pageNum-1}">上一页</a></li>
+				
+					<!-- 这是页码 -->
+				<th:block th:each="nav : ${session.pagelist.navigatepageNums}">
+				<li th:class="${nav==session.pagelist.pageNum}?'active':''"><a th:text="${nav}" href="javascript:void(0);" class="jump" th:data="${nav}"></a></li>
+				</th:block>
+				<li th:if="${session.pagelist.pageNum eq session.pagelist.pages}" th:class="disabled"><a href="#">下一页</a></li>	
+				<li th:if="${session.pagelist.pageNum ne session.pagelist.pages}"><a href="javascript:void(0);" class="jump" th:data="${session.pagelist.pageNum+1}">下一页</a></li>
+				<li th:if="${session.pagelist.pageNum eq session.pagelist.pages}" th:class="disabled"><a href="#">尾页</a></li>	
+				<li th:if="${session.pagelist.pageNum ne session.pagelist.pages}"	><a href="javascript:void(0);" class="jump" th:data="${session.pagelist.pages }">尾页</a></li>
+			</ul>
 		</div>
+		<div class="jilu">
+			<span style="font-size: 20px;position: relative;left: 46%;">一共:<span th:text="${session.pagelist.total}"></span>条记录</span>
 		</div>
-	</div>
 </body>
 </html>

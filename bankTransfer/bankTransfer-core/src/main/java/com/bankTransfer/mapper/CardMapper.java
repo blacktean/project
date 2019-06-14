@@ -23,9 +23,10 @@ public interface CardMapper {
 	 * @param user_id
 	 * @return 
 	 */
-	void addCard(@Param("id_card")String id_card,@Param("start_place")String start_place,@Param("currency")String currency,@Param("password")String password,@Param("user_id")String user_id);
+	void addCard(Card card);
+	//@Param("id_card")String id_card,@Param("start_place")String start_place,@Param("currency")String currency,@Param("password")String password,@Param("user_id")String user_id
 	/**
-	 * 通过id_card查到对应的银行卡卡号的card
+	 * 通过id_card查到对应的银行卡卡号的Card
 	 * @param user_id
 	 * @return 
 	 */
