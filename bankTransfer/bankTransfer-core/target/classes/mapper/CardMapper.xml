@@ -54,6 +54,6 @@
 	</update>
 	<!-- 新增银行卡 -->
 	<insert id="addCard" parameterType="Card">
-		INSERT INTO T_CARD VALUES(seq_card_id.nextval,#{id_card},#{start_place},#{currency},10000,10000,'1',#{password},'乔治银行',#{user_id},'1','0',to_char(to_date(sysdate,'yyyy-mm-dd hh24:mi:ss')),sysdate + interval '2' year,NULL,50000,NULL)
+		INSERT INTO T_CARD VALUES(seq_card_id.nextval,#{id_card},#{start_place},#{currency},10000,10000,'1',#{password},'储蓄卡',#{user_id},'1','1',sysdate,'10','个人',50000,'乔治银行')
 	</insert>
 </mapper>

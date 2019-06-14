@@ -19,9 +19,9 @@
 	$(document).ready(function(){
 		//显示日期
 		$("#start,#end").datetimepicker({
-			fornat:'yyyy-mm-dd',
-			language:'zh-CN',
-			minView:2,
+			format: 'yyyy-mm-dd',
+	    	   language:'zh-CN',
+	    	   minView:2,
 		});
 		//给分页超链接绑定事件
 		$(".aojump").click(function(){
@@ -73,10 +73,10 @@
 				</div>
 				<div class="form-group">
 					<label>状态</label> 
-					<select class="form-control" name="state" id="state">
+					<select class="form-control" name="result" id="result">
 						<option value="-1">全部</option>					
-						<option value="1" th:selected="${session.accout_openingCondition.state eq 1}">开户成功</option>	
-						<option value="0" th:selected="${session.accout_openingCondition.state eq 0}">开户失败</option>							
+						<option value="1" th:selected="${session.accout_openingCondition.result eq 1}">开户成功</option>	
+						<option value="0" th:selected="${session.accout_openingCondition.result eq 0}">开户失败</option>							
 					</select>
 				</div>
 				<div class="form-group">
@@ -90,20 +90,23 @@
 	<div class="ui_content">
 		<div class="ui_tb">					
 			<table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
-				<tr>				
+				<tr>
+					<th>ID</th>				
 					<th>姓名</th>
 					<th>开户账号</th>
 					<th>开户时间</th>
 					<!-- <th>开户地点</th> -->
+					<th>开户地点</th>
 					<th>卡类型</th>
 					<th>状态</th>
 					<th>操作</th>					
 				</tr>
 				<tr th:each="ao_accout_opening:${session.ao_accout_opening_list}">
+					<td th:text="${ao_accout_opening.id}"></td>
 					<td th:text="${ao_accout_opening.ao_name}"></td>
 					<td th:text="${ao_accout_opening.ao_accout_number}"></td>
 					<td th:text="${#dates.format(ao_accout_opening.ao_time,'yyyy-MM-dd hh:mm:ss')}"></td>
-					<!-- <td th:text="${ao_accout_opening.ao_location}"></td> -->
+					<td th:text="${ao_accout_opening.ao_location}"></td>
 					<td th:text="${ao_accout_opening.ao_cardtype}"></td>
 					<td th:if="${ao_accout_opening.result} eq 0" th:text="开户失败"></td>
 					<td th:if="${ao_accout_opening.result} eq 1" th:text="开户成功"></td>

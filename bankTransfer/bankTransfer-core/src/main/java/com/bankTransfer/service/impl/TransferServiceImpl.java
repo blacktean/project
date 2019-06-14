@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bankTransfer.mapper.TransferMapper;
 import com.bankTransfer.pojo.JsonCountry;
+import com.bankTransfer.pojo.TransactionCondition;
 import com.bankTransfer.pojo.TransactionState;
 import com.bankTransfer.pojo.TransferSingle_VO;
 import com.bankTransfer.pojo.UserVo;
@@ -164,6 +165,11 @@ public class TransferServiceImpl implements ITransferService {
 				transferMapper.changeTransferInfo(transferSingle_VO.getId());
 			}
 		}
+	}
+	
+	@Override
+	public List<TransferSingle_VO> queryTranferInfoAllByT_id(TransactionCondition condition) {
+		return transferMapper.queryTranferInfoAllByT_id(condition);
 	}
 
 }

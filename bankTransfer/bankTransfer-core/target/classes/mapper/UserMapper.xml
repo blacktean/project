@@ -13,12 +13,9 @@
 	
 	<update id="updateUserByUser_id" parameterType="User">
 		UPDATE T_USER set 
-		SEX=#{user.sex},NATION=#{user.nation},NATIONALITY=#{user.nationality},
-		BIRTHDAY=#{user.birthday},MARITAL_STATUS#{user.marital_status},
-		EDU_LEVEL=#{user.edu_level},PROFESSION=#{user.profession},INDUSTRY=#{user.industry},
-		TECHNICAL_TITLE=#{user.technical_title},ADMINISTRATIVE_LEVEL=#{user.adminstrative_level},
-		SUPPORTING_POPULATION=#{user.supporting_population},WORK_UNIT=#{user.work_unit},
-		WORK_TIME=#{user.work_time},USER_NAME=#{user.user_name} 
-		WHERE user_id=#{user.user_id}
+		USER_NAME=#{user_name},xingming=#{xingming},MARITAL_STATUS=#{marital_status},
+		EDU_LEVEL=#{edu_level},PROFESSION=#{profession},INDUSTRY=#{industry},
+		TECHNICAL_TITLE=#{technical_title},SUPPORTING_POPULATION=#{supporting_population},WORK_UNIT=#{work_unit}
+		WHERE user_id=#{user_id}
 	</update>
 </mapper>

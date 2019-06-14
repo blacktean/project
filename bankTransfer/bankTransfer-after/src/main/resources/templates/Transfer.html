@@ -19,9 +19,9 @@
 	$(document).ready(function(){
 		//显示日期
 		$("#start,#end").datetimepicker({
-			fornat:'yyyy-mm-dd',
-			language:'zh-CN',
-			minView:2,
+			format: 'yyyy-mm-dd',
+	    	   language:'zh-CN',
+	    	   minView:2,
 		});
 		//给分页超链接绑定事件
 		$(".juump").click(function(){
@@ -61,10 +61,12 @@
 				
 				<div class="form-group">
 					<label>状态</label> 
-					<select class="form-control" name="state" id="state">
+					<select class="form-control" name="result" id="result">
 						<option value="-1">全部</option>					
-						<option value="1" th:selected="${session.transcondition.state eq 1}">转账成功</option>	
-						<option value="0" th:selected="${session.transcondition.state eq 0}">转账失败</option>							
+						<option value="1" th:selected="${session.transcondition.result eq 1}">待处理</option>	
+						<option value="2" th:selected="${session.transcondition.result eq 2}">转账成功</option>
+						<option value="3" th:selected="${session.transcondition.result eq 3}">转账失败</option>	
+						<option value="4" th:selected="${session.transcondition.result eq 4}">已取消</option>							
 					</select>
 				</div>
 				<div class="form-group">
@@ -80,6 +82,7 @@
 		<div class="ui_tb">					
 			<table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
 				<tr>
+					<th>ID</th>
 					<th>转账人姓名</th>
 					<th>转账人账号</th>
 					<th>转账时间</th>
@@ -91,6 +94,7 @@
 					<th>操作</th>
 				</tr>
 				<tr th:each="t_transger:${session.Transgerlist}">
+					<td th:text="${t_transger.id}"></td>
 					<td th:text="${t_transger.t_name}"></td>
 					<td th:text="${t_transger.t_accout_number}"></td>
 					<td th:text="${#dates.format(t_transger.t_time,'yyyy-MM-dd hh:mm:ss')}"></td>
@@ -98,8 +102,10 @@
 					<td th:text="${t_transger.p_name}"></td>
 					<td th:text="${t_transger.p_accout_number}"></td>
 					<td th:text="${t_transger.t_handfee}"></td>
-					<td th:if="${t_transger.result} eq 0" th:text="转账失败"></td>
-					<td th:if="${t_transger.result} eq 1" th:text="转账成功"></td>
+					<td th:if="${t_transger.result} eq 1" th:text="待处理"></td>
+					<td th:if="${t_transger.result} eq 2" th:text="转账失败"></td>
+					<td th:if="${t_transger.result} eq 3" th:text="转账成功"></td>
+					<td th:if="${t_transger.result} eq 4" th:text="已取消"></td>
 					<td><a href="/delAccount?id=${T_transger.id}">删除</a></td>						
 				</tr>		
 			</table>

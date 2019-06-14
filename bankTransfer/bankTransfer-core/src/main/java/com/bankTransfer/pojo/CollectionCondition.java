@@ -6,7 +6,7 @@ import lombok.Data;
 
 /**
    * 资金归集记录条件类
- * @author blacktea
+ * @author BLACKTEA
  *
  */
 @Data
@@ -23,6 +23,6 @@ public class CollectionCondition implements Serializable{
 	/**子账号*/
 	private String c_sub_account;
 	/**资金归集状态1归集成功 0归集失败 */
-	private Integer state;
+	private Integer result;
 	
 }

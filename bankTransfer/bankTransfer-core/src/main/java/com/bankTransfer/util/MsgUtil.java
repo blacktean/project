@@ -9,8 +9,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.bankTransfer.pojo.VerifyCodeVo;
 
 import net.sf.json.JSONObject;
 
@@ -30,6 +33,7 @@ public class MsgUtil {
 		return mathCode;
 	}
 	public static boolean mobileQuery(String mobile){
+		VerifyCodeVo vo = new VerifyCodeVo();
 		String result =null;
 		String url ="http://v.juhe.cn/sms/send";//请求接口地址
 		Map params = new HashMap();//请求参数
@@ -50,6 +54,10 @@ public class MsgUtil {
 				//把随机生的验证码存到域中
 				
 				UserContext.getHttpSession().setAttribute("mathCode", mathCode);
+				vo.setVerifyCode(mathCode);
+				vo.setLastTime(new Date());
+				vo.setPhoneNumber(mobile);
+				UserContext.setCurrentVerifyCodeVo(vo);
 				return true;
 			}else{
 				//发送失败

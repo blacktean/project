@@ -4,37 +4,70 @@
 <mapper namespace="com.bankTransfer.mapper.TransgerMapper">
 	<!-- 高级带条件分页查询所有用转账记录 -->
 	<select id="queryAllTransgerByCondition" parameterType="TransgerCondition" resultType="T_transger">
-		select * from t_transfer where 1=1
+		select
+			 ID,
+			 T_NAME,
+			 T_ACCOUT_NUMBER,
+			 T_TIME,
+			 T_AMOUNT,
+			 P_NAME,
+			 P_ACCOUT_NUMBER,
+			 T_HANDFEE,
+			 RESULT,
+			 T_ID,
+			 TRANFER_TYPE,
+			 TRANSACTION_TYPE,
+			 MSG,
+			 TRANSFER_MODE			 
+	    from t_transfer where 1=1
 				
 		<if test="t_name!=null and t_name!=''">and t_name=#{t_name}</if>   	
     	<if test="p_name!=null and p_name!=''">and p_name=#{p_name}</if>   	
-    	<if test="startTime!=null">and applytime &gt;=#{startTime}</if>   	
-    	<if test="endTime!=null">and applytime &lt;=#{endTime}</if>	
-    	<if test="state!=null and state!='-1'">and State=#{state}</if>    	
+    	<if test="startTime!=null">and T_TIME &gt;=#{startTime}</if>   	
+    	<if test="endTime!=null">and T_TIME &lt;=#{endTime}</if>	
+    	<if test="result!=null and result!='-1'">and result=#{result}</if>    	
 	</select>	
 	
 	<!-- 高级带条件分页查询所有资金归集记录 -->
 	<select id="queryAllCollctionByCondition" parameterType="CollectionCondition" resultType="C_collection">
-		select * from c_collection where 1=1
+		select 
+			ID, 
+			C_NAME, 
+			C_MAIN_ACCOUNT, 
+			C_SUB_ACCOUNT_A, 
+			C_SUB_ACCOUNT_B, 
+			C_MAIN_AMOUNT, 
+			C_SUB_AMOUNT_A, 
+			C_SUB_AMOUNT_B,
+			RESULT 
+		from c_collection where 1=1
 		
 		<if test="c_name!=null and c_name!=''">and c_name=#{c_name}</if>   	
     	<if test="c_main_account!=null and c_main_account!=''">and c_main_account=#{c_main_account}</if>    	
   		<if test="c_main_amount!=null and c_main_amount!=''">and c_main_amount=#{c_main_amount}</if>    	
     	<if test="c_sub_account!=null and c_sub_account!=''">and c_sub_account=#{c_sub_account}</if>    	
-    	<if test="state!=null and state!='-1'">and State=#{state}</if>    	
+    	<if test="result!=null and result!='-1'">and result=#{result}</if>    	
 	</select>
 	
 	<!-- 高级带条件分页查询所有开户记录 -->
 	<select id="queryAllAccout_openingByCondition" parameterType="Account_openingCondition" resultType="Ao_accout_opening">
-		select * from ao_accout_opening where 1=1
-				
+		select 
+			ID, 
+			AO_NAME, 
+			AO_ACCOUT_NUMBER, 
+			AO_TIME, 
+			AO_LOCATION, 
+			AO_CARDTYPE, 
+			RESULT 
+		from ao_accout_opening where 1=1
+	
 		<if test="ao_name!=null and ao_name!=''">and ao_name=#{ao_name}</if>   	
     	<if test="ao_accout_number!=null and ao_accout_number!=''">and ao_accout_number=#{ao_accout_number}</if>   	
-    	<if test="startTime!=null">and applytime &gt;=#{startTime}</if>   	
-    	<if test="endTime!=null">and applytime &lt;=#{endTime}</if>	
+    	<if test="startTime!=null">and AO_TIME &gt;=#{startTime}</if>   	
+    	<if test="endTime!=null">and AO_TIME &lt;=#{endTime}</if>	
     	<!-- <if test="ao_location!=null and ao_location!=''">and ao_location=#{ao_location}</if> -->  
     	<if test="ao_cardtype!=null and ao_cardtype!=''">and ao_cardtype=#{ao_cardtype}</if>  
-    	<if test="state!=null and state!='-1'">and State=#{state}</if>    	
+    	<if test="result!=null and result!='-1'">and result=#{result}</if>    	
 	</select>		
 	
 	

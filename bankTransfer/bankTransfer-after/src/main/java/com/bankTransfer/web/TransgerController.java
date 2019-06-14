@@ -44,18 +44,19 @@ public class TransgerController {
 	 */
 	@RequestMapping("/T_transger")
 	public String logininfoList(@RequestParam(required=true,defaultValue="1") Integer page,
-		HttpSession session,String t_name,String p_name,Date beginDate,Date endDate){
+		HttpSession session,String t_name,String p_name,Date beginDate,Date endDate,Integer result){
 		//在查询调用方法前声明分页信息（当前页，每页记录数）
 	    //PageHelper.startPage(page, pageSize);这段代码表示，程序开始分页了，
 		//page默认值是1，pageSize默认是10，意思是从第1页开始，每页显示10条记录。
-	    PageHelper.startPage(page, 5);
+	    PageHelper.startPage(page, 10);
 	    //创建条件类
 	    TransgerCondition condition = new TransgerCondition();
 	    condition.setT_name(t_name);
 	    condition.setP_name(p_name);
 	    condition.setStartTime(DateUtil.beginForDate(beginDate));
 	    condition.setEndTime(DateUtil.endForDate(endDate));
-	    //System.err.println("传过来的条件"+condition);
+	    condition.setResult(result);
+	    System.err.println("传过来的条件"+condition);
 	    //查询数据
 	    List<T_transger> Transgerlist = transgerService.queryAllTransgerByCondition(condition);
 		
@@ -81,14 +82,15 @@ public class TransgerController {
 	 */
 	@RequestMapping("/Fund_collection")
 	public String collectionList(@RequestParam(required=true,defaultValue="1") Integer page, 
-		HttpSession session, String c_name, String c_main_account, Double c_main_amount, String c_sub_account) {
-		PageHelper.startPage(page,5);
+		HttpSession session, String c_name, String c_main_account, Double c_main_amount, String c_sub_account,Integer result) {
+		PageHelper.startPage(page,10);
 		//创建条件类
 		CollectionCondition condition = new CollectionCondition();
 		condition.setC_name(c_name);
 		condition.setC_main_account(c_main_account);
 		condition.setC_main_amount(c_main_amount);
 		condition.setC_sub_account(c_sub_account);
+		condition.setResult(result);
 		//查询数据
 		List<C_collection> collectionList = transgerService.queryAllCollectionByCondition(condition);
 		//创建pageInfo对象  pageInfo是pageHelper中的对象
@@ -108,8 +110,8 @@ public class TransgerController {
 	 */
 	@RequestMapping("/Account_opening")
 	public String account_openingList(@RequestParam(required=true,defaultValue="1") Integer page, HttpSession session,
-		String ao_name,String ao_accout_number,Date beginDate,Date endDate,String ao_cardtype ) {
-		PageHelper.startPage(page,5);
+		String ao_name,String ao_accout_number,Date beginDate,Date endDate,String ao_cardtype,Integer result ) {
+		PageHelper.startPage(page,10);
 		//创建条件类
 		Account_openingCondition condition = new Account_openingCondition();
 		condition.setAo_name(ao_name);
@@ -117,6 +119,8 @@ public class TransgerController {
 		condition.setStartTime(DateUtil.beginForDate(beginDate));
 		condition.setEndTime(DateUtil.endForDate(endDate));
 		condition.setAo_cardtype(ao_cardtype);
+		condition.setResult(result);
+		System.out.println(condition);
 		//查询数据
 		List<Ao_accout_opening> accout_openingList = transgerService.queryAllAccout_openingByCondition(condition);
 		//创建pageInfo对象
