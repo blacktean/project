@@ -189,7 +189,7 @@ public class APIUtils {
 		try {
 			List<NameValuePair> params = new ArrayList<>();
 			params.add(new BasicNameValuePair("mobile", mobile));
-			params.add(new BasicNameValuePair("tpl_id", "157277"));
+			params.add(new BasicNameValuePair("tpl_id", "165314"));
 			params.add(new BasicNameValuePair("tpl_value", encode(code)));
 			params.add(new BasicNameValuePair("key", "c57d2dee198ef922ff6a709d35bab17e"));
 			uri = new URIBuilder().setPath("http://v.juhe.cn/sms/send").setParameters(params).build();
