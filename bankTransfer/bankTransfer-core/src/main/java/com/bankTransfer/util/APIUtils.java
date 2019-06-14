@@ -4,12 +4,26 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import com.alibaba.fastjson.JSONObject;
@@ -151,7 +165,7 @@ public class APIUtils {
 		String host = "https://eid.shumaidata.com";
 		String path = "/eid/check";
 		Map<String, String> headers = new HashMap<String, String>();
-		headers.put("Authorization", "APPCODE " + APP_CODE);
+		headers.put("Authorization", "APPCODE " + "3d166e9ea0704096be40b93135f7e12f");
 		Map<String, String> querys = new HashMap<String, String>();
 		querys.put("idcard", number);
 		querys.put("name", name);
@@ -165,35 +179,77 @@ public class APIUtils {
 		}
 		return false;
 	}
-
 	/**
-	 * 发送验证码
-	 * 
-	 * @param phone
-	 * @return
+	 * @param mobile 发送的手机号码 发送验证码
 	 */
-	public static String sendMessage(String phone) {
-		String host = "https://duanxi.market.alicloudapi.com";
-		String path = "/sendSms";
+	public static String sendMessage(String mobile) {
+		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 		String code = randomCode(4);
-		Map<String, String> headers = new HashMap<String, String>();
-		headers.put("Authorization", "APPCODE " + APP_CODE);
-		Map<String, String> querys = new HashMap<String, String>();
-		querys.put("mobile", phone);
-		querys.put("content",
-				"{\"userName\":\"用户\",\"code\":\"" + code + "\",\"minute\":\"5\",\"comName\":\",祝您生活愉快\"}");
-		querys.put("tNum", "T150606060602");
+		URI uri = null;
 		try {
-			HttpResponse response = HttpUtils.doGet(host, path, GET_METHOD, headers, querys);
-			if (response.getEntity() != null) {
-				return code;
+			List<NameValuePair> params = new ArrayList<>();
+			params.add(new BasicNameValuePair("mobile", mobile));
+			params.add(new BasicNameValuePair("tpl_id", "157277"));
+			params.add(new BasicNameValuePair("tpl_value", encode(code)));
+			params.add(new BasicNameValuePair("key", "c57d2dee198ef922ff6a709d35bab17e"));
+			uri = new URIBuilder().setPath("http://v.juhe.cn/sms/send").setParameters(params).build();
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
+		HttpPost httpPost = new HttpPost(uri);
+		CloseableHttpResponse response = null;
+		try {
+			// 由客户端执行(发送)Post请求
+			response = httpClient.execute(httpPost);
+			// 从响应模型中获取响应实体
+			HttpEntity responseEntity = response.getEntity();
+
+			if (responseEntity != null) {
+				System.out.println("响应内容长度为:" + responseEntity.getContentLength());
+				System.out.println("响应内容为:" + EntityUtils.toString(responseEntity));
+				if (response.getStatusLine().getStatusCode() == 200) {
+					return code;
+				}
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				// 释放资源
+				if (httpClient != null) {
+					httpClient.close();
+				}
+				if (response != null) {
+					response.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
 
+	/**
+	 * 对验证码进行url编码
+	 * @param code 需要编码的内容
+	 */
+	private static String encode(String code){
+		StringBuffer  sb = new StringBuffer("#code#=");
+		sb.append(code);
+		try {
+			return URLEncoder.encode(sb.toString(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+	
+	public static void main(String[] args) {
+		String sendMessage = sendMessage("18397809478");
+		
+		System.out.println(sendMessage);
+	}
 	/**
 	 * 银行卡二要素认证
 	 * 

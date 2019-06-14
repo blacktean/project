@@ -67,7 +67,8 @@
 						<option value="-1">全部</option>					
 						<option value="0" th:selected="${session.condition.state eq 0}">已审核</option>	
 						<option value="1" th:selected="${session.condition.state eq 1}">未审核</option>	
-						<option value="2" th:selected="${session.condition.state eq 2}">已注销</option>						
+						<option value="2" th:selected="${session.condition.state eq 2}">已注销</option>		
+						<option value="3" th:selected="${session.condition.state eq 3}">审核失败</option>					
 					</select>
 				</div>
 				<div class="form-group">
@@ -115,7 +116,8 @@
 					<td th:if="${user.state} eq 0" th:text="已审核"></td>
 					<td th:if="${user.state} eq 1" th:text="未审核"></td>
 					<td th:if="${user.state} eq 2" th:text="已注销"></td>
-					<td><a href="/editAccount?id=${user.id}" class="edit">编辑</a> <a href="/delAccount?id=${user.id}">删除</a></td>
+					<td th:if="${user.state} eq 3" th:text="审核失败"></td>
+					<td><a th:href="@{'/editAccount?id='+${user.id}}" class="edit">编辑</a> <a href="@{'/delAccount?id='+${user.id}}">删除</a></td>
 				</tr>
 			</table>
 		<div style="text-align: center;">

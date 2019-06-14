@@ -1,9 +1,17 @@
 Manifest-Version: 1.0
 Implementation-Title: bankTransfer-core
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: Administrator
+<<<<<<< HEAD
+Built-By: UZ
+=======
+Built-By: zsy
+>>>>>>> branch 'master' of https://github.com/blacktean/project.git
 Implementation-Vendor-Id: com.zl.project
+<<<<<<< HEAD
 Build-Jdk: 1.8.0_181
+=======
+Build-Jdk: 1.8.0_131
+>>>>>>> branch 'master' of https://github.com/blacktean/project.git
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
  ot-starter-parent/bankTransfer/bankTransfer-core
 Created-By: Maven Integration for Eclipse
