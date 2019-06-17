@@ -34,7 +34,7 @@ public class Config {
 			
 			BasicDataSource data = new BasicDataSource();
 			data.setDriverClassName("oracle.jdbc.driver.OracleDriver");
-			data.setUrl("jdbc:oracle:thin:@10.1.5.152:1521:orcl");
+			data.setUrl("jdbc:oracle:thin:@10.1.16.3:1521:orcl");
 			data.setUsername("fangjia");
 			data.setPassword("112233");
 			
